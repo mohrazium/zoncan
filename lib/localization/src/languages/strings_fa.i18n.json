@@ -1,0 +1,10 @@
+{
+  "languageCode":"fa",
+  "languageName":"فارسی",
+  "hello": "سلام $name",
+  "save": "ذخیره",
+  "login": {
+    "success": "ورود به سیستم موفقیت آمیز بود",
+    "fail": "خطا در ورود به سیستم"
+  }
+}
