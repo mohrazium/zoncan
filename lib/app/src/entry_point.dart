@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart' as sl;
+
 import 'package:zoncan/auth/auth.dart';
 import 'package:zoncan/common/common.dart' show StorageProvider, StorageProviderImpl;
-import 'package:zoncan/localization/localization.dart';
 import 'package:zoncan/features/features.dart' show SplashModule, LoginModule, HomeModule;
+import 'package:zoncan/localization/localization.dart';
+import 'package:zoncan/settings/settings.dart' show SettingsProvider, SettingsProviderImpl;
 
 import 'navigator_helper.dart';
 import 'routes.dart';
@@ -24,7 +26,8 @@ class AppModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         Bind.factory<AuthService>((i) => AuthServiceImpl()),
-        Bind.factory<StorageProvider>((i) => StorageProviderImpl())
+        Bind.factory<StorageProvider>((i) => StorageProviderImpl()),
+        Bind.factory<SettingsProvider>((i) => SettingsProviderImpl(i()))
       ];
 
   @override
@@ -50,6 +53,14 @@ class _ZoncanState extends State<Zoncan> {
     super.initState();
   }
 
+  Future<void> loadSettings() async {
+    await Modular.get<SettingsProvider>().getLocalSettings().then((local) {
+      LocaleSettings.setLocaleRaw(local);
+    }).catchError((onError) {
+      BotToast.showText(text: "Oops! $onError");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Modular.setInitialRoute("/splash/");
@@ -60,6 +71,7 @@ class _ZoncanState extends State<Zoncan> {
     return MaterialApp.router(
       title: "title",
       builder: (context, child) {
+        loadSettings();
         return botToastBuilder(context, child);
       },
       locale: TranslationProvider.of(context).flutterLocale, // use provider

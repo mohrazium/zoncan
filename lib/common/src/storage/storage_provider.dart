@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class StorageProvider {
-  Future<bool> save(String key, dynamic value);
+  Future<bool> write(String key, dynamic value);
   Future<dynamic> read(String key);
   Future<bool> delete(String key);
 }
@@ -37,7 +37,7 @@ class StorageProviderImpl extends StorageProvider {
   }
 
   @override
-  Future<bool> save(String key, dynamic value) async {
+  Future<bool> write(String key, dynamic value) async {
     _storage = await SharedPreferences.getInstance();
 
     switch (value.runtimeType) {
