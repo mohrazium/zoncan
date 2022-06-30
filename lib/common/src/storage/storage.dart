@@ -1,1 +1,1 @@
-library zoncan.common.storage;
+export 'storage_provider.dart';
