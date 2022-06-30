@@ -1,12 +1,20 @@
+import 'package:flutter/material.dart';
+
 enum Routes {
-  notFound("not-found-page", "/not-found/"),
-  root("root-path", "/"),
-  splash("splash-page", "/splash/"),
-  login("login-module", "/login/"),
-  home("home-module", "/home/"),
+  notFound(ValueKey("not-found-key"), "not-found-page", "/not-found/"),
+  root(ValueKey("root-key"), "root-path", "/"),
+  splash(ValueKey("splash-key"), "splash-page", "/splash/"),
+  login(ValueKey("login-key"), "login-module", "/login/"),
+  home(ValueKey("home-key"), "home-module", "/home/"),
   ;
 
+  final ValueKey key;
   final String name;
   final String path;
-  const Routes(this.name, this.path);
+
+  const Routes(
+    this.key,
+    this.name,
+    this.path,
+  );
 }
