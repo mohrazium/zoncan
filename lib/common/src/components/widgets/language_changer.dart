@@ -1,5 +1,8 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:zoncan/localization/localization.dart';
+import 'package:zoncan/settings/settings.dart' show SettingsProvider;
 
 class LanguageChanger extends StatefulWidget {
   const LanguageChanger({Key? key}) : super(key: key);
@@ -9,7 +12,6 @@ class LanguageChanger extends StatefulWidget {
 }
 
 class _LanguageChangerState extends State<LanguageChanger> {
-
   Image _loadSelectedLanguageFlag(String languageCode) => Image.asset(
         "assets/images/flag_$languageCode.png",
         fit: BoxFit.fill,
@@ -19,7 +21,11 @@ class _LanguageChangerState extends State<LanguageChanger> {
 
   void changeLanguageTo(String languageCode) {
     LocaleSettings.setLocaleRaw(languageCode);
+    Modular.get<SettingsProvider>()
+        .saveLocalSettings(languageCode)
+        .then((value) => BotToast.showText(text: "saved local"));
   }
+
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {

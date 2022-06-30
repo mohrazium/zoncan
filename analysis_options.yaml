@@ -33,6 +33,6 @@ linter:
     package_prefixed_library_names: true
     prefer_foreach: true
     sort_unnamed_constructors_first: true
-
+    unnecessary_this: false
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
