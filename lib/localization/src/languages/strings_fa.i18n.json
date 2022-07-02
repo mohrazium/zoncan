@@ -1,8 +1,15 @@
 {
-  "languageCode":"fa",
-  "languageName":"فارسی",
+  "languageCode": "fa",
+  "languageName": "فارسی",
   "hello": "سلام $name",
   "save": "ذخیره",
+  "edit": "ویرایش",
+  "cancel": "لغو",
+  "createdAt": "ایجاد شده در",
+  "updatedAt": "بروز شده در",
+  "addNew": "افزودن",
+  "remove": "حذف",
+  "search": "جستجو",
   "login": {
     "success": "ورود به سیستم موفقیت آمیز بود",
     "fail": "خطا در ورود به سیستم"

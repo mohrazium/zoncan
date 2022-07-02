@@ -3,6 +3,13 @@
   "languageName":"English",
   "hello": "Hello $name",
   "save": "Save",
+  "edit": "Edit",
+  "cancel": "Cancel",
+  "createdAt": "Created At",
+  "updatedAt": "Updated At",
+  "addNew": "Add new",
+  "remove": "Remove",
+  "search": "Search",
   "login": {
     "success": "Logged in successfully",
     "fail": "Logged in failed"
