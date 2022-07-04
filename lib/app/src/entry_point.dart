@@ -5,7 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart' as sl;
 
 import 'package:zoncan/auth/auth.dart';
-import 'package:zoncan/common/common.dart' show StorageProvider, StorageProviderImpl;
+import 'package:zoncan/common/common.dart' show DbHelper, StorageProvider, StorageProviderImpl;
 import 'package:zoncan/features/features.dart' show SplashModule, LoginModule, HomeModule;
 import 'package:zoncan/localization/localization.dart';
 import 'package:zoncan/settings/settings.dart' show SettingsProvider, SettingsProviderImpl;
@@ -25,6 +25,7 @@ class EntryPoint {
 class AppModule extends Module {
   @override
   List<Bind<Object>> get binds => [
+        AsyncBind<DbHelper>((i) async => DbHelper.create()),
         Bind.factory<AuthService>((i) => AuthServiceImpl()),
         Bind.factory<StorageProvider>((i) => StorageProviderImpl()),
         Bind.factory<SettingsProvider>((i) => SettingsProviderImpl(i()))
@@ -48,11 +49,6 @@ class Zoncan extends StatefulWidget {
 }
 
 class _ZoncanState extends State<Zoncan> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   Future<void> loadSettings() async {
     await Modular.get<SettingsProvider>().getLocalSettings().then((local) {
       LocaleSettings.setLocaleRaw(local);
@@ -72,6 +68,7 @@ class _ZoncanState extends State<Zoncan> {
       title: "title",
       builder: (context, child) {
         loadSettings();
+        // DatabaseHelper.init();
         return botToastBuilder(context, child);
       },
       locale: TranslationProvider.of(context).flutterLocale, // use provider
