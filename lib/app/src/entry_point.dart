@@ -4,10 +4,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart' as sl;
 
-import 'package:zoncan/auth/auth.dart';
 import 'package:zoncan/common/common.dart' show DbHelper, StorageProvider, StorageProviderImpl;
 import 'package:zoncan/features/features.dart' show SplashModule, LoginModule, HomeModule;
 import 'package:zoncan/localization/localization.dart';
+import 'package:zoncan/security/security.dart' show AuthGuard, AuthService, AuthServiceImpl;
 import 'package:zoncan/settings/settings.dart' show SettingsProvider, SettingsProviderImpl;
 
 import 'navigator_helper.dart';
@@ -28,7 +28,7 @@ class AppModule extends Module {
         AsyncBind<DbHelper>((i) async => DbHelper.create()),
         Bind.factory<AuthService>((i) => AuthServiceImpl()),
         Bind.factory<StorageProvider>((i) => StorageProviderImpl()),
-        Bind.factory<SettingsProvider>((i) => SettingsProviderImpl(i()))
+        Bind.factory<SettingsProvider>((i) => SettingsProviderImpl(i())),
       ];
 
   @override
