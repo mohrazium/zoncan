@@ -1,3 +1,4 @@
+
 abstract class AuthService {
   bool isLoggedIn();
 }
