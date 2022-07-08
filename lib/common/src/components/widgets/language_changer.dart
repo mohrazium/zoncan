@@ -19,11 +19,11 @@ class _LanguageChangerState extends State<LanguageChanger> {
         height: 26,
       );
 
-  void changeLanguageTo(String languageCode) {
+  void changeLanguageTo(String languageCode, BuildContext ctx) {
     LocaleSettings.setLocaleRaw(languageCode);
-    Modular.get<SettingsProvider>()
-        .saveLocalSettings(languageCode)
-        .then((value) => BotToast.showText(text: "saved local"));
+    Modular.get<SettingsProvider>().saveLocalSettings(languageCode).then(
+        (value) =>
+            BotToast.showText(text: Translations.of(ctx).languageChanged));
   }
 
   @override
@@ -36,10 +36,11 @@ class _LanguageChangerState extends State<LanguageChanger> {
           borderRadius: BorderRadius.circular(30),
         ),
         onSelected: (Locale value) {
-          changeLanguageTo(value.languageCode);
+          changeLanguageTo(value.languageCode, context);
         },
         itemBuilder: (BuildContext context) {
-          return LocaleSettings.supportedLocales.map<PopupMenuItem<Locale>>((value) {
+          return LocaleSettings.supportedLocales
+              .map<PopupMenuItem<Locale>>((value) {
             return PopupMenuItem(
                 value: value,
                 child: Row(

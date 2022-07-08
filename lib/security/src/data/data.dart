@@ -1,1 +1,2 @@
-export 'model/user_details.dart';
+export 'datasources/datasources.dart';
+export 'repositories/repositories.dart';

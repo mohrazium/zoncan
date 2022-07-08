@@ -4,37 +4,83 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:1549339154648194150",
-      "lastPropertyId": "4:5263173961452762879",
-      "name": "UserDetails",
+      "id": "1:3773626105157275453",
+      "lastPropertyId": "12:2023064750217042984",
+      "name": "UserDetailsTable",
       "properties": [
         {
-          "id": "1:2715688105622438031",
+          "id": "1:3476954882298499566",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:1836491887713648722",
+          "id": "2:1031447945736665595",
+          "name": "uid",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "1:1515724895807670832"
+        },
+        {
+          "id": "3:7276458700469169578",
           "name": "nickName",
           "type": 9
         },
         {
-          "id": "3:6877315405207937565",
+          "id": "4:5162730179591618435",
           "name": "userName",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "2:780318247551819518"
+        },
+        {
+          "id": "5:3709828572141188985",
+          "name": "email",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "3:599705255692181182"
+        },
+        {
+          "id": "6:456438058326991180",
+          "name": "phoneNumber",
           "type": 9
         },
         {
-          "id": "4:5263173961452762879",
+          "id": "7:7243872955835641900",
+          "name": "isActive",
+          "type": 1
+        },
+        {
+          "id": "8:4219449761400057399",
+          "name": "isEmailVerified",
+          "type": 1
+        },
+        {
+          "id": "9:1455043265747746118",
+          "name": "isPhoneNumberVerified",
+          "type": 1
+        },
+        {
+          "id": "10:4929476278974415383",
           "name": "encryptedPassword",
           "type": 9
+        },
+        {
+          "id": "11:1806575215744026067",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "12:2023064750217042984",
+          "name": "updatedAt",
+          "type": 10
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:1549339154648194150",
-  "lastIndexId": "0:0",
+  "lastEntityId": "1:3773626105157275453",
+  "lastIndexId": "3:599705255692181182",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

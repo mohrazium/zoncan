@@ -1,16 +1,16 @@
 import 'generated/generated.dart';
 
-class DbHelper {
+class ZoncanDatabase {
   /// The Store of this app.
   late final Store store;
 
-  DbHelper._create(this.store) {
+  ZoncanDatabase._create(this.store) {
     // Add any additional setup code, e.g. build queries.
   }
 
   /// Create an instance of ObjectBox to use throughout the app.
-  static Future<DbHelper> create() async {
+  static Future<ZoncanDatabase> create() async {
     final store = await openStore(directory: "/home/mohrazium/Documents/zoncan/data/");
-    return DbHelper._create(store);
+    return ZoncanDatabase._create(store);
   }
 }

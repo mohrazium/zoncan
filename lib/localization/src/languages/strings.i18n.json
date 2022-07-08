@@ -1,6 +1,7 @@
 {
   "languageCode":"en",
   "languageName":"English",
+  "languageChanged":"Default language changed to English.",
   "hello": "Hello $name",
   "save": "Save",
   "edit": "Edit",

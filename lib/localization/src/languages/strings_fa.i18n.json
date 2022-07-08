@@ -1,6 +1,7 @@
 {
   "languageCode": "fa",
   "languageName": "فارسی",
+  "languageChanged": ".زبان پیش فرض به فارسی تغییر کرد",
   "hello": "سلام $name",
   "save": "ذخیره",
   "edit": "ویرایش",

@@ -14,9 +14,8 @@ class SettingsProviderImpl extends SettingsProvider {
 
   @override
   Future<String> getLocalSettings() async {
-    var f = await _storage.read(SettingsKeys.appLocal.key);
-    print(f);
-    return f.toString();
+    return await _storage
+        .read(SettingsKeys.appLocal.key);
   }
 
   @override
