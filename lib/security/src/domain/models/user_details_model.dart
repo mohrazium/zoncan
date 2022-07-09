@@ -17,9 +17,11 @@ abstract class UserDetailsModel
   String? get email;
   String? get phoneNumber;
   bool get isActive;
+  bool get isAuthenticated;
   bool get isEmailVerified;
   bool get isPhoneNumberVerified;
   String get encryptedPassword;
+  DateTime? get expirationDate;
   DateTime? get createdAt;
   DateTime? get updatedAt;
 
@@ -30,7 +32,6 @@ abstract class UserDetailsModel
   static Serializer<UserDetailsModel> get serializer =>
       _$userDetailsModelSerializer;
 
-
   String toJson() => json.encode(ModelSerializer.standardSerializers
       .serializeWith(UserDetailsModel.serializer, this));
 
@@ -38,7 +39,6 @@ abstract class UserDetailsModel
       ModelSerializer.standardSerializers.deserializeWith(
           UserDetailsModel.serializer, json.decode(jsonString)) ??
       _$UserDetailsModel();
-
 
   factory UserDetailsModel.fromTable(UserDetailsTable table) =>
       UserDetailsModel.fromJson(table.toJson());

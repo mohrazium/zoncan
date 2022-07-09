@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:3773626105157275453",
-      "lastPropertyId": "12:2023064750217042984",
+      "lastPropertyId": "14:6911310273009800868",
       "name": "UserDetailsTable",
       "properties": [
         {
@@ -73,6 +73,16 @@
         {
           "id": "12:2023064750217042984",
           "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "13:2625283098757392178",
+          "name": "isAuthenticated",
+          "type": 1
+        },
+        {
+          "id": "14:6911310273009800868",
+          "name": "expirationDate",
           "type": 10
         }
       ],

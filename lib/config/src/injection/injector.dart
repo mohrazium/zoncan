@@ -17,7 +17,6 @@ class Injector {
         AsyncBind<ZoncanDatabase>((i) async => ZoncanDatabase.create()),
         Bind.factory<UserDetailsRepository>((i) => UserDetailsRepositoryImpl()),
         Bind.factory<AuthService>((i) => AuthServiceImpl(i())),
-        Bind.factory<UserDetailsRepository>((i) => UserDetailsRepositoryImpl()),
         Bind.factory<StorageProvider>((i) => StorageProviderImpl()),
         Bind.factory<SettingsProvider>((i) => SettingsProviderImpl(i())),
       ];

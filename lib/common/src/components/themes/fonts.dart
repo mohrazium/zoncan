@@ -5,7 +5,7 @@ import 'package:zoncan/constants/constants.dart' show FontConstants;
 import 'colorize.dart';
 
 class Fonts {
-  static double fontScale = 1.0;//TODO:define scale for production
+  static double fontScale = 1.0;//TODO: [ZON-9]Fonts : Define a method to scale fonts for production
   Fonts._();
   static const String sahelFontFamily = "Sahel";
   static const String vazirFontFamily = "Vazir";

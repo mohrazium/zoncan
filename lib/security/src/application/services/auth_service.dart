@@ -15,22 +15,20 @@ class AuthServiceImpl extends AuthService {
 
   @override
   bool isUserLoggedIn() {
+    //TODO: [ZON-10] AuthService : implement isUserLoggedIn
     return true;
   }
 
   @override
   Future<UserDetailsModel> signUp(
       UserDetailsModel user, String password) async {
-    // final prepareUser =
-    //     user.copyWith(encryptedPassword: Password.hash(password));
-    // return _userRepository.createUser(prepareUser);
-        throw UnimplementedError();
-
+    //TODO: [ZON-11] AuthService : implement signUp
+    throw UnimplementedError();
   }
 
   @override
   Future<UserDetailsModel> login(String username, String password) async {
-    // TODO: implement login
+    //TODO: [ZON-12] AuthService : implement login
     throw UnimplementedError();
   }
 }

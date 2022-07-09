@@ -20,9 +20,12 @@ class UserDetailsTable {
   final String? email;
   final String? phoneNumber;
   final bool isActive;
+  final bool isAuthenticated;
   final bool isEmailVerified;
   final bool isPhoneNumberVerified;
   final String encryptedPassword;
+  @Property(type: PropertyType.date)
+  late DateTime? expirationDate;
   @Property(type: PropertyType.date)
   final DateTime? createdAt;
   @Property(type: PropertyType.date)
@@ -36,18 +39,21 @@ class UserDetailsTable {
     this.email,
     this.phoneNumber,
     this.isActive = true,
+    this.isAuthenticated = false,
     this.isEmailVerified = false,
     this.isPhoneNumberVerified = false,
     required this.encryptedPassword,
+    this.expirationDate,
     this.createdAt,
     this.updatedAt,
   }) {
     this.uid = uid ?? const Uuid().v4().toString();
+    this.expirationDate = DateTime.now().add(const Duration(days: 365));
   }
 
   @override
   String toString() {
-    return 'UserDetailsTable(id: $id, uid: $uid, nickName: $nickName, userName: $userName, email: $email, phoneNumber: $phoneNumber, isActive: $isActive, isEmailVerified: $isEmailVerified, isPhoneNumberVerified: $isPhoneNumberVerified, encryptedPassword: $encryptedPassword, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserDetailsTable(id: $id, uid: $uid, nickName: $nickName, userName: $userName, email: $email, phoneNumber: $phoneNumber, isActive: $isActive, isAuthenticated: $isAuthenticated, isEmailVerified: $isEmailVerified, isPhoneNumberVerified: $isPhoneNumberVerified, encryptedPassword: $encryptedPassword, expirationDate: $expirationDate, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   factory UserDetailsTable.fromJson(String jsonString) =>
