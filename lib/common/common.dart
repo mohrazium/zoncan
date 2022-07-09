@@ -7,4 +7,4 @@ export 'src/database/database.dart';
 export 'src/generics/generics.dart';
 export 'src/storage/storage.dart';
 export 'src/database/database.dart';
-export 'src/serializers/model_serializers.dart';
+export 'src/serializers/serializers.dart';

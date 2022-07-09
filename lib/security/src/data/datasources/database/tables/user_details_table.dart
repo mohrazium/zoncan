@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:uuid/uuid.dart';
+import 'package:zoncan/common/common.dart' show DateTimeEpochConverter;
 
 part 'user_details_table.g.dart';
 
@@ -12,7 +12,7 @@ class UserDetailsTable {
   @Id()
   int id;
   @Unique()
-  late final String? uid;
+  final String? uid;
   final String? nickName;
   @Unique()
   final String userName;
@@ -25,10 +25,19 @@ class UserDetailsTable {
   final bool isPhoneNumberVerified;
   final String encryptedPassword;
   @Property(type: PropertyType.date)
-  late DateTime? expirationDate;
+  @JsonKey(
+      fromJson: DateTimeEpochConverter.fromJsonNullable,
+      toJson: DateTimeEpochConverter.toJsonNullable)
+  final DateTime? expirationDate;
   @Property(type: PropertyType.date)
+  @JsonKey(
+      fromJson: DateTimeEpochConverter.fromJsonNullable,
+      toJson: DateTimeEpochConverter.toJsonNullable)
   final DateTime? createdAt;
   @Property(type: PropertyType.date)
+  @JsonKey(
+      fromJson: DateTimeEpochConverter.fromJsonNullable,
+      toJson: DateTimeEpochConverter.toJsonNullable)
   final DateTime? updatedAt;
 
   UserDetailsTable({
@@ -45,11 +54,8 @@ class UserDetailsTable {
     required this.encryptedPassword,
     this.expirationDate,
     this.createdAt,
-    this.updatedAt,
-  }) {
-    this.uid = uid ?? const Uuid().v4().toString();
-    this.expirationDate = DateTime.now().add(const Duration(days: 365));
-  }
+    required this.updatedAt,
+  });
 
   @override
   String toString() {

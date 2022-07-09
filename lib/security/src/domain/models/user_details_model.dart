@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:uuid/uuid.dart';
 import 'package:zoncan/common/common.dart';
 
 import '../../data/data.dart' show UserDetailsTable;
@@ -24,9 +25,44 @@ abstract class UserDetailsModel
   DateTime? get expirationDate;
   DateTime? get createdAt;
   DateTime? get updatedAt;
+  factory UserDetailsModel({
+    int? id,
+    String? uid,
+    String? nickName,
+    required String userName,
+    String? email,
+    String? phoneNumber,
+    bool? isActive,
+    bool? isAuthenticated,
+    bool? isEmailVerified,
+    bool? isPhoneNumberVerified,
+    required String encryptedPassword,
+    DateTime? expirationDate,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) =>
+      UserDetailsModel.builder(
+        (b) => b
+          ..id = id ?? 0
+          ..uid = uid ?? const Uuid().v4().toString()
+          ..nickName = nickName
+          ..userName = userName
+          ..email = email
+          ..phoneNumber = phoneNumber
+          ..isActive = isActive ?? false
+          ..isAuthenticated = isAuthenticated ?? false
+          ..isEmailVerified = isEmailVerified ?? false
+          ..isPhoneNumberVerified = isPhoneNumberVerified ?? false
+          ..encryptedPassword = encryptedPassword
+          ..expirationDate =
+              (expirationDate ?? DateTime.now().add(const Duration(days: 365)))
+                  .toUtc()
+          ..createdAt = (createdAt ?? DateTime.now()).toUtc()
+          ..updatedAt = (updatedAt)?.toUtc(),
+      );
+  factory UserDetailsModel.builder(
+      [void Function(UserDetailsModelBuilder) updates]) = _$UserDetailsModel;
 
-  factory UserDetailsModel([void Function(UserDetailsModelBuilder) updates]) =
-      _$UserDetailsModel;
   UserDetailsModel._();
 
   static Serializer<UserDetailsModel> get serializer =>
