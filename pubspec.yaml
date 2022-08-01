@@ -13,7 +13,9 @@ dependencies:
   bot_toast: ^4.0.2
   built_collection: ^5.1.1
   built_value: ^8.3.3
-  cryptology: ^0.0.2
+  cryptology: ^0.0.6
+  # cryptology:
+  #   path: /home/mohrazium/Projects/Flutter/Plugins/cryptology
   eva_icons_flutter: ^3.1.0
   fast_i18n: ^5.12.6
   floy:

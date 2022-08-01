@@ -12,9 +12,7 @@ class HomeViewLarge extends StatelessWidget {
         body: Column(
           children: [
             ElevatedButton(
-                onPressed: () async {
-                },
-                child: Text(translator.save)),
+                onPressed: () async {}, child: Text(translator.save)),
             Center(
               child: Text(translator.login.success),
             ),
