@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:logging/logging.dart';
-
+part of zoncan.config;
 
 late LoggerService logger;
 
@@ -13,25 +11,25 @@ class LoggerService {
   static final List<String> _logs = [];
 
   Logger log({Level? level, required message}) {
-    final Logger logger = Logger('Sarbaz');
+    final Logger logger = Logger('Zoncan');
     level == null ? logger.log(Level.ALL, message) : logger.log(level, message);
     return logger;
   }
 
   Logger info(String message) {
-    final Logger logger = Logger('Sarbaz');
+    final Logger logger = Logger('Zoncan');
     logger.log(Level.INFO, message);
     return logger;
   }
 
   Logger warning(String message) {
-    final Logger logger = Logger('Sarbaz');
+    final Logger logger = Logger('Zoncan');
     logger.log(Level.WARNING, message);
     return logger;
   }
 
   Logger error(String message) {
-    final Logger logger = Logger('Sarbaz');
+    final Logger logger = Logger('Zoncan');
     logger.log(Level.SEVERE, message);
     return logger;
   }

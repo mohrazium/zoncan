@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+part of zoncan.app;
 
 class NavigatorHelper {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -11,7 +10,14 @@ class NavigatorHelper {
   }
 
   static String currentRoute() {
-    List<ParallelRoute> history = Modular.to.navigateHistory;
-    return history.last.name;
+    String route = "";
+    try {
+      List<ParallelRoute> history = Modular.to.navigateHistory;
+      route = history.first.uri.path;
+    } catch (ignore) {
+      //ignore
+    }
+
+    return route;
   }
 }

@@ -23,7 +23,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
   final DateTime? updatedAt;
   final bool haveShadow;
   final Widget? footerChild;
-  
+
   const FormCard({
     Key? key,
     this.globalFormKey,
@@ -53,10 +53,11 @@ class FormCard extends StatelessWidget with DateConverterMixin {
         mainAxisSize: MainAxisSize.min,
         children: [
           ConstrainedBox(
-            constraints: BoxConstraints(minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 520),
+            constraints: BoxConstraints(
+                minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 520),
             child: GroupBox(
               haveShadow: haveShadow,
-              color: color ?? Colorize.backgroundColorShade200,
+              color: color ?? Theme.of(context).cardTheme.color,
               child: Column(
                 children: [
                   Column(
@@ -66,14 +67,18 @@ class FormCard extends StatelessWidget with DateConverterMixin {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Container(
-                            color: headerColor ?? Colorize.primaryColorShade100,
+                            color: headerColor ??
+                                Theme.of(context).primaryColor.withAlpha(100),
                             child: Padding(
-                                padding: const EdgeInsets.all(kPadding), child: headerContent),
+                                padding: const EdgeInsets.all(kPadding),
+                                child: headerContent),
                           ),
-                          Padding(padding: const EdgeInsets.all(kPadding), child: child),
+                          Padding(
+                              padding: const EdgeInsets.all(kPadding),
+                              child: child),
                         ],
                       ),
-                      _buildFooter(footerChild,translator),
+                      _buildFooter(context, footerChild, translator),
                     ],
                   ),
                 ],
@@ -85,7 +90,8 @@ class FormCard extends StatelessWidget with DateConverterMixin {
     );
   }
 
-  Widget _buildFooter(Widget? footerChild,var translator) {
+  Widget _buildFooter(
+      BuildContext context, Widget? footerChild, var translator) {
     Widget _buildConfirmButton() {
       return ElevatedButton.icon(
         icon: Icon(
@@ -97,12 +103,12 @@ class FormCard extends StatelessWidget with DateConverterMixin {
       );
     }
 
-    Widget _buildCancelButton() {
+    Widget _buildCancelButton(BuildContext context) {
       return ElevatedButton(
         onPressed: readyOnly ? null : () => onCancelButtonPressed(),
         style: ElevatedButton.styleFrom(
-          primary: Colorize.foregroundColorShade200,
-          onPrimary: Colorize.foregroundColorShade500,
+          primary: Theme.of(context).colorScheme.secondary,
+          onPrimary: Theme.of(context).colorScheme.onSecondary,
         ),
         child: Text(translator.cancel),
       );
@@ -120,11 +126,15 @@ class FormCard extends StatelessWidget with DateConverterMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                createdAt != null ? "${translator.createdAt}: ${toShamsi(createdAt)}" : "",
+                createdAt != null
+                    ? "${translator.createdAt}: ${toShamsi(createdAt)}"
+                    : "",
                 style: Themizer.light.textTheme.caption,
               ),
               Text(
-                updatedAt != null ? "${translator.updatedAt}: ${toShamsi(updatedAt)}" : "",
+                updatedAt != null
+                    ? "${translator.updatedAt}: ${toShamsi(updatedAt)}"
+                    : "",
                 style: Themizer.light.textTheme.caption,
               ),
             ],
@@ -139,7 +149,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
               const SizedBox(
                 width: kSpacing / 2,
               ),
-              _buildCancelButton()
+              _buildCancelButton(context)
             ],
           ),
         ],

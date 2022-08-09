@@ -1,0 +1,6 @@
+{
+  "assets": {
+    "output-path": "lib/constants/src",
+    "filename": "assets.dart"
+  }
+}

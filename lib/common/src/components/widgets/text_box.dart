@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zoncan/constants/constants.dart' show kBorderRadius, kPadding;
@@ -33,8 +32,8 @@ class TextBox extends StatefulWidget {
     this.icon,
     this.maxLines,
     this.controller,
-    this.width = 210,
-    this.height = 46,
+    this.width = double.maxFinite,
+    this.height = 50,
     this.isSecure = false,
     this.validator,
     this.prefixIcon,
@@ -52,12 +51,11 @@ class TextBox extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _TextBoxState createState() => _TextBoxState();
 }
 
 class _TextBoxState extends State<TextBox> {
-  late Icon _textFieldIcon = const Icon(Icons.circle);
+  late Icon _textFieldIcon = const Icon(Icons.text_fields);
   bool _isShowPassword = false;
 
   getPasswordIconState() {
@@ -103,7 +101,8 @@ class _TextBoxState extends State<TextBox> {
                     ),
                     Text(
                       widget.isRequired ? "*" : "",
-                      style: const TextStyle(color: Colors.red),
+                      style:
+                          TextStyle(color: Theme.of(context).colorScheme.error),
                     ),
                   ],
                 ),

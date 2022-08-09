@@ -2,8 +2,8 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:zoncan/constants/constants.dart';
+import 'package:zoncan/localization/localization.dart';
 
-import '../themes/colorize.dart';
 import '../themes/fonts.dart';
 import '../widgets/group_box.dart';
 import 'dialog_props.dart';
@@ -61,13 +61,15 @@ class DialogHelper {
   }
 
   static Widget _chooseButtons(DialogButtons buttons, BuildContext context) {
+    var translator = Translations.of(context);
+
     switch (buttons) {
       case DialogButtons.OK:
         return Padding(
           padding: const EdgeInsets.all(kPadding),
           child: ElevatedButton(
             onPressed: () => Navigator.of(context).pop(DialogResult.OK),
-            child: const Text("باشه"),
+            child: Text(translator.ok),
           ),
         );
       case DialogButtons.OK_CANCEL:
@@ -78,22 +80,20 @@ class DialogHelper {
               Padding(
                 padding: const EdgeInsets.all(kPadding),
                 child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colorize.accentColor,
-                  ),
                   onPressed: () => Navigator.of(context).pop(DialogResult.OK),
-                  child: const Text("تایید"),
+                  child: Text(translator.accept),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(kPadding),
                 child: ElevatedButton(
-                  // textStyle: Themizer.textStyle,
                   style: ElevatedButton.styleFrom(
-                    primary: Colorize.errorColor,
+                    primary: Theme.of(context).colorScheme.error,
+                    onPrimary: Theme.of(context).colorScheme.onError,
                   ),
-                  onPressed: () => Navigator.of(context).pop(DialogResult.CANCEL),
-                  child: const Text("لغو"),
+                  onPressed: () =>
+                      Navigator.of(context).pop(DialogResult.CANCEL),
+                  child: Text(translator.cancel),
                 ),
               ),
             ]);
@@ -103,22 +103,17 @@ class DialogHelper {
             mainAxisSize: MainAxisSize.min,
             children: [
               ElevatedButton(
-                // textStyle: Themizer.textStyle,
                 onPressed: () => Navigator.of(context).pop(DialogResult.YES),
-                style: ElevatedButton.styleFrom(
-                  primary: Colorize.accentColor,
-                  onPrimary: Colorize.foregroundColorShade500,
-                ),
-                child: const Text("بله"),
+                child: Text(translator.yes),
               ),
               const SizedBox(width: kSpacing),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colorize.foregroundColorShade200,
-                  onPrimary: Colorize.foregroundColorShade500,
+                  primary: Theme.of(context).colorScheme.secondary,
+                  onPrimary: Theme.of(context).colorScheme.onSecondary,
                 ),
                 onPressed: () => Navigator.of(context).pop(DialogResult.NO),
-                child: const Text("خیر"),
+                child: Text(translator.no),
               ),
             ]);
       default:
@@ -129,15 +124,15 @@ class DialogHelper {
   static String _chooseAssets(DialogType type) {
     switch (type) {
       case DialogType.ERROR:
-        return "assets/images/error.png";
+        return Assets.icons.errorPNG;
       case DialogType.INFO:
-        return "assets/images/info.png";
+        return Assets.icons.infoPNG;
       case DialogType.WARNING:
-        return "assets/images/warning.png";
+        return Assets.icons.warningPNG;
       case DialogType.SUCCESSFULLY:
-        return "assets/images/success.png";
+        return Assets.icons.successPNG;
       case DialogType.FAILURE:
-        return "assets/images/failure.png";
+        return Assets.icons.failurePNG;
 
       default:
         return "";
@@ -156,7 +151,7 @@ class DialogHelper {
   }) async {
     final header = AppBar(
       automaticallyImplyLeading: false,
-      iconTheme: const IconThemeData(color: Colorize.foregroundColor),
+      iconTheme: IconThemeData(color: Theme.of(context).colorScheme.surface),
       leading: IconButton(
         onPressed: () => Navigator.of(context).pop(DialogResult.IGNORE),
         icon: const Icon(EvaIcons.close),
@@ -178,11 +173,13 @@ class DialogHelper {
                 width: width,
                 height: height,
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
+                  borderRadius:
+                      const BorderRadius.all(Radius.circular(kBorderRadius)),
                   child: Scaffold(
                       appBar: header,
                       body: Padding(
-                        padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, kPadding),
+                        padding: const EdgeInsets.fromLTRB(
+                            kPadding, 0, kPadding, kPadding),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -194,7 +191,9 @@ class DialogHelper {
                                       shrinkWrap: true,
                                       controller: ScrollController(),
                                       children: [
-                                        Container(color: Colors.transparent, child: child)
+                                        Container(
+                                            color: Colors.transparent,
+                                            child: child)
                                       ],
                                     ),
                                   )
@@ -239,8 +238,11 @@ class DialogHelper {
                 children: [
                   Center(
                       child: LoadingAnimationWidget.discreteCircle(
-                          color: Colorize.primaryColor,
-                          secondRingColor: Colorize.accentColor,
+                          color: Theme.of(context).colorScheme.primary,
+                          secondRingColor:
+                              Theme.of(context).colorScheme.secondary,
+                          thirdRingColor:
+                              Theme.of(context).colorScheme.tertiary,
                           size: 65)),
                   const SizedBox(
                     height: kSpacing,

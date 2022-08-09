@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:zoncan/constants/constants.dart' show kBorderRadius;
 
-import '../themes/colorize.dart';
 
 class UserProfileData {
   final ImageProvider image;
@@ -66,9 +65,8 @@ class UserProfile extends StatelessWidget {
   Widget _buildName() {
     return Text(
       data.name,
-      style: const TextStyle(
+      style:  const TextStyle(
         fontWeight: FontWeight.bold,
-        color: Colorize.foregroundColor,
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -80,7 +78,6 @@ class UserProfile extends StatelessWidget {
       data.userRoll,
       style: const TextStyle(
         fontWeight: FontWeight.w300,
-        color: Colorize.foregroundColor,
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,

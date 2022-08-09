@@ -15,7 +15,7 @@ class AuthServiceImpl extends AuthService {
   @override
   bool isUserLoggedIn() {
     //TODO: [ZON-10] AuthService : implement isUserLoggedIn
-    return true;
+    return false;
   }
 
   @override

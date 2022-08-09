@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:zoncan/constants/constants.dart';
 
-import '../themes/colorize.dart';
 
 class UserProfileTile extends StatelessWidget {
   const UserProfileTile({
@@ -18,37 +17,37 @@ class UserProfileTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ListTile(
-        leading: _buildAvatar(),
-        title: _buildName(),
+        leading: _buildAvatar(context),
+        title: _buildName(context),
         trailing: IconButton(
           onPressed: onPressed,
           icon: const Icon(Icons.more_horiz),
-          splashRadius: 24,
+          splashRadius: kBorderRadius,
         ),
       ),
     );
   }
 
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
     return CircleAvatar(
       radius: 20,
-      backgroundColor: Colorize.primaryColor[100]?.withOpacity(.2),
+      backgroundColor: Theme.of(context).colorScheme.background.withOpacity(.2),
       child: Text(
         name.toUpperCase(),
-        style: const TextStyle(
-          color: Colorize.primaryColor,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.primary,
           fontWeight: FontWeight.bold,
         ),
       ),
     );
   }
 
-  Widget _buildName() {
+  Widget _buildName(BuildContext context) {
     return Text(
       name,
-      style: const TextStyle(
+      style: TextStyle(
         fontWeight: FontWeight.bold,
-        color: Colorize.foregroundColor,
+        color: Theme.of(context).colorScheme.surface,
         fontSize: 13,
       ),
       maxLines: 1,

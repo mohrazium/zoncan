@@ -1,8 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:zoncan/constants/constants.dart' show kBorderRadius, kPadding;
-
-import '../themes/colorize.dart';
 
 class GroupBox extends StatelessWidget {
   final Widget child;
@@ -38,12 +35,14 @@ class GroupBox extends StatelessWidget {
         ? Padding(
             padding: padding ?? const EdgeInsets.all(0),
             child: ClipRRect(
-                borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(kBorderRadius)),
+                borderRadius: borderRadius ??
+                    const BorderRadius.all(Radius.circular(kBorderRadius)),
                 child: InkWell(
-                    borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(kBorderRadius)),
+                    borderRadius: borderRadius ??
+                        const BorderRadius.all(Radius.circular(kBorderRadius)),
                     onTap: onTap,
                     child: Ink(
-                        decoration: _getDecoration(),
+                        decoration: _getDecoration(context),
                         width: width,
                         height: height,
                         child: Padding(
@@ -51,15 +50,18 @@ class GroupBox extends StatelessWidget {
                           child: child,
                         )))))
         : Padding(
-            padding:
-                haveShadow && padding == null ? const EdgeInsets.all(kPadding) : padding ?? const EdgeInsets.all(0),
+            padding: haveShadow && padding == null
+                ? const EdgeInsets.all(kPadding)
+                : padding ?? const EdgeInsets.all(0),
             child: Container(
               width: width,
               height: height,
-              decoration: _getDecoration(),
+              decoration: _getDecoration(context),
               child: ClipRRect(
-                borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(kBorderRadius)),
-                child: Padding(padding: margin ?? const EdgeInsets.all(0), child: child),
+                borderRadius: borderRadius ??
+                    const BorderRadius.all(Radius.circular(kBorderRadius)),
+                child: Padding(
+                    padding: margin ?? const EdgeInsets.all(0), child: child),
               ),
             ),
           );
@@ -67,19 +69,20 @@ class GroupBox extends StatelessWidget {
     return isExpandable ? Expanded(child: content) : content;
   }
 
-  _getDecoration() {
+  _getDecoration(BuildContext context) {
     return BoxDecoration(
       boxShadow: haveShadow
-          ? const [
+          ? [
               BoxShadow(
                 blurRadius: kPadding,
                 blurStyle: BlurStyle.normal,
-                color: Colorize.foregroundColorShade900,
+                color: Theme.of(context).colorScheme.shadow,
               ),
             ]
           : null,
-      borderRadius: borderRadius ?? const BorderRadius.all(Radius.circular(kBorderRadius)),
-      color: color ?? Colorize.backgroundColorShade700,
+      borderRadius: borderRadius ??
+          const BorderRadius.all(Radius.circular(kBorderRadius)),
+      color: color ?? Theme.of(context).colorScheme.background,
     );
   }
 }

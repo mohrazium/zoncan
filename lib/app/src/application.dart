@@ -1,7 +1,4 @@
-
-import 'package:flutter/widgets.dart';
-
-import 'entry_point.dart';
+part of zoncan.app;
 
 class Application {
   Application.run() {

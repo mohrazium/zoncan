@@ -1,11 +1,4 @@
-import 'package:flutter_modular/flutter_modular.dart' show AsyncBind, Bind;
-import 'package:zoncan/common/common.dart'
-    show StorageProvider, StorageProviderImpl, ZoncanDatabase;
-import 'package:zoncan/security/security.dart'
-    show AuthService, AuthServiceImpl, SecureStorage, SecureStorageImpl, UserDetailsRepository, UserDetailsRepositoryImpl;
-import 'package:zoncan/settings/settings.dart'
-    show SettingsProvider, SettingsProviderImpl;
-
+part of zoncan.config;
 class Injector {
   Injector.inject();
 

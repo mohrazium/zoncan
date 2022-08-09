@@ -1,14 +1,12 @@
-
 import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart' show FontConstants;
+import 'package:zoncan/constants/constants.dart';
 
 import 'colorize.dart';
 
 class Fonts {
-  static double fontScale = 1.0;//TODO: [ZON-9]Fonts : Define a method to scale fonts for production
+  static double fontScale =
+      1.0; //TODO: [ZON-9]Fonts : Define a method to scale fonts for production
   Fonts._();
-  static const String sahelFontFamily = "Sahel";
-  static const String vazirFontFamily = "Vazir";
   // Font constants
   static const kFontLight = FontWeight.w300;
   static const kFontRegular = FontWeight.w400;
@@ -18,9 +16,9 @@ class Fonts {
 
   static const TextStyle _fontStyle = TextStyle(
       inherit: false,
-      color: Colorize.foregroundColor,
-      fontFamily: FontConstants.sahel,
-      fontFamilyFallback: [FontConstants.vazir],
+      // color: Colorize.foregroundColor,
+      fontFamily: kDefaultFont,
+      fontFamilyFallback: [kDefaultFallBackFont],
       fontWeight: FontWeight.normal,
       fontStyle: FontStyle.normal);
 

@@ -1,10 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:persian_tools/persian_tools.dart';
 import 'package:zoncan/constants/constants.dart' show kSpacing;
-
-import '../themes/colorize.dart';
 
 class ProgressLineData {
   final int unitCapacity;
@@ -30,35 +27,34 @@ class ProgressLine extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildText(),
+        _buildText(context),
         const SizedBox(
           height: kSpacing / 5,
         ),
-        _buildProgress(),
+        _buildProgress(context),
       ],
     );
   }
 
-  Widget _buildText() {
+  Widget _buildText(BuildContext context) {
     return Text(
-      //TODO : change this
       convertEnToFa(
-          "${data.totalSoldiers} نفر سرباز از  ${(data.unitCapacity.toString())}  نفر ظرفیت یگان"),
+          "${data.totalSoldiers} تعداد  ${(data.unitCapacity.toString())}  از ظرفیت "),
       style: TextStyle(
         fontWeight: FontWeight.w600,
-        color: Colorize.foregroundColor.shade400,
+        color: Theme.of(context).colorScheme.surface,
         fontSize: 13,
       ),
     );
   }
 
-  Widget _buildProgress() {
+  Widget _buildProgress(BuildContext context) {
     return LinearPercentIndicator(
       lineHeight: kSpacing / 3,
       width: kSpacing * 10,
       percent: data.totalSoldiers / data.unitCapacity,
-      progressColor: Colorize.primaryColor.shade600,
-      backgroundColor: Colorize.primaryColor,
+      progressColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
     );
   }
 }
