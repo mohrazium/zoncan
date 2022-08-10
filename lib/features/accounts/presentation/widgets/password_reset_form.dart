@@ -1,4 +1,4 @@
-part of zoncan.features.login;
+part of zoncan.features.accounts.presentation;
 
 class PasswordRestForm extends StatefulWidget {
   const PasswordRestForm({
@@ -70,7 +70,7 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
               children: [
                 TextSpan(
                   text: translator.login.login,
-                 style: Theme.of(context)
+                  style: Theme.of(context)
                       .textTheme
                       .bodyMedium
                       ?.copyWith(color: Colors.blue),

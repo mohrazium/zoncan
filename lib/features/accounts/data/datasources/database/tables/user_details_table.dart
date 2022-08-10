@@ -1,10 +1,4 @@
-import 'dart:convert';
-
-import 'package:json_annotation/json_annotation.dart';
-import 'package:objectbox/objectbox.dart';
-import 'package:zoncan/common/common.dart' show DateTimeEpochConverter;
-
-part 'user_details_table.g.dart';
+part of zoncan.features.accounts.data;
 
 @Entity()
 @JsonSerializable()

@@ -1,9 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:zoncan/config/config.dart' show Routing;
-
-import 'auth_service.dart';
+part of zoncan.security;
 
 class AuthGuard extends RouteGuard {
   AuthGuard() : super(redirectTo: Routing.routes().accounts.path);

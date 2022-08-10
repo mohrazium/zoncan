@@ -1,4 +1,4 @@
-part of zoncan.features.login;
+part of zoncan.features.accounts.presentation;
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({Key? key}) : super(key: key);

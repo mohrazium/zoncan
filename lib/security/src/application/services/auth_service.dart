@@ -1,5 +1,4 @@
-import '../../data/repositories/user_details_repository.dart';
-import '../../domain/models/user_details_model.dart';
+part of zoncan.security;
 
 abstract class AuthService {
   bool isUserLoggedIn();

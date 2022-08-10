@@ -1,4 +1,4 @@
-part of zoncan.features.login;
+part of zoncan.features.accounts.presentation;
 
 class AccountsViewLarge extends StatefulWidget {
   const AccountsViewLarge({Key? key}) : super(key: key);

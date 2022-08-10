@@ -1,4 +1,4 @@
-part of zoncan.features.login;
+part of zoncan.features.accounts.presentation;
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -8,7 +8,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  bool isRem = false;
+  bool isRememberMe = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +52,10 @@ class _LoginFormState extends State<LoginForm> {
                     Checkbox(
                       onChanged: (onChanged) {
                         setState(() {
-                          isRem = onChanged!;
+                          isRememberMe = onChanged!;
                         });
                       },
-                      value: isRem,
+                      value: isRememberMe,
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
@@ -84,7 +84,8 @@ class _LoginFormState extends State<LoginForm> {
               ]),
           const SizedBox(height: kSpacing),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+              },
               child: Text(
                 translator.login.login,
               )),

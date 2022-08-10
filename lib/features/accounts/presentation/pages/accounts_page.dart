@@ -1,4 +1,4 @@
-part of zoncan.features.login;
+part of zoncan.features.accounts.presentation;
 
 class AccountsPage extends StatelessWidget {
   const AccountsPage({Key? key}) : super(key: key);

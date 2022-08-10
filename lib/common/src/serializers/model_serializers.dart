@@ -1,6 +1,6 @@
 import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
-import 'package:zoncan/security/security.dart' show UserDetailsModel;
+import 'package:zoncan/features/features.dart';
 
 part 'model_serializers.g.dart';
 

@@ -1,9 +1,4 @@
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:objectbox/src/native/box.dart';
-import 'package:zoncan/common/common.dart' show StoreRepository, ZoncanDatabase;
-import 'package:zoncan/exceptions/exceptions.dart';
-
-import '../datasources/datasources.dart' show UserDetailsTable;
+part of zoncan.features.accounts.data;
 
 abstract class UserDetailsRepository
     extends StoreRepository<int, UserDetailsTable> {}
@@ -86,9 +81,15 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
   }
 
   @override
-  Future<UserDetailsTable> save(UserDetailsTable table) {
-    // TODO: [ZON-5] UserDetailsRepository : implement save
-    throw UnimplementedError();
+  Future<UserDetailsTable?> save(UserDetailsTable table) async {
+    return await storeBox
+        .then((box) async =>
+            findById(await box.putAsync(table, mode: PutMode.insert)))
+        .onError((error, stackTrace) => throw FailureException(
+              "Can't save this user :${table.toString()}",
+              error,
+              stackTrace,
+            ));
   }
 
   @override

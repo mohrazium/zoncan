@@ -1,10 +1,8 @@
-import 'package:zoncan/common/common.dart' show Service;
+part of zoncan.features.accounts.application;
 
-import '../../domain/domain.dart' show UserDetailsModel;
+abstract class UserDetailsService extends Service<String, UserDetailsModel> {}
 
-abstract class UserDetailsService extends Service<String, UserDetailsModel>{}
-
-class UserDetailsServiceImpl implements UserDetailsService{
+class UserDetailsServiceImpl implements UserDetailsService {
   @override
   Future<bool> delete(UserDetailsModel model) {
     // TODO: implement delete
@@ -34,6 +32,4 @@ class UserDetailsServiceImpl implements UserDetailsService{
     // TODO: implement update
     throw UnimplementedError();
   }
-
-
 }

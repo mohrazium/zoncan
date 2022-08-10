@@ -1,13 +1,4 @@
-import 'dart:convert';
-
-import 'package:built_value/built_value.dart';
-import 'package:built_value/serializer.dart';
-import 'package:uuid/uuid.dart';
-import 'package:zoncan/common/common.dart';
-
-import '../../data/data.dart' show UserDetailsTable;
-
-part 'user_details_model.g.dart';
+part of zoncan.features.accounts.domain;
 
 abstract class UserDetailsModel
     implements Built<UserDetailsModel, UserDetailsModelBuilder> {

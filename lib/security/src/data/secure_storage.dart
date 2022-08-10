@@ -1,7 +1,4 @@
-import 'dart:io';
-
-import 'package:cryptology/cryptology.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+part of zoncan.security;
 
 abstract class SecureStorage {
   void initial(String secretKey, bool isData);

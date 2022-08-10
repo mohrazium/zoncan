@@ -1,4 +1,4 @@
-part of zoncan.features.login;
+part of zoncan.features.accounts.presentation;
 
 class Slider extends StatefulWidget {
   final List<Slide> slides;

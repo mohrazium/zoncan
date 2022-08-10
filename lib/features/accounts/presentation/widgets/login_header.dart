@@ -1,4 +1,4 @@
-part of zoncan.features.login;
+part of zoncan.features.accounts.presentation;
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({
@@ -28,17 +28,17 @@ class LoginHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "زونکن",//TODO: add to localization.
+              "زونکن", //TODO: add to localization.
               style: Theme.of(context).textTheme.subtitle1?.copyWith(
                   inherit: true, fontSize: 16.0, fontWeight: FontWeight.bold),
             ),
             Text(
-              "سیستم مدیریت مالی",//TODO: add to localization.
+              "سیستم مدیریت مالی", //TODO: add to localization.
               style: Theme.of(context).textTheme.subtitle1?.copyWith(
                   inherit: true, fontSize: 14.0, fontWeight: FontWeight.bold),
             ),
             Text(
-              "با زونکن حساب و کتاب کن",//TODO: add to localization.
+              "با زونکن حساب و کتاب کن", //TODO: add to localization.
               maxLines: 2,
               style: Theme.of(context).textTheme.caption,
             ),

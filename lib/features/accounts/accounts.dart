@@ -1,29 +1,16 @@
-library zoncan.features.login;
+library zoncan.features.accounts;
 
-import 'dart:math';
-
-import 'package:blurrycontainer/blurrycontainer.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:floy/floy.dart';
-import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_triple/flutter_triple.dart';
-import 'package:zoncan/common/common.dart';
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/constants/constants.dart';
-import 'package:zoncan/localization/localization.dart';
 
 /// Presentation
-part 'presentation/pages/accounts_page.dart';
-part 'presentation/views/accounts_view_large.dart';
-part 'presentation/widgets/login_form.dart';
-part 'presentation/widgets/signup_form.dart';
-part 'presentation/widgets/password_reset_form.dart';
-part 'presentation/widgets/login_header.dart';
-part 'presentation/widgets/slider.dart';
+import 'presentation/presentation.dart';
+export 'presentation/presentation.dart';
+export 'data/data.dart';
+export 'domain/domain.dart';
+export 'application/application.dart';
 
-///
 class Accounts extends Module {
   @override
   List<Bind> get binds => [];
