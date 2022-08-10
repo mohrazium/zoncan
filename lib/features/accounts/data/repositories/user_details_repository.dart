@@ -103,9 +103,14 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
   }
 
   @override
-  Future<void> saveQueued(UserDetailsTable table) {
-    // TODO: [ZON-7] UserDetailsRepository : implement saveQueued
-    throw UnimplementedError();
+  Future<int> saveQueued(UserDetailsTable table) async {
+   return await storeBox
+        .then((box) async => box.putQueued(table, mode: PutMode.insert))
+        .onError((error, stackTrace) => throw FailureException(
+              "Can't save user in queue :${table.toString()}",
+              error,
+              stackTrace,
+            ));
   }
 
   @override
