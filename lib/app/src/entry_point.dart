@@ -4,44 +4,9 @@ class EntryPoint {
   final Widget app;
   EntryPoint.to()
       : app = ModularApp(
-          module: AppModule(),
+          module: App(),
           child: TranslationProvider(child: const Zoncan()),
         );
-}
-
-class AppModule extends Module {
-  @override
-  List<Bind<Object>> get binds => [
-        ...Injector.inject().appModuleBinds,
-      ];
-
-  @override
-  List<ModularRoute> get routes => [
-        ModuleRoute(
-          Routing.routes().splash.path,
-          transition: TransitionType.fadeIn,
-          duration: kAnimationDuration,
-          module: Splash(),
-        ),
-        ModuleRoute(
-          Routing.routes().accounts.path,
-          module: Accounts(),
-          transition: TransitionType.fadeIn,
-          duration: kAnimationDuration,
-        ),
-        ModuleRoute(
-          Routing.routes().home.path,
-          module: Home(),
-          guards: [AuthGuard()],
-          transition: TransitionType.fadeIn,
-          duration: kAnimationDuration,
-        ),
-        WildcardRoute(
-          child: (context, args) => const NotFoundScreen(),
-          transition: TransitionType.fadeIn,
-          duration: kAnimationDuration,
-        ),
-      ];
 }
 
 class Zoncan extends StatefulWidget {
@@ -65,20 +30,24 @@ class _ZoncanState extends State<Zoncan> {
   @override
   void initState() {
     super.initState();
+
     Modular.setNavigatorKey(NavigatorHelper.navigatorKey);
+
     Modular.setInitialRoute(Routing.routes().splash.path);
+
     LoggerService.setup();
 
     Modular.setObservers([
       NavigatorHelper.routeObserver,
       BotToastNavigatorObserver(),
     ]);
+
     botToastBuilder = BotToastInit();
+
     loadSettings();
-    Modular.to.addListener(() {
-      final currentRoute = NavigatorHelper.currentRoute();
-      logger.info("Route changed to $currentRoute");
-    });
+
+    Modular.to.addListener(() =>
+        logger.info("Route changed to ${NavigatorHelper.currentRoute()}"));
   }
 
   @override

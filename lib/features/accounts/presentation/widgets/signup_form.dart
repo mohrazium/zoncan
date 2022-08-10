@@ -1,13 +1,13 @@
 part of zoncan.features.accounts.presentation;
 
-class SignUpForm extends StatefulWidget {
-  const SignUpForm({Key? key}) : super(key: key);
+class SignupForm extends StatefulWidget {
+  const SignupForm({Key? key}) : super(key: key);
 
   @override
-  State<SignUpForm> createState() => _SignUpFormState();
+  State<SignupForm> createState() => _SignupFormState();
 }
 
-class _SignUpFormState extends State<SignUpForm> {
+class _SignupFormState extends State<SignupForm> {
   @override
   Widget build(BuildContext context) {
     var translator = Translations.of(context);
@@ -45,7 +45,9 @@ class _SignUpFormState extends State<SignUpForm> {
                 ]),
           ),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                //TODO: Create confirm code view, this acceptance of signup or password reset
+              },
               child: Text(
                 translator.login.signup,
               )),

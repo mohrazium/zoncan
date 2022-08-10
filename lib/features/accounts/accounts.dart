@@ -31,7 +31,7 @@ class Accounts extends Module {
               ChildRoute(Routing.routes().signup.named,
                   transition: TransitionType.fadeIn,
                   duration: kAnimationDuration,
-                  child: (context, args) => const SignUpForm()),
+                  child: (context, args) => const SignupForm()),
               ChildRoute(
                 Routing.routes().passwordReset.named,
                 transition: TransitionType.fadeIn,
