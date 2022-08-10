@@ -92,9 +92,14 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
   }
 
   @override
-  Future<List<int>> saveAll(List<UserDetailsTable> tables) {
-    // TODO: [ZON-6] UserDetailsRepository : implement saveAll
-    throw UnimplementedError();
+  Future<List<int>> saveAll(List<UserDetailsTable> tables) async {
+    return await storeBox
+        .then((box) async => box.putMany(tables, mode: PutMode.insert))
+        .onError((error, stackTrace) => throw FailureException(
+              "Can't save all users :${tables.toString()}",
+              error,
+              stackTrace,
+            ));
   }
 
   @override

@@ -86,11 +86,21 @@ class _LoginFormState extends State<LoginForm> {
           ElevatedButton(
               onPressed: () async {
                 UserDetailsRepository repo = UserDetailsRepositoryImpl();
-                var res = await repo.update(UserDetailsTable(
-                    id: 3,
-                    userName: "lllllfrefrf",
-                    encryptedPassword: "encryptedPassword",
-                    updatedAt: DateTime.now()));
+                List<UserDetailsTable> userDetails = [
+                  UserDetailsTable(
+                      userName: "adasdsad",
+                      encryptedPassword: "encryptedPassword",
+                      updatedAt: DateTime.now()),
+                  UserDetailsTable(
+                      userName: "asdsadsadwewer",
+                      encryptedPassword: "encryptedPassword",
+                      updatedAt: DateTime.now()),
+                  UserDetailsTable(
+                      userName: "fwefwefwefwefwefwef",
+                      encryptedPassword: "encryptedPassword",
+                      updatedAt: DateTime.now()),
+                ];
+                var res = await repo.saveAll(userDetails);
                 print(res.toString());
               },
               child: Text(
