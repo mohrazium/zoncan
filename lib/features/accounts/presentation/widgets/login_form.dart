@@ -85,6 +85,13 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: kSpacing),
           ElevatedButton(
               onPressed: () async {
+                UserDetailsRepository repo = UserDetailsRepositoryImpl();
+                var res = await repo.update(UserDetailsTable(
+                    id: 3,
+                    userName: "lllllfrefrf",
+                    encryptedPassword: "encryptedPassword",
+                    updatedAt: DateTime.now()));
+                print(res.toString());
               },
               child: Text(
                 translator.login.login,

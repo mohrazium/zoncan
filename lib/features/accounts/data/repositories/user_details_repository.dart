@@ -81,10 +81,9 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
   }
 
   @override
-  Future<UserDetailsTable?> save(UserDetailsTable table) async {
+  Future<int?> save(UserDetailsTable table) async {
     return await storeBox
-        .then((box) async =>
-            findById(await box.putAsync(table, mode: PutMode.insert)))
+        .then((box) async => await box.putAsync(table, mode: PutMode.insert))
         .onError((error, stackTrace) => throw FailureException(
               "Can't save this user :${table.toString()}",
               error,
@@ -105,9 +104,20 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
   }
 
   @override
-  Future<bool> update(UserDetailsTable table) {
-    // TODO: [ZON-8] UserDetailsRepository : implement update
-    throw UnimplementedError();
+  Future<bool> update(UserDetailsTable table) async {
+    return await storeBox
+        .then((box) async => await box.putAsync(table, mode: PutMode.update))
+        .then((updatedUserId) async {
+      return updatedUserId == table.id
+          ? true
+          : throw FailureException(
+              "Can't update this user :${table.toString()}",
+            );
+    }).onError((error, stackTrace) => throw FailureException(
+              "Can't save this user :${table.toString()}",
+              error,
+              stackTrace,
+            ));
   }
   // For api integration declare ds here
   // like: final UserDetailsClient _client;
