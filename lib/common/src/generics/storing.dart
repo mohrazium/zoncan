@@ -1,6 +1,6 @@
-import 'package:objectbox/objectbox.dart';
+part of common.generics;
 
-abstract class StoreRepository<I, T> {
+abstract class Storing<I, T> {
   Future<Box<T>> get storeBox;
   Future<I?> save(T table);
   Future<List<I>> saveAll(List<T> tables);

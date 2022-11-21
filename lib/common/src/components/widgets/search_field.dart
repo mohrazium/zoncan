@@ -1,8 +1,4 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart' show kPadding;
-import 'package:zoncan/localization/localization.dart';
-import 'text_box.dart';
+part of common.components;
 
 class SearchField extends StatelessWidget {
   const SearchField({

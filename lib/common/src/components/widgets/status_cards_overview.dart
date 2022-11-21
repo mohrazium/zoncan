@@ -1,8 +1,4 @@
-
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart' show kBorderRadius, kSpacing;
-
-import 'status_card.dart';
+part of common.components;
 
 class StatusCardsOverview extends StatelessWidget {
   const StatusCardsOverview({

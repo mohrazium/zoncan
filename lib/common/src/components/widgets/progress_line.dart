@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:persian_tools/persian_tools.dart';
-import 'package:zoncan/constants/constants.dart' show kSpacing;
+part of common.components;
+
 
 class ProgressLineData {
   final int unitCapacity;

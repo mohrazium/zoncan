@@ -1,12 +1,4 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:zoncan/constants/constants.dart';
-import 'package:zoncan/localization/localization.dart';
-
-import '../themes/fonts.dart';
-import '../widgets/group_box.dart';
-import 'dialog_props.dart';
+part of common.components;
 
 class DialogHelper {
   static Future<DialogResult> showMessageBox({
@@ -88,8 +80,7 @@ class DialogHelper {
                 padding: const EdgeInsets.all(kPadding),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).colorScheme.error,
-                    onPrimary: Theme.of(context).colorScheme.onError,
+                    foregroundColor: Theme.of(context).colorScheme.onError, backgroundColor: Theme.of(context).colorScheme.error,
                   ),
                   onPressed: () =>
                       Navigator.of(context).pop(DialogResult.CANCEL),
@@ -109,8 +100,7 @@ class DialogHelper {
               const SizedBox(width: kSpacing),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).colorScheme.secondary,
-                  onPrimary: Theme.of(context).colorScheme.onSecondary,
+                  foregroundColor: Theme.of(context).colorScheme.onSecondary, backgroundColor: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: () => Navigator.of(context).pop(DialogResult.NO),
                 child: Text(translator.no),
@@ -217,56 +207,14 @@ class DialogHelper {
     return (action != null) ? action : DialogResult.OK;
   }
 
-  static bool _isShowDialog = false;
+  static void showLoading(BuildContext context, String text) =>
+      LoadingScreen.instance.show(context: context, text: text);
 
-  static void showLoading(BuildContext context, [String? title]) {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        barrierColor: Colors.grey.withOpacity(.1),
-        builder: (BuildContext context) {
-          _isShowDialog = true;
-          return Dialog(
-            backgroundColor: Colors.transparent,
-            child: GroupBox(
-              height: 200,
-              width: 200,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Center(
-                      child: LoadingAnimationWidget.discreteCircle(
-                          color: Theme.of(context).colorScheme.primary,
-                          secondRingColor:
-                              Theme.of(context).colorScheme.secondary,
-                          thirdRingColor:
-                              Theme.of(context).colorScheme.tertiary,
-                          size: 65)),
-                  const SizedBox(
-                    height: kSpacing,
-                  ),
-                  Center(
-                      child: Text(
-                    title ?? "",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ))
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  static void hideLoading(BuildContext context) =>
+      LoadingScreen.instance.hide();
 
-  static void hideLoading(BuildContext context) {
-    if (_isShowDialog) {
-      Future.delayed(const Duration(milliseconds: 250)).whenComplete(() {
-        _isShowDialog = false;
-        Navigator.of(context).pop(DialogResult.IGNORE);
-      });
-    }
-  }
+  static void loading(BuildContext context, bool isLoading, String text) =>
+      isLoading ? showLoading(context, text) : hideLoading(context);
 
   static void showCrashReport(BuildContext context, dynamic logger,
       [String? title, String? error]) {

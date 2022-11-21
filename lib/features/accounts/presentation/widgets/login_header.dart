@@ -7,6 +7,7 @@ class LoginHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var translator = Translations.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,23 +25,18 @@ class LoginHeader extends StatelessWidget {
           width: kSpacing,
         ),
         Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "زونکن", //TODO: add to localization.
-              style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                  inherit: true, fontSize: 16.0, fontWeight: FontWeight.bold),
+              translator.appName,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  inherit: true, fontWeight: FontWeight.bold),
             ),
             Text(
-              "سیستم مدیریت مالی", //TODO: add to localization.
-              style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                  inherit: true, fontSize: 14.0, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "با زونکن حساب و کتاب کن", //TODO: add to localization.
+              translator.appDescriptor,
               maxLines: 2,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(
               height: kSpacing,

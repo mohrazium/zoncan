@@ -8,6 +8,7 @@ part 'model_serializers.g.dart';
   UserDetailsModel,
 ])
 Serializers _serializers = _$_serializers;
+
 class ModelSerializer {
   static Serializers serializers = _serializers;
 

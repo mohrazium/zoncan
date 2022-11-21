@@ -1,5 +1,6 @@
 library zoncan.features.accounts.application;
 
+import 'package:uuid/uuid.dart';
 import 'package:zoncan/common/common.dart' show Service;
 import 'package:zoncan/exceptions/exceptions.dart';
 

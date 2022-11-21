@@ -1,3 +1,4 @@
+part of common.serializers;
 class DateTimeEpochConverter {
   const DateTimeEpochConverter();
 

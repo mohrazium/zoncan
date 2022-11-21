@@ -42,5 +42,29 @@
   "yes": "Yes",
   "no": "No",
   "ok": "Ok",
-  "accept": "Accept"
+  "accept": "Accept",
+  "validation": {
+    "notBeEmpty": "Filed can't be empty",
+    "notValidNickname": "Nickname is not a valid name",
+    "notValidUsername": "Username is not valid",
+    "notValidEmail": "Email address is not valid",
+    "notValidLength": "Please input at least $length character",
+    "notAllowedPassword": "This password is not allowed, try another password",
+    "passwordsIsNotMatch": "Passwords is not match",
+    "notValidPhoneNumber": "This phone number is not valid",
+    "notValidPostalCode": "This postal code is not valid",
+    "notValidNationalCode": "This national code is not valid",
+    "alreadyExistsUsername": "Username already exists",
+    "alreadyExistsEmail": "Email address already exists",
+    "alreadyExistsPhoneNumber": "Phone number already exists",
+    "alreadyExistsNationalCode": "National code already exists",
+    "passwordLength": "Your password should be at least 6 characters long!",
+    "passwordUpperCase": "Your password should contain one upper case character!",
+    "passwordLowerCase": "Your password should contain one lower case character!",
+    "passwordDigit": "Your password should contain one digit!",
+    "passwordNoSpace": "Your password should not contain spaces!",
+    "passwordOnlyEnglish": "َUse only English letters!",
+    "passwordIsVeryWeak": "Your password is Very weak!, please input strange one!"
+  },
+  "loadingPleaseWait": "Loading...,Please wait!"
 }

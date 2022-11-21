@@ -1,9 +1,4 @@
-
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:persian_tools/persian_tools.dart';
-
-import '../themes/fonts.dart';
+part of common.components;
 
 class StatusCardData {
   final String label;

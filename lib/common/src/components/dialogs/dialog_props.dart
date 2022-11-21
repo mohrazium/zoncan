@@ -1,3 +1,5 @@
+part of common.components;
+
 // ignore_for_file: constant_identifier_names
 
 enum DialogType { INFO, WARNING, ERROR, SUCCESSFULLY, FAILURE }

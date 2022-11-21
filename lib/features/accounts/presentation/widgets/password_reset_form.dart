@@ -44,7 +44,8 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
           const LoginHeader(),
           Text(
             translator.login.passwordReset,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: kSpacing),
           Form(

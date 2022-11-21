@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart';
-
+part of common.components;
 
 class UserProfileTile extends StatelessWidget {
   const UserProfileTile({

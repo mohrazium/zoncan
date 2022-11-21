@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:zoncan/constants/constants.dart';
-
-import 'colorize.dart';
-import 'fonts.dart';
+part of common.components;
 
 class LightTheme {
   static const kBorderWith = 1.2;
@@ -47,6 +42,7 @@ class LightTheme {
       caption: Fonts.caption());
 
   static InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
+    constraints: const BoxConstraints(minHeight: 50),
         contentPadding: const EdgeInsets.all(kPadding / 3),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(

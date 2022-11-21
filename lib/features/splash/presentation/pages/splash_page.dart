@@ -5,6 +5,10 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 1)).then((s) {
+      Modular.to.navigate(Routing.routes().home.path);
+    });
+
     return const SafeArea(
       child: SplashView(),
     );

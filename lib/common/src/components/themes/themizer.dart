@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:zoncan/common/src/components/themes/themes.dart';
-
-import 'dark_theme.dart';
-import 'light_theme.dart';
+part of common.components;
 
 class Themizer {
   Themizer._();

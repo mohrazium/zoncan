@@ -1,2 +1,6 @@
-export 'date_time_serializer.dart';
+library common.serializers;
+
+
 export 'model_serializers.dart';
+
+part 'date_time_serializer.dart';

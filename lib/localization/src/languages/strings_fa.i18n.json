@@ -42,5 +42,29 @@
   "yes": "بله",
   "no": "خیر",
   "ok": "باشه",
-  "accept": "تایید"
+  "accept": "تایید",
+  "validation": {
+    "notBeEmpty": "فیلد نباید خالی باشد",
+    "notValidNickname": "نام مستعار معتبر نیست",
+    "notValidUsername": "نام کاربری معتبر نیست",
+    "notValidEmail": "آدرس ایمیل معتبر نیست",
+    "notValidLength": "حداقل $length کاراکتر وارد کنید",
+    "notAllowedPassword": "رمز عبور قابل استفاده نیست لطفا رمز دیگری وارد کنید",
+    "passwordsIsNotMatch": "تکرار رمز عبور یکسان نیست",
+    "notValidPhoneNumber": "شماره تلفن معتبر نیست",
+    "notValidPostalCode": "کد پستی معتبر نیست",
+    "notValidNationalCode": "کد ملی معتبر نیست",
+    "alreadyExistsUsername": "نام کاربری قبلا ثبت شده است ",
+    "alreadyExistsEmail": "آدرس ایمیل قبلا ثبت شده است ",
+    "alreadyExistsPhoneNumber": "شماره تماس قلا ثبت شده است",
+    "alreadyExistsNationalCode": "کد ملی قبلا ثبت شده است",
+    "passwordLength": "رمز عبور حداقل باید ۶ کاراکتر باشد",
+    "passwordUpperCase": "رمز عبور حداقل باید شامل یک حرف بزرگ باشد",
+    "passwordLowerCase": "رمز عبور حداقل باید شامل یک حرف کوچک باشد",
+    "passwordDigit": "رمز عبور حداقل باید شامل یک عدد باشد",
+    "passwordNoSpace": "رمز عبور نباید شامل کاراکتر اسپیس باشد",
+    "passwordOnlyEnglish": "فقط از حروف انگلیسی استفاده کنید",
+    "passwordIsVeryWeak": "از رمز عبور قوی تری استفاده کنید"
+  },
+  "loadingPleaseWait": "در حال بارگذاری...لطفا صبر کنید"
 }

@@ -1,4 +1,7 @@
-library zoncan.common.generics;
+library common.generics;
 
-export 'base_service.dart';
-export 'base_storing.dart';
+import 'package:objectbox/objectbox.dart' show Box;
+
+part 'service.dart';
+part 'storing.dart';
+part 'controller.dart';

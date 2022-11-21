@@ -12,10 +12,11 @@ abstract class UserDetailsModel
   bool get isAuthenticated;
   bool get isEmailVerified;
   bool get isPhoneNumberVerified;
-  String get encryptedPassword;
+  String? get encryptedPassword;
   DateTime? get expirationDate;
   DateTime? get createdAt;
   DateTime? get updatedAt;
+
   factory UserDetailsModel({
     int? id,
     String? uid,
@@ -27,7 +28,7 @@ abstract class UserDetailsModel
     bool? isAuthenticated,
     bool? isEmailVerified,
     bool? isPhoneNumberVerified,
-    required String encryptedPassword,
+    String? encryptedPassword,
     DateTime? expirationDate,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -51,10 +52,13 @@ abstract class UserDetailsModel
           ..createdAt = (createdAt ?? DateTime.now()).toUtc()
           ..updatedAt = (updatedAt)?.toUtc(),
       );
+
   factory UserDetailsModel.builder(
       [void Function(UserDetailsModelBuilder) updates]) = _$UserDetailsModel;
 
   UserDetailsModel._();
+
+  factory UserDetailsModel.init() => UserDetailsModel(userName: "");
 
   static Serializer<UserDetailsModel> get serializer =>
       _$userDetailsModelSerializer;

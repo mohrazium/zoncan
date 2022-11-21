@@ -1,7 +1,4 @@
-
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart' show kBorderRadius;
-
+part of common.components;
 
 class UserProfileData {
   final ImageProvider image;
@@ -65,7 +62,7 @@ class UserProfile extends StatelessWidget {
   Widget _buildName() {
     return Text(
       data.name,
-      style:  const TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.bold,
       ),
       maxLines: 1,

@@ -1,11 +1,7 @@
 part of zoncan.config;
 
-late LoggerService logger;
+final LoggerService logger = Modular.get<LoggerService>();
 
-LoggerService _setLogger() {
-  logger = LoggerService();
-  return logger;
-}
 
 class LoggerService {
   static final List<String> _logs = [];
@@ -34,7 +30,7 @@ class LoggerService {
     return logger;
   }
 
-  static void setup() {
+  void setup() {
     Logger.root.level = Level.ALL;
     Logger.root.onRecord.listen((rec) async {
       var log =
@@ -45,6 +41,7 @@ class LoggerService {
         _logs.add(log);
       }
     });
-    _setLogger().log(level: Level.INFO, message: "Logger service is started...");
+    logger
+        .log(level: Level.INFO, message: "Logger service is started...");
   }
 }

@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+part of common.components;
 
 class SplashScreen extends StatefulWidget {
   /// Seconds to navigate after for time based navigation

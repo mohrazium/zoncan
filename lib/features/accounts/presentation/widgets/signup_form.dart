@@ -8,71 +8,133 @@ class SignupForm extends StatefulWidget {
 }
 
 class _SignupFormState extends State<SignupForm> {
+  final SignupController controller = Modular.get<SignupController>();
+  final con = Modular.get<AppStateController>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    controller.didChangeDependencies();
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var translator = Translations.of(context);
     return SingleChildScrollView(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-          const LoginHeader(),
-          Text(
-            translator.login.signup,
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          Form(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextBox(
+      child: Observer(builder: (obsContext) {
+        return Form(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                const LoginHeader(),
+                Text(
+                  translator.login.signup,
+                  style: Theme.of(obsContext)
+                      .textTheme
+                      .titleLarge
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                Observer(builder: (_) {
+                  return TextBox(
+                    controller: controller.nickNameController,
+                    onChanged: (value) => controller.nickName = value,
+                    errorText: controller.validator.nickNameError,
                     titleText: translator.fullName,
-                  ),
-                  TextBox(
-                    titleText: translator.login.userNameEmail,
-                  ),
-                  TextBox(
+                    isRequired: true,
+                  );
+                }),
+                Observer(builder: (_) {
+                  return TextBox(
+                    controller: controller.emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) => controller.email = value,
+                    errorText: controller.validator.emailError,
+                    titleText: translator.login.email,
+                    suffixWidget: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 300),
+                        opacity: controller.isEmailCheckPending ? 1 : 0,
+                        child: LoadingAnimationWidget.beat(
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 24)),
+                    isRequired: true,
+                  );
+                }),
+                Observer(builder: (_) {
+                  return TextBox(
+                    controller: controller.passwordController,
+                    onChanged: (value) => controller.password = value,
+                    errorText: controller.validator.passwordError,
                     titleText: translator.login.password,
                     isSecure: true,
-                  ),
-                  TextBox(
+                    isRequired: true,
+                  );
+                }),
+                Observer(builder: (_) {
+                  return TextBox(
+                    controller: controller.confirmPasswordController,
+                    onChanged: (value) => controller.confirmPassword = value,
+                    errorText: controller.validator.confirmPasswordError,
                     titleText: translator.login.passwordConfirmation,
                     isSecure: true,
-                  ),
-                ]),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                //TODO: Create confirm code view, this acceptance of signup or password reset
-              },
-              child: Text(
-                translator.login.signup,
-              )),
-          const SizedBox(height: kSpacing / 2),
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: "${translator.login.haveAccount} ",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                TextSpan(
-                  text: translator.login.loggedIn,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: Colors.blue),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      Modular.to.navigate(Routing.routes().login.path);
+                  );
+                }),
+                const SizedBox(height: kSpacing),
+                ElevatedButton(
+                    onPressed: () async {
+                      await controller.signup().then((value) async {
+                        if (value) {
+                          BotToast.showText(text: t.login.signupSuccess);
+                          Modular.to.navigate(Routing.routes().login.path);
+                          await Future.delayed(kDelayWaiting);
+                          BotToast.showText(text: t.login.loggedIn);
+                        } else {
+                          BotToast.showText(text: t.login.signupFail);
+                        }
+                      });
                     },
+                    child: Text(
+                      translator.login.signup,
+                    )),
+                const SizedBox(height: kSpacing / 2),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: translator.login.haveAccount,
+                        style: Theme.of(obsContext).textTheme.bodyMedium,
+                      ),
+                      TextSpan(
+                        text: translator.login.loggedIn,
+                        style: Theme.of(obsContext)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(color: Colors.blue),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Modular.to.navigate(Routing.routes().login.path);
+                          },
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
-        ]));
+              ]),
+        );
+      }),
+    );
   }
 }

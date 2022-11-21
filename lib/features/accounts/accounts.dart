@@ -13,7 +13,7 @@ export 'application/application.dart';
 
 class Accounts extends Module {
   @override
-  List<Bind> get binds => [];
+  List<Bind> get binds => Injector.inject().accountsBinds;
 
   @override
   List<ModularRoute> get routes => [

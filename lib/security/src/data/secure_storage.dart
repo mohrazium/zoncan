@@ -1,21 +1,21 @@
 part of zoncan.security;
 
-abstract class SecureStorage {
-  void initial(String secretKey, bool isData);
+abstract class SecureStorage { 
+   bool isData=false;
+  void initial(String secretKey);
   Future<bool> write(dynamic value);
   Future<dynamic> read([String? password]);
   Future<bool> delete();
 }
 
 class SecureStorageImpl extends SecureStorage {
-  late final bool _isData;
   late final String _secretKey;
   late final PasswordEncryption _passwordEncryption;
   late final DataEncryption _dataEncryption;
+
   @override
-  void initial(String secretKey, bool isData) {
+  void initial(String secretKey) {
     _secretKey = secretKey;
-    _isData = isData;
     _passwordEncryption = PasswordEncryption.initial(secretKey: _secretKey);
     _dataEncryption = DataEncryption.initial(secretKey: _secretKey);
   }
@@ -32,7 +32,7 @@ class SecureStorageImpl extends SecureStorage {
     _storage = await SharedPreferences.getInstance();
     String? storedValue = _storage.getString(_secretKey);
     if (storedValue != null) {
-      if (_isData) {
+      if (isData) {
         if (storedValue.contains("file:")) {
           storedValue = storedValue.replaceAll("file:", "");
           final data = await _dataEncryption.decryptB64(storedValue);
@@ -51,9 +51,10 @@ class SecureStorageImpl extends SecureStorage {
   Future<bool> write(dynamic value) async {
     _storage = await SharedPreferences.getInstance();
     late final String encodedData;
-    if (_isData) {
+    if (isData) {
       if (value is String) {
         encodedData = await _dataEncryption.encryptB64(value.toBytes());
+        print("encodedData $encodedData");
       } else if (value is File) {
         encodedData =
             "file:${await _dataEncryption.encryptB64(await value.readAsBytes())}";

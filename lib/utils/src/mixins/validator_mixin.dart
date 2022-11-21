@@ -9,43 +9,56 @@ mixin ValidatorMixin {
   String? nationalIdentityValidator(
       {var translator, required String? value, String? errorMessage}) {
     if (value!.isEmpty) {
-      return errorMessage ?? translator.notValidNationalIdentity ?? "Not valid national identity.";
+      return errorMessage ??
+          translator.notValidNationalIdentity ??
+          "Not valid national identity.";
     } else if (!verifyIranianNationalId(value)) {
       return errorMessage;
     }
   }
 
-  String? requiredFieldValidator({var translator, required String? value, String? errorMessage}) {
+  String? requiredFieldValidator(
+      {var translator, required String? value, String? errorMessage}) {
     if (value!.isEmpty) {
       return errorMessage ?? translator.isRequiredField ?? "Field is required.";
     }
     return null;
   }
 
-  String? beforeTodayValidator({var translator, required String? value, String? errorMessage}) {
+  String? beforeTodayValidator(
+      {var translator, required String? value, String? errorMessage}) {
     try {
       DateTime date = DateConverter.toDateTime(shamsiDate: value);
       if (!date.isBefore(DateTime.now())) {
-        return errorMessage ?? translator.isNotBeforeToday ?? "Date is not before today.";
+        return errorMessage ??
+            translator.isNotBeforeToday ??
+            "Date is not before today.";
       }
     } catch (ignore) {
       return null;
     }
   }
 
-  String? mobileNumberValidator({var translator, required String? value, String? errorMessage}) {
+  String? mobileNumberValidator(
+      {var translator, required String? value, String? errorMessage}) {
     if (value!.isEmpty) {
       return translator.isRequiredField ?? "Field is required.";
     } else {
       if (!phoneNumberValidator(value)) {
-        return errorMessage ?? translator.notValidPhoneNumber ?? "Phone number is not valid.";
+        return errorMessage ??
+            translator.notValidPhoneNumber ??
+            "Phone number is not valid.";
       }
     }
   }
 
   String? dateValidator(
-      {var translator, bool isRequired = false, required String? value, String? errorMessage}) {
-    final requiredFieldError = isRequired ? requiredFieldValidator(value: value) : null;
+      {var translator,
+      bool isRequired = false,
+      required String? value,
+      String? errorMessage}) {
+    final requiredFieldError =
+        isRequired ? requiredFieldValidator(value: value) : null;
     if (requiredFieldError == null) {
       RegExp dateRegExp = RegExp(
         r"[0-9]{4}/[0-9]{2}/[0-9]{2}",
@@ -72,7 +85,8 @@ mixin ValidatorMixin {
       bool isRequired = false,
       required String? startDate,
       required String? endDate}) {
-    final validDateError = dateValidator(isRequired: isRequired, value: endDate);
+    final validDateError =
+        dateValidator(isRequired: isRequired, value: endDate);
 
     if (validDateError == null) {
       try {
@@ -89,5 +103,9 @@ mixin ValidatorMixin {
     } else {
       return validDateError;
     }
+  }
+
+  bool isValidUsername(String username) {
+    return RegExp(r'^[a-zA-Z0-9._]{6,18}$').hasMatch(username);
   }
 }

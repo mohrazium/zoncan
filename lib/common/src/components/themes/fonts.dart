@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart';
-
-import 'colorize.dart';
+part of common.components;
 
 class Fonts {
   static double fontScale =

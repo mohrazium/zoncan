@@ -1,4 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
+part of common.storage;
 
 abstract class StorageProvider {
   Future<bool> write(String key, dynamic value);
@@ -48,11 +48,15 @@ class StorageProviderImpl extends StorageProvider {
       case String:
         return _storage.setString(key, value).then((bool success) => success);
       case List<String>:
-        return _storage.setStringList(key, value).then((bool success) => success);
+        return _storage
+            .setStringList(key, value)
+            .then((bool success) => success);
       case bool:
         return _storage.setBool(key, value).then((bool success) => success);
       default:
-        return _storage.setString(key, value.toString()).then((bool success) => success);
+        return _storage
+            .setString(key, value.toString())
+            .then((bool success) => success);
     }
   }
 }

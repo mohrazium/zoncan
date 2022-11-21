@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart' show kBorderRadius, kPadding;
+part of common.components;
 
 class GroupBox extends StatelessWidget {
   final Widget child;

@@ -1,7 +1,10 @@
 part of zoncan.app;
 
 class NavigatorHelper {
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> maiNavigatorKey =
+      GlobalKey<NavigatorState>();
+  static GlobalKey<NavigatorState> wrapNavigatorKey =
+      GlobalKey<NavigatorState>();
   static RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   static String getFirstRouteHistory() {
@@ -13,7 +16,7 @@ class NavigatorHelper {
     String route = "";
     try {
       List<ParallelRoute> history = Modular.to.navigateHistory;
-      route = history.first.uri.path;
+      route = history.last.uri.path;
     } catch (ignore) {
       //ignore
     }

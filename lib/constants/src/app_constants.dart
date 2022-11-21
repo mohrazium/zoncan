@@ -33,3 +33,5 @@ const kWatchScreenBreakPoint = 200.0;
 Locale get kDefaultLocale => const Locale('fa', 'IR');
 
 const kAnimationDuration = Duration(milliseconds: 250);
+
+const kDelayWaiting = Duration(seconds: 1);

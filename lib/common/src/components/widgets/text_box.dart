@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:zoncan/constants/constants.dart' show kBorderRadius, kPadding;
+part of common.components;
 
 class TextBox extends StatefulWidget {
   final String? titleText;
@@ -14,6 +12,7 @@ class TextBox extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final Widget? prefixIcon;
   final Icon? suffixIcon;
+  final Widget? suffixWidget;
   final TextInputType? keyboardType;
   final ValueChanged<String>? onChanged;
   final int maxLength;
@@ -24,6 +23,7 @@ class TextBox extends StatefulWidget {
   final TextInputAction? textInputAction;
   final List<TextInputFormatter>? inputFormatters;
   final bool isRequired;
+  final String? errorText;
 
   const TextBox({
     Key? key,
@@ -42,12 +42,14 @@ class TextBox extends StatefulWidget {
     this.onChanged,
     this.maxLength = 255,
     this.readOnly = false,
+    this.enabled = true,
     this.onSaved,
     this.onEditingComplete,
     this.textInputAction,
     this.inputFormatters,
-    this.enabled = true,
     this.isRequired = false,
+    this.errorText,
+    this.suffixWidget,
   }) : super(key: key);
 
   @override
@@ -85,7 +87,7 @@ class _TextBoxState extends State<TextBox> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: [
         widget.titleText != null
             ? Padding(
@@ -111,7 +113,6 @@ class _TextBoxState extends State<TextBox> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: kPadding / 3),
           child: SizedBox(
-            height: widget.maxLines == null ? widget.height : null,
             width: widget.width,
             child: TextFormField(
               textInputAction: widget.textInputAction,
@@ -132,6 +133,7 @@ class _TextBoxState extends State<TextBox> {
               maxLines: widget.isSecure ? 1 : widget.maxLines,
               textAlignVertical: TextAlignVertical.center,
               textAlign: TextAlign.start,
+              obscuringCharacter: "✺",
             ),
           ),
         ),
@@ -141,8 +143,12 @@ class _TextBoxState extends State<TextBox> {
 
   _getInputDecoration() {
     return InputDecoration(
+        isDense: true,
+        contentPadding: const EdgeInsets.all(kPadding * 0.8),
         hintText: widget.hintText,
         icon: widget.icon,
+        errorText: widget.errorText,
+        errorMaxLines: 1,
         prefixIcon: !widget.readOnly ? widget.prefixIcon : null,
         suffixIcon: widget.isSecure
             ? IconButton(
@@ -156,6 +162,6 @@ class _TextBoxState extends State<TextBox> {
                         });
                       },
               )
-            : widget.suffixIcon);
+            : widget.suffixIcon ?? widget.suffixWidget);
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of common.components;
 
 class HeaderText extends StatelessWidget {
   const HeaderText(
@@ -10,7 +10,10 @@ class HeaderText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       data,
-      style: Theme.of(context).textTheme.bodyText1?.copyWith(fontWeight: FontWeight.bold),
+      style: Theme.of(context)
+          .textTheme
+          .bodyText1
+          ?.copyWith(fontWeight: FontWeight.bold),
     );
   }
 }

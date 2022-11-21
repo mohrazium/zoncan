@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of common.components;
 
 class UnsupportedSizeScreen extends StatelessWidget {
   const UnsupportedSizeScreen({

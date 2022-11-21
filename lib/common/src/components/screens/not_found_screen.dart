@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart';
+part of common.components;
 
 class NotFoundScreen extends StatelessWidget {
   const NotFoundScreen({

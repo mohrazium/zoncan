@@ -1,12 +1,4 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart' show kPadding, kSpacing;
-import 'package:zoncan/localization/localization.dart';
-import 'package:zoncan/utils/utils.dart' show DateConverterMixin;
-
-import '../themes/colorize.dart';
-import '../themes/themizer.dart';
-import 'group_box.dart';
+part of common.components;
 
 class FormCard extends StatelessWidget with DateConverterMixin {
   final Key? globalFormKey;
@@ -99,7 +91,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
           size: 24,
         ),
         onPressed: () => onConfirmButtonPressed(),
-        label: Text(readyOnly ? translator.edit : translator.save),
+        label: Text(readyOnly ? translator.edit : translator.CantCREATE),
       );
     }
 

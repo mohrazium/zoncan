@@ -21,7 +21,10 @@ class _LoginFormState extends State<LoginForm> {
           const LoginHeader(),
           Text(
             translator.login.login,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: kSpacing),
           Form(

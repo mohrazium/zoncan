@@ -1,9 +1,4 @@
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:zoncan/constants/constants.dart' show kPadding, kTextFieldWidth;
-import 'package:zoncan/localization/localization.dart';
-
-import 'group_box.dart';
+part of common.components;
 
 class ImageViewPersonalPic extends StatelessWidget {
   final Image image;
@@ -37,14 +32,18 @@ class ImageViewPersonalPic extends StatelessWidget {
                     ),
                     onPressed: onNewPressed,
                     icon: const Icon(EvaIcons.personAdd),
-                    label: SizedBox(width: 200, child: Center(child: Text(translator.addNew)))),
+                    label: SizedBox(
+                        width: 200,
+                        child: Center(child: Text(translator.addNew)))),
                 ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       fixedSize: const Size(90, 40),
                     ),
                     onPressed: onRemovePressed,
                     icon: const Icon(EvaIcons.personDelete),
-                    label: SizedBox(width: 200, child: Center(child: Text(translator.remove)))),
+                    label: SizedBox(
+                        width: 200,
+                        child: Center(child: Text(translator.remove)))),
               ],
             )
           ],

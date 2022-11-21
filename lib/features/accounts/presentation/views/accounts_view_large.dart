@@ -37,7 +37,7 @@ class _AccountsViewLargeState extends State<AccountsViewLarge> {
                     color: Theme.of(context).splashColor,
                     padding: const EdgeInsets.all(8),
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
-                    height: 600,
+                    height: 650,
                     width: 1000,
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

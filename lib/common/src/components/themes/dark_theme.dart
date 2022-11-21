@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:zoncan/constants/constants.dart';
-
-import 'colorize.dart';
-import 'fonts.dart';
+part of common.components;
 
 class DarkTheme {
   static const kBorderWith = 1.2;

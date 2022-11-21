@@ -1,8 +1,4 @@
-import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:zoncan/localization/localization.dart';
-import 'package:zoncan/settings/settings.dart' show SettingsProvider;
+part of common.components;
 
 class LanguageChanger extends StatefulWidget {
   const LanguageChanger({Key? key}) : super(key: key);
@@ -21,8 +17,9 @@ class _LanguageChangerState extends State<LanguageChanger> {
 
   void changeLanguageTo(String languageCode, BuildContext ctx) {
     LocaleSettings.setLocaleRaw(languageCode);
-    Modular.get<SettingsProvider>().saveLocalSettings(languageCode).then(
-        (value) =>
+    Modular.get<SettingsProvider>()
+        .saveLocalSettings(languageCode)
+        .whenComplete(() =>
             BotToast.showText(text: Translations.of(ctx).languageChanged));
   }
 
