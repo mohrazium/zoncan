@@ -24,6 +24,7 @@ class TextBox extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool isRequired;
   final String? errorText;
+  final bool autofocus;
 
   const TextBox({
     Key? key,
@@ -49,7 +50,7 @@ class TextBox extends StatefulWidget {
     this.inputFormatters,
     this.isRequired = false,
     this.errorText,
-    this.suffixWidget,
+    this.suffixWidget, this.autofocus=false,
   }) : super(key: key);
 
   @override
@@ -115,6 +116,7 @@ class _TextBoxState extends State<TextBox> {
           child: SizedBox(
             width: widget.width,
             child: TextFormField(
+              autofocus: widget.autofocus,
               textInputAction: widget.textInputAction,
               readOnly: widget.readOnly,
               enabled: widget.enabled,

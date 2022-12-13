@@ -3,7 +3,7 @@ part of zoncan.security;
 const String _kSecretKey = "k53cr3tK3yPa55w0rd";
 
 abstract class AuthService {
-  bool isUserLoggedIn();
+  Future<bool> isUserLoggedIn();
   Future<bool> usernameAlreadyExists(String username);
   Future<bool> emailAddressAlreadyExists(String email);
   Future<UserDetailsModel?> signup(UserDetailsModel user, String password);
@@ -29,9 +29,8 @@ class AuthServiceImpl extends AuthService {
   }
 
   @override
-  bool isUserLoggedIn() {
-    //TODO: [ZON-10] AuthService : implement isUserLoggedIn
-    return false;
+  Future<bool> isUserLoggedIn() async {
+    return await _getUserDetails() != null;
   }
 
   @override
@@ -79,20 +78,54 @@ class AuthServiceImpl extends AuthService {
 
   @override
   Future<UserDetailsModel?> login(String username, String password) async {
-    //TODO: [ZON-12] AuthService : implement login
-    throw UnimplementedError();
+    return await _getUserDetails().then((inCacheUser) async {
+      if (inCacheUser != null) {
+        if (await _verifyPassword(inCacheUser.encryptedPassword!, password)) {
+          return inCacheUser;
+        }
+      } else {
+        if (isEmail(username)) {
+          final foundedUser = await _userDetailsService.findByEmail(username);
+          if (await _verifyPassword(
+              foundedUser!.encryptedPassword!, password)) {
+            _saveUserDetails(foundedUser);
+            return foundedUser;
+          }
+        } else {
+          final foundedUser =
+              await _userDetailsService.findByUsername(username);
+          if (await _verifyPassword(
+              foundedUser!.encryptedPassword!, password)) {
+            _saveUserDetails(foundedUser);
+            return foundedUser;
+          }
+        }
+      }
+    }).onError((error, stackTrace) =>
+        throw FailureException(error: error, stackTrace: stackTrace));
   }
 
   Future<bool> _saveUserDetails(UserDetailsModel user) async {
-    return _storage.write(user.toJson());
+    return _storage.write(SecurityKeys.userDetails, user.toJson());
   }
 
-  Future<UserDetailsModel> _getUserDetails() {
-    return _storage.read().then((u) => UserDetailsModel.fromJson(u));
+  Future<UserDetailsModel?> _getUserDetails() {
+    return _storage
+        .read(SecurityKeys.userDetails)
+        .then((u) => UserDetailsModel.fromJson(u));
   }
 
   Future<bool> _deleteUserDetails() {
-    return _storage.delete();
+    return _storage.delete(
+      SecurityKeys.userDetails,
+    );
+  }
+
+  Future<bool> _verifyPassword(
+      String b64HashedPassword, String password) async {
+    return await _passwordEncryption.verifyB64(password, b64HashedPassword)
+        ? true
+        : throw FailureException(message: "password not matching!");
   }
 
   @override

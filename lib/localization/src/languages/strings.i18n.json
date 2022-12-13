@@ -64,7 +64,12 @@
     "passwordDigit": "Your password should contain one digit!",
     "passwordNoSpace": "Your password should not contain spaces!",
     "passwordOnlyEnglish": "َUse only English letters!",
-    "passwordIsVeryWeak": "Your password is Very weak!, please input strange one!"
+    "passwordIsVeryWeak": "Your password is Very weak!, please input strange one!",
+    "pleaseEnterPassword": "Please enter your password!",
+    "pleaseEnterUsernameOrEmail": "Please enter your username or email",
+    "usernameNotExists": "Username not exists",
+    "emailNotExists": "email not exists"
+
   },
-  "loadingPleaseWait": "Loading...,Please wait!"
+  "loadingPleaseWait": "Loading...\nPlease wait!"
 }

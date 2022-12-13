@@ -50,7 +50,7 @@ class App extends Module {
         ModuleRoute(
           Routing.routes().home.path,
           module: Home(),
-          guards: [AuthGuard()],
+         guards: [AuthGuard()],
           transition: TransitionType.fadeIn,
           duration: kAnimationDuration,
         ),

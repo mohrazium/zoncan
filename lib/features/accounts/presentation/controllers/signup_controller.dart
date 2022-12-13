@@ -2,7 +2,7 @@ part of zoncan.features.accounts.presentation;
 
 class SignupFormValidator = _SignupFormValidator with _$SignupFormValidator;
 
-abstract class _SignupFormValidator with Store {
+abstract class _SignupFormValidator with Store, ValidatorMixin {
   @observable
   String? nickNameError;
   @observable
@@ -63,8 +63,7 @@ class SignupController extends _SignupController
   }
 }
 
-abstract class _SignupController
-    with Store, ValidatorMixin, DateConverterMixin {
+abstract class _SignupController with Store {
   @protected
   final AuthService authService;
   @protected
@@ -128,7 +127,7 @@ abstract class _SignupController
       validator.usernameError = t.validation.notBeEmpty;
     } else if (username.length <= 6) {
       validator.usernameError = t.validation.notValidLength(length: 6);
-    } else if (!isValidUsername(username)) {
+    } else if (!validator.isValidUsername(username)) {
       validator.usernameError = t.validation.notValidUsername;
     } else {
       usernameCheck = ObservableFuture(
@@ -170,6 +169,8 @@ abstract class _SignupController
     validator.passwordError = null;
     if (password.isEmpty) {
       validator.passwordError = t.validation.notBeEmpty;
+    } else if (password.contains(" ")) {
+      validator.passwordError = t.validation.passwordNoSpace;
     } else {
       var passwordErrors = passwordChecker.check(password);
       if (passwordErrors != null) {

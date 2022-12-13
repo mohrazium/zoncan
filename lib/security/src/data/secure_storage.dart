@@ -1,11 +1,16 @@
 part of zoncan.security;
 
-abstract class SecureStorage { 
-   bool isData=false;
+enum SecurityKeys {
+  userDetails,
+  isUserLoggedIn,
+}
+
+abstract class SecureStorage {
+  bool isData = false;
   void initial(String secretKey);
-  Future<bool> write(dynamic value);
-  Future<dynamic> read([String? password]);
-  Future<bool> delete();
+  Future<bool> write(SecurityKeys key, dynamic value);
+  Future<dynamic> read(SecurityKeys key, [String? password]);
+  Future<bool> delete(SecurityKeys key);
 }
 
 class SecureStorageImpl extends SecureStorage {
@@ -22,15 +27,17 @@ class SecureStorageImpl extends SecureStorage {
 
   late SharedPreferences _storage;
   @override
-  Future<bool> delete() async {
+  Future<bool> delete(SecurityKeys key) async {
     _storage = await SharedPreferences.getInstance();
-    return _storage.remove(_secretKey).then((bool success) => success);
+    return _storage
+        .remove(key.name + _secretKey)
+        .then((bool success) => success);
   }
 
   @override
-  Future<dynamic> read([String? password]) async {
+  Future<dynamic> read(SecurityKeys key, [String? password]) async {
     _storage = await SharedPreferences.getInstance();
-    String? storedValue = _storage.getString(_secretKey);
+    String? storedValue = _storage.getString(key.name + _secretKey);
     if (storedValue != null) {
       if (isData) {
         if (storedValue.contains("file:")) {
@@ -48,7 +55,7 @@ class SecureStorageImpl extends SecureStorage {
   }
 
   @override
-  Future<bool> write(dynamic value) async {
+  Future<bool> write(SecurityKeys key, dynamic value) async {
     _storage = await SharedPreferences.getInstance();
     late final String encodedData;
     if (isData) {
@@ -65,7 +72,7 @@ class SecureStorageImpl extends SecureStorage {
       encodedData = await _passwordEncryption.hashB64(value.toString());
     }
     return _storage
-        .setString(_secretKey, encodedData)
+        .setString(key.name + _secretKey, encodedData)
         .then((bool success) => success);
   }
 }

@@ -64,7 +64,11 @@
     "passwordDigit": "رمز عبور حداقل باید شامل یک عدد باشد",
     "passwordNoSpace": "رمز عبور نباید شامل کاراکتر اسپیس باشد",
     "passwordOnlyEnglish": "فقط از حروف انگلیسی استفاده کنید",
-    "passwordIsVeryWeak": "از رمز عبور قوی تری استفاده کنید"
+    "passwordIsVeryWeak": "از رمز عبور قوی تری استفاده کنید",
+    "pleaseEnterPassword": "لطفا رمز عبور خود را وارد کنید",
+    "pleaseEnterUsernameOrEmail": "نام کاربری یا ایمیلتان را وارد کنید",
+    "usernameNotExists": "نام کاربری در سیستم وجود ندارد",
+    "emailNotExists": "آدرس ایمیل در سیستم وجود ندارد"
   },
-  "loadingPleaseWait": "در حال بارگذاری...لطفا صبر کنید"
+  "loadingPleaseWait": "درحال بارگذاری...\n لطفا صبر کنید"
 }

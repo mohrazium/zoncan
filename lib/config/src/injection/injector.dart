@@ -20,5 +20,6 @@ class Injector {
         Bind.singleton<StrengthPasswordChecker>(
             (i) => StrengthPasswordChecker()),
         Bind.factory<SignupController>((i) => SignupController(i(), i(), i())),
+        Bind.factory<LoginController>((i) => LoginController(i(), i())),
       ];
 }

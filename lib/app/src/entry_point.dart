@@ -18,7 +18,12 @@ class Zoncan extends StatefulWidget {
 
 class _ZoncanState extends State<Zoncan> {
   late final Function(BuildContext, Widget? child) botToastBuilder;
-  final appController = Modular.get<AppStateController>();
+  final appStateController = Modular.get<AppStateController>();
+
+  Future<void> databaseSetup() async {
+    final db = await Modular.getAsync<ZoncanDatabase>();
+    logger.info(" db into ${db.store.directoryPath}");
+  }
 
   Future<void> loadSettings() async {
     await Modular.get<SettingsProvider>().getLocalSettings().then((local) {
@@ -32,13 +37,14 @@ class _ZoncanState extends State<Zoncan> {
   void initState() {
     super.initState();
     logger.setup();
+
     if (kDebugMode) {
       mainContext.config = mainContext.config.clone(
         isSpyEnabled: true,
       );
       mainContext.spy((e) => logger.info(e.toString()));
     }
-
+    databaseSetup();
     Modular.setNavigatorKey(NavigatorHelper.maiNavigatorKey);
 
     Modular.setInitialRoute(Routing.routes().splash.path);
@@ -55,56 +61,57 @@ class _ZoncanState extends State<Zoncan> {
     Modular.to.addListener(() =>
         logger.info("Route changed to ${NavigatorHelper.currentRoute()}"));
 
-    appController.initState();
+    appStateController.initState();
   }
 
   @override
   void didChangeDependencies() {
-    appController.didChangeDependencies();
+    appStateController.didChangeDependencies();
     super.didChangeDependencies();
   }
 
   @override
   void dispose() {
-    appController.dispose();
+    appStateController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     var translator = Translations.of(context);
+
     return MaterialApp(
         theme: Themizer.light,
         darkTheme: Themizer.dark,
-        themeMode: appController.themeMode,
+        themeMode: appStateController.themeMode,
         navigatorKey: NavigatorHelper.wrapNavigatorKey,
         home: ReactionBuilder(
           builder: (reactionContext) {
             return autorun((_) {
-              if (appController.isLoading) {
+              if (appStateController.isLoading) {
                 LoadingScreen.instance.show(
-                    context: reactionContext, text: appController.loadingText);
+                    context: reactionContext, text: appStateController.loadingText);
               } else {
                 LoadingScreen.instance.hide();
               }
 
-              if (appController.errorHappened) {
-                if (appController.exception!.justMessage) {
+              if (appStateController.errorHappened) {
+                if (appStateController.exception!.justMessage) {
                   DialogHelper.showMessageBox(
                       context: reactionContext,
                       title: "خطا",
                       dialogButtons: DialogButtons.OK,
-                      message: appController.exception!.message!,
+                      message: appStateController.exception!.message!,
                       dialogType: DialogType.ERROR);
                 } else {
                   DialogHelper.showCrashReport(
                     reactionContext,
                     logger,
                     "خطا",
-                    appController.exception.toString(),
+                    appStateController.exception.toString(),
                   );
                 }
-                appController.throwException(null);
+                appStateController.throwException(null);
               }
             });
           },
@@ -125,7 +132,7 @@ class _ZoncanState extends State<Zoncan> {
               ],
               routeInformationParser: Modular.routeInformationParser,
               routerDelegate: Modular.routerDelegate,
-              themeMode: appController.themeMode,
+              themeMode: appStateController.themeMode,
               theme: Themizer.light,
               darkTheme: Themizer.dark,
             );

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'generated/generated.dart';
 
 class ZoncanDatabase {
@@ -10,7 +12,13 @@ class ZoncanDatabase {
 
   /// Create an instance of ObjectBox to use throughout the app.
   static Future<ZoncanDatabase> create() async {
-    final store = await openStore(directory: "/home/mohrazium/Documents/zoncan/data/");
+    const dbPath = "/home/mohrazium/Documents/zoncan";
+    final path = Directory(dbPath);
+    if (!await path.exists()) {
+      path.create();
+    }
+
+    final store = await openStore(directory: dbPath);
     return ZoncanDatabase._create(store);
   }
 }

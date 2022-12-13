@@ -9,7 +9,6 @@ class SignupForm extends StatefulWidget {
 
 class _SignupFormState extends State<SignupForm> {
   final SignupController controller = Modular.get<SignupController>();
-  final con = Modular.get<AppStateController>();
 
   @override
   void initState() {
@@ -51,6 +50,7 @@ class _SignupFormState extends State<SignupForm> {
                 ),
                 Observer(builder: (_) {
                   return TextBox(
+                    autofocus: true,
                     controller: controller.nickNameController,
                     onChanged: (value) => controller.nickName = value,
                     errorText: controller.validator.nickNameError,

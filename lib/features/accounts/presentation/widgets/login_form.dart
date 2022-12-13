@@ -8,7 +8,25 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  bool isRememberMe = false;
+  final LoginController controller = Modular.get<LoginController>();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    controller.didChangeDependencies();
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +51,30 @@ class _LoginFormState extends State<LoginForm> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  TextBox(
-                    titleText: translator.login.userNameEmail,
-                  ),
-                  TextBox(
-                    titleText: translator.login.password,
-                    isSecure: true,
-                  ),
+                  Observer(
+                      builder: (_) => TextBox(
+                            controller: controller.usernameController,
+                            errorText: controller.validator.usernameError,
+                            onChanged: (value) => controller.username = value,
+                            suffixWidget: AnimatedOpacity(
+                                duration: const Duration(milliseconds: 300),
+                                opacity:
+                                    controller.isUsernameAbilityPending ? 1 : 0,
+                                child: LoadingAnimationWidget.beat(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    size: 24)),
+                            autofocus: true,
+                            titleText: translator.login.userNameEmail,
+                          )),
+                  Observer(
+                      builder: (_) => TextBox(
+                            controller: controller.passwordController,
+                            errorText: controller.validator.passwordError,
+                            onChanged: (value) => controller.password = value,
+                            titleText: translator.login.password,
+                            isSecure: true,
+                          ))
                 ]),
           ),
           const SizedBox(height: kSpacing),
@@ -48,18 +83,15 @@ class _LoginFormState extends State<LoginForm> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               children: [
-                //TODO: declare rememberMe in controller
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Checkbox(
-                      onChanged: (onChanged) {
-                        setState(() {
-                          isRememberMe = onChanged!;
-                        });
-                      },
-                      value: isRememberMe,
-                    ),
+                    Observer(
+                        builder: (_) => Checkbox(
+                              onChanged: (onChanged) =>
+                                  controller.changeRememberMe(onChanged!),
+                              value: controller.rememberMe,
+                            )),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: Text(translator.login.rememberMe),
@@ -88,6 +120,19 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: kSpacing),
           ElevatedButton(
               onPressed: () async {
+
+                  await controller.login().then((value) async {
+                  if (value) {
+                    BotToast.showText(text: t.login.loginSuccess);
+                    Modular.to.navigate(Routing.routes().home.path);
+                    await Future.delayed(kDelayWaiting);
+                    BotToast.showText(text: t.login.loggedIn);
+                  } else {
+                    BotToast.showText(text: t.login.loginFail);
+                                    Modular.to.navigate(Routing.routes().home.path);
+
+                  }
+                });
               },
               child: Text(
                 translator.login.login,
