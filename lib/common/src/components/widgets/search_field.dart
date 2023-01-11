@@ -12,15 +12,14 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var translator = Translations.of(context);
     return Padding(
-      padding: const EdgeInsets.only(top: kPadding - 5),
+      padding:  EdgeInsets.only(top: kPadding * Fonts.instance.fontScale - 5),
       child: TextBox(
         width: double.maxFinite,
-        height: 55,
+        height: 55 * Fonts.instance.fontScale,
         controller: controller,
-        prefixIcon: const Icon(EvaIcons.search),
-        hintText: translator.search,
+        prefixIcon:  Icon(EvaIcons.search , size: 16 * Fonts.instance.fontScale),
+        hintText: t.search,
         onChanged: onSearch,
         textInputAction: TextInputAction.search,
       ),

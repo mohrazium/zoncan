@@ -149,7 +149,7 @@ class DialogHelper {
       centerTitle: true,
       title: Text(
         title,
-        style: Fonts.headline6(),
+        style: Fonts.instance.headline6(),
       ),
       elevation: 0.0,
     );

@@ -13,13 +13,13 @@ class UserProfileTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: kPadding),
       child: ListTile(
         leading: _buildAvatar(context),
         title: _buildName(context),
         trailing: IconButton(
           onPressed: onPressed,
-          icon: const Icon(Icons.more_horiz),
+          icon:  Icon(Icons.more_horiz,size:16 * Fonts.instance.fontScale),
           splashRadius: kBorderRadius,
         ),
       ),
@@ -46,7 +46,7 @@ class UserProfileTile extends StatelessWidget {
       style: TextStyle(
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.surface,
-        fontSize: 13,
+        fontSize: 13 * Fonts.instance.fontScale,
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,

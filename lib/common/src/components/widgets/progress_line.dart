@@ -26,8 +26,8 @@ class ProgressLine extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildText(context),
-        const SizedBox(
-          height: kSpacing / 5,
+         SizedBox(
+          height: kSpacing / 5 * Fonts.instance.fontScale,
         ),
         _buildProgress(context),
       ],
@@ -41,15 +41,15 @@ class ProgressLine extends StatelessWidget {
       style: TextStyle(
         fontWeight: FontWeight.w600,
         color: Theme.of(context).colorScheme.surface,
-        fontSize: 13,
+        fontSize: 13 * Fonts.instance.fontScale,
       ),
     );
   }
 
   Widget _buildProgress(BuildContext context) {
     return LinearPercentIndicator(
-      lineHeight: kSpacing / 3,
-      width: kSpacing * 10,
+      lineHeight: kSpacing / 3 * Fonts.instance.fontScale,
+      width: kSpacing * Fonts.instance.fontScale  * 10,
       percent: data.totalSoldiers / data.unitCapacity,
       progressColor: Theme.of(context).colorScheme.primary,
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,

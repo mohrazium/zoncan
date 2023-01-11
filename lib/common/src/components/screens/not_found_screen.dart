@@ -22,19 +22,28 @@ class NotFoundScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.5,
                   width: MediaQuery.of(context).size.width * 0.5,
                 ),
-                 SizedBox(
-height: MediaQuery.of(context).size.height * 0.05,                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
                 const Text(
                   "اوه, متاسفم!",
                   style: TextStyle(fontSize: 20, fontFamily: 'B Titr'),
                 ),
-               const SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 const Text(
                   "صفحه مورد نظر یافت نشد.",
                   style: TextStyle(fontSize: 18, fontFamily: 'B Titr'),
-                )
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Modular.to.pop();
+                    },
+                    child: Text("بازگشت"))
               ],
             ),
           ),

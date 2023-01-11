@@ -87,17 +87,83 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:6834966769845551751",
+      "lastPropertyId": "10:1775750107339112014",
+      "name": "AuditTable",
+      "properties": [
+        {
+          "id": "1:6769074551607599029",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:626313171657658551",
+          "name": "createdBy",
+          "type": 9
+        },
+        {
+          "id": "4:4706996830914703102",
+          "name": "targetTable",
+          "type": 9
+        },
+        {
+          "id": "5:6546579518192930529",
+          "name": "targetId",
+          "type": 9
+        },
+        {
+          "id": "6:4352572314562760483",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "7:7495641527272214256",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "8:196762152268628718",
+          "name": "deletedAt",
+          "type": 10
+        },
+        {
+          "id": "9:2264070504122680969",
+          "name": "updatedBy",
+          "type": 9
+        },
+        {
+          "id": "10:1775750107339112014",
+          "name": "deletedBy",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:3773626105157275453",
+  "lastEntityId": "3:6834966769845551751",
   "lastIndexId": "3:599705255692181182",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    1931035274357538541
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    2877340023199186465,
+    3751361621372972107,
+    3738745050731312413,
+    4544013121545641502,
+    7070281066409017636,
+    3051113683605226925,
+    6815214722837244745,
+    7172183027491175979,
+    1001473797923993915
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

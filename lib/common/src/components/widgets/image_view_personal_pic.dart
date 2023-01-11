@@ -16,8 +16,8 @@ class ImageViewPersonalPic extends StatelessWidget {
   Widget build(BuildContext context) {
     var translator = Translations.of(context);
     return GroupBox(
-        width: kTextFieldWidth,
-        height: kTextFieldWidth * 1.2,
+        width: kTextFieldWidth * Fonts.instance.fontScale,
+        height: kTextFieldWidth * Fonts.instance.fontScale * 1.2 ,
         margin: const EdgeInsets.all(kPadding),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,21 +28,21 @@ class ImageViewPersonalPic extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(90, 40),
+                      fixedSize:  Size(90 * Fonts.instance.fontScale, 40 * Fonts.instance.fontScale),
                     ),
                     onPressed: onNewPressed,
                     icon: const Icon(EvaIcons.personAdd),
                     label: SizedBox(
-                        width: 200,
+                        width: 200 * Fonts.instance.fontScale,
                         child: Center(child: Text(translator.addNew)))),
                 ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(90, 40),
+                      fixedSize:  Size(90 * Fonts.instance.fontScale, 40 * Fonts.instance.fontScale),
                     ),
                     onPressed: onRemovePressed,
                     icon: const Icon(EvaIcons.personDelete),
                     label: SizedBox(
-                        width: 200,
+                        width: 200 * Fonts.instance.fontScale,
                         child: Center(child: Text(translator.remove)))),
               ],
             )

@@ -8,6 +8,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:password_policy/password_policy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validators2/validators.dart';
+import 'package:zoncan/common/common.dart' show Auditor, StorageProvider;
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/constants/constants.dart';
 import 'package:zoncan/exceptions/exceptions.dart';

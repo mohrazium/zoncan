@@ -34,7 +34,7 @@ class UserProfile extends StatelessWidget {
           child: Row(
             children: [
               _buildImage(),
-              const SizedBox(width: 10),
+               SizedBox(width: 10 * Fonts.instance.fontScale),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

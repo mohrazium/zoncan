@@ -27,13 +27,13 @@ class StatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(kBorderRadius),
       child: Material(
         child: InkWell(
           onTap: () {},
           child: Container(
-            width: 250,
-            height: 250,
+            width: 250 * Fonts.instance.fontScale,
+            height: 250 * Fonts.instance.fontScale,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [primary, primary.withOpacity(.7)],
@@ -43,18 +43,18 @@ class StatusCard extends StatelessWidget {
             ),
             child: _BackgroundDecoration(
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding:  EdgeInsets.all(kPadding * Fonts.instance.fontScale),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: 150,
+                      height: 150 * Fonts.instance.fontScale,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           _buildLabel(),
-                          const SizedBox(height: 20),
+                           SizedBox(height: 20 * Fonts.instance.fontScale),
                           _buildValuePresenter(),
                         ],
                       ),
@@ -90,7 +90,7 @@ class StatusCard extends StatelessWidget {
     return Text(
       convertEnToFa(data.label),
       style: TextStyle(
-        fontSize: 18,
+        fontSize: 18 * Fonts.instance.fontScale,
         fontWeight: FontWeight.w800,
         color: onPrimary,
         letterSpacing: 1,
@@ -106,18 +106,18 @@ class StatusCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 200,
+          width: 200 * Fonts.instance.fontScale,
           decoration: BoxDecoration(
             color: onPrimary.withOpacity(.3),
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(kBorderRadius),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          padding:  EdgeInsets.symmetric(horizontal: 10 * Fonts.instance.fontScale, vertical: 5 * Fonts.instance.fontScale),
           child: Center(
             child: Text(
               convertEnToFa(data.value),
               style: TextStyle(
                 color: onPrimary,
-                fontSize: Fonts.headline3().fontSize,
+                fontSize: Fonts.instance.headline3().fontSize,
                 letterSpacing: 1,
               ),
               maxLines: 1,
@@ -177,13 +177,13 @@ class _IconLabel extends StatelessWidget {
         Icon(
           iconData,
           color: color,
-          size: Fonts.subtitle1().fontSize,
+          size: Fonts.instance.subtitle1().fontSize,
         ),
-        const SizedBox(width: 5),
+         SizedBox(width: 5 * Fonts.instance.fontScale),
         Text(
           label,
           style: TextStyle(
-            fontSize: Fonts.subtitle1().fontSize,
+            fontSize: Fonts.instance.subtitle1().fontSize,
             color: color.withOpacity(.8),
           ),
         )
@@ -207,7 +207,7 @@ class _BackgroundDecoration extends StatelessWidget {
           child: Transform.translate(
             offset: const Offset(25, -25),
             child: CircleAvatar(
-              radius: 50,
+              radius: 50 * Fonts.instance.fontScale,
               backgroundColor: Colors.white.withOpacity(.1),
             ),
           ),
@@ -217,7 +217,7 @@ class _BackgroundDecoration extends StatelessWidget {
           child: Transform.translate(
             offset: const Offset(-70, 70),
             child: CircleAvatar(
-              radius: 100,
+              radius: 100 * Fonts.instance.fontScale,
               backgroundColor: Colors.white.withOpacity(.1),
             ),
           ),

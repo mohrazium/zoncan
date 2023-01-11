@@ -50,7 +50,8 @@ class TextBox extends StatefulWidget {
     this.inputFormatters,
     this.isRequired = false,
     this.errorText,
-    this.suffixWidget, this.autofocus=false,
+    this.suffixWidget,
+    this.autofocus = false,
   }) : super(key: key);
 
   @override
@@ -103,7 +104,7 @@ class _TextBoxState extends State<TextBox> {
                       width: 1,
                     ),
                     Text(
-                      widget.isRequired ? "*" : "",
+                      widget.isRequired ? "❋" : "",
                       style:
                           TextStyle(color: Theme.of(context).colorScheme.error),
                     ),
@@ -155,7 +156,13 @@ class _TextBoxState extends State<TextBox> {
         suffixIcon: widget.isSecure
             ? IconButton(
                 padding: const EdgeInsets.all(0.0),
-                icon: _textFieldIcon,
+                icon: Icon(_textFieldIcon.icon,
+                    color: _textFieldIcon.color,
+                    key: _textFieldIcon.key,
+                    size: _textFieldIcon.size ?? 24 * Fonts.instance.fontScale,
+                    textDirection: _textFieldIcon.textDirection,
+                    semanticLabel: _textFieldIcon.semanticLabel,
+                    shadows: _textFieldIcon.shadows),
                 onPressed: widget.readOnly
                     ? null
                     : () {

@@ -16,7 +16,8 @@ class Route {
 }
 
 class Routing {
-  Routing.routes();
+  Routing();
+  static Routing to = Routing();
   Route get notFound => const Route(
         "/not-found/",
         key: ValueKey("not-found-key"),
@@ -42,21 +43,21 @@ class Routing {
         title: "Accounts",
         named: "/accounts",
       );
-  Route get login =>  Route(
+  Route get login => Route(
         "${accounts.named}/login",
         key: const ValueKey("login-key"),
         title: "Login",
         named: "/login",
       );
-  Route get signup =>  Route(
+  Route get signup => Route(
         "${accounts.named}/signup",
-        key:const ValueKey("signup-key"),
+        key: const ValueKey("signup-key"),
         title: "Sign up",
         named: "/signup",
       );
-  Route get passwordReset =>  Route(
+  Route get passwordReset => Route(
         "${accounts.named}/password-reset",
-        key:const ValueKey("password-reset-key"),
+        key: const ValueKey("password-reset-key"),
         title: "Password Reset",
         named: "/password-reset",
       );

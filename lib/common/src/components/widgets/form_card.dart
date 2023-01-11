@@ -7,6 +7,8 @@ class FormCard extends StatelessWidget with DateConverterMixin {
   final Function() onCancelButtonPressed;
   final double? maxWidth;
   final double? minWidth;
+  final double? maxHeight;
+  final double? minHeight;
   final Color? color;
   final Color? headerColor;
   final Widget headerContent;
@@ -22,21 +24,22 @@ class FormCard extends StatelessWidget with DateConverterMixin {
     required this.readyOnly,
     required this.onConfirmButtonPressed,
     required this.onCancelButtonPressed,
-    this.maxWidth,
+    this.maxWidth = 200,
     this.minWidth,
+    this.maxHeight,
+    this.minHeight,
     this.color,
     this.headerColor,
     required this.headerContent,
     required this.child,
-    this.haveShadow = false,
-    this.footerChild,
     this.createdAt,
     this.updatedAt,
+    this.haveShadow = false,
+    this.footerChild,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var translator = Translations.of(context);
     return Form(
       key: globalFormKey,
       child: Column(
@@ -44,65 +47,45 @@ class FormCard extends StatelessWidget with DateConverterMixin {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(
-                minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 520),
-            child: GroupBox(
-              haveShadow: haveShadow,
-              color: color ?? Theme.of(context).cardTheme.color,
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            color: headerColor ??
-                                Theme.of(context).primaryColor.withAlpha(100),
-                            child: Padding(
-                                padding: const EdgeInsets.all(kPadding),
-                                child: headerContent),
-                          ),
-                          Padding(
-                              padding: const EdgeInsets.all(kPadding),
-                              child: child),
-                        ],
-                      ),
-                      _buildFooter(context, footerChild, translator),
-                    ],
-                  ),
-                ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: headerColor ?? Theme.of(context).colorScheme.primary,
+                child: Padding(
+                    padding: const EdgeInsets.all(kPadding),
+                    child: headerContent),
               ),
-            ),
+              Padding(padding: const EdgeInsets.all(kPadding), child: child),
+            ],
           ),
+          _buildFooter(context, footerChild),
         ],
       ),
     );
   }
 
-  Widget _buildFooter(
-      BuildContext context, Widget? footerChild, var translator) {
-    Widget _buildConfirmButton() {
+  Widget _buildFooter(BuildContext context, Widget? footerChild) {
+    Widget buildConfirmButton() {
       return ElevatedButton.icon(
         icon: Icon(
           readyOnly ? EvaIcons.edit : EvaIcons.checkmark,
-          size: 24,
+          size: 24 * Fonts.instance.fontScale,
         ),
         onPressed: () => onConfirmButtonPressed(),
-        label: Text(readyOnly ? translator.edit : translator.CantCREATE),
+        label: Text(readyOnly ? t.edit : t.accept),
       );
     }
 
-    Widget _buildCancelButton(BuildContext context) {
+    Widget buildCancelButton(BuildContext context) {
       return ElevatedButton(
         onPressed: readyOnly ? null : () => onCancelButtonPressed(),
         style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).colorScheme.secondary,
-          onPrimary: Theme.of(context).colorScheme.onSecondary,
+          foregroundColor: Theme.of(context).colorScheme.onTertiary,
+          backgroundColor: Theme.of(context).colorScheme.tertiary,
         ),
-        child: Text(translator.cancel),
+        child: Text(t.cancel),
       );
     }
 
@@ -119,13 +102,13 @@ class FormCard extends StatelessWidget with DateConverterMixin {
             children: [
               Text(
                 createdAt != null
-                    ? "${translator.createdAt}: ${toShamsi(createdAt)}"
+                    ? "${t.createdAt}: ${toShamsi(createdAt)}"
                     : "",
                 style: Themizer.light.textTheme.caption,
               ),
               Text(
                 updatedAt != null
-                    ? "${translator.updatedAt}: ${toShamsi(updatedAt)}"
+                    ? "${t.updatedAt}: ${toShamsi(updatedAt)}"
                     : "",
                 style: Themizer.light.textTheme.caption,
               ),
@@ -137,11 +120,11 @@ class FormCard extends StatelessWidget with DateConverterMixin {
               const SizedBox(
                 width: kSpacing / 2,
               ),
-              _buildConfirmButton(),
+              buildConfirmButton(),
               const SizedBox(
                 width: kSpacing / 2,
               ),
-              _buildCancelButton(context)
+              buildCancelButton(context)
             ],
           ),
         ],

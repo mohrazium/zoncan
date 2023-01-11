@@ -1,7 +1,7 @@
 part of common.components;
 
 class LightTheme {
-  static const kBorderWith = 1.2;
+  static double kBorderWith = 1.2 * Fonts.instance.fontScale;
   static ThemeData get theme => ThemeData(
         useMaterial3: true,
         fontFamily: kDefaultFont,
@@ -25,25 +25,28 @@ class LightTheme {
     systemOverlayStyle: SystemUiOverlayStyle.light,
   );
 
-  static final iconTheme =
-      IconThemeData(color: Colorize.lightColorScheme.onBackground);
+  static final iconTheme = IconThemeData(
+    color: Colorize.lightColorScheme.onBackground,
+    size: 24 * Fonts.instance.fontScale,
+  );
 
   static TextTheme get textTheme => TextTheme(
-      headline1: Fonts.headline1(),
-      headline2: Fonts.headline2(),
-      headline3: Fonts.headline3(),
-      headline4: Fonts.headline4(),
-      headline5: Fonts.headline5(),
-      headline6: Fonts.headline6(),
-      bodyText1: Fonts.body1(),
-      bodyText2: Fonts.body2(),
-      subtitle1: Fonts.subtitle1(),
-      subtitle2: Fonts.subtitle2(),
-      caption: Fonts.caption());
+      headline1: Fonts.instance.headline1(),
+      headline2: Fonts.instance.headline2(),
+      headline3: Fonts.instance.headline3(),
+      headline4: Fonts.instance.headline4(),
+      headline5: Fonts.instance.headline5(),
+      headline6: Fonts.instance.headline6(),
+      bodyText1: Fonts.instance.body1(),
+      bodyText2: Fonts.instance.body2(),
+      subtitle1: Fonts.instance.subtitle1(),
+      subtitle2: Fonts.instance.subtitle2(),
+      caption: Fonts.instance.caption());
 
   static InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
-    constraints: const BoxConstraints(minHeight: 50),
-        contentPadding: const EdgeInsets.all(kPadding / 3),
+        constraints: BoxConstraints(minHeight: 50 * Fonts.instance.fontScale),
+        contentPadding:
+            EdgeInsets.all((kPadding / 3) * Fonts.instance.fontScale),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
               width: kBorderWith, color: Colorize.lightColorScheme.secondary),
@@ -97,17 +100,22 @@ class LightTheme {
   static ElevatedButtonThemeData get elevatedButtonThemeData =>
       ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: Colorize.lightColorScheme.primary,
-          onPrimary: Colorize.lightColorScheme.onPrimary,
-          onSurface: Colorize.lightColorScheme.onSurface,
+          foregroundColor: Colorize.lightColorScheme.onPrimary,
+          backgroundColor: Colorize.lightColorScheme.primary,
+          disabledForegroundColor:
+              Colorize.lightColorScheme.onSurface.withOpacity(0.38),
+          disabledBackgroundColor:
+              Colorize.lightColorScheme.onSurface.withOpacity(0.12),
           shadowColor: Colorize.lightColorScheme.shadow,
           surfaceTintColor: Colorize.lightColorScheme.surfaceTint,
           elevation: 0.0,
-          fixedSize: const Size(135, 40),
+          fixedSize: Size(
+              135 * Fonts.instance.fontScale, 40 * Fonts.instance.fontScale),
           animationDuration: kAnimationDuration,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
+          textStyle: Fonts.instance.button(),
         ),
       );
 

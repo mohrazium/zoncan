@@ -51,6 +51,7 @@ dependencies:
   syncfusion_localizations: ^20.1.47
   uuid: ^3.0.6
   validators2: ^3.0.0
+  window_manager: ^0.2.8
 
 #!#########################
 dev_dependencies:

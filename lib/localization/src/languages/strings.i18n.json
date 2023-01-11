@@ -68,8 +68,9 @@
     "pleaseEnterPassword": "Please enter your password!",
     "pleaseEnterUsernameOrEmail": "Please enter your username or email",
     "usernameNotExists": "Username not exists",
-    "emailNotExists": "email not exists"
-
+    "emailNotExists": "Email not exists"
   },
+  "wrongPassword": "Your password is wrong!",
+  "error": "Error",
   "loadingPleaseWait": "Loading...\nPlease wait!"
 }

@@ -4,6 +4,7 @@ class EntryPoint {
   final Widget app;
   EntryPoint.to()
       : app = ModularApp(
+          debugMode: true,
           module: App(),
           child: TranslationProvider(child: const Zoncan()),
         );
@@ -19,23 +20,16 @@ class Zoncan extends StatefulWidget {
 class _ZoncanState extends State<Zoncan> {
   late final Function(BuildContext, Widget? child) botToastBuilder;
   final appStateController = Modular.get<AppStateController>();
-
   Future<void> databaseSetup() async {
     final db = await Modular.getAsync<ZoncanDatabase>();
     logger.info(" db into ${db.store.directoryPath}");
   }
 
-  Future<void> loadSettings() async {
-    await Modular.get<SettingsProvider>().getLocalSettings().then((local) {
-      LocaleSettings.setLocaleRaw(local);
-    }).catchError((onError) {
-      BotToast.showText(text: "Oops! $onError");
-    });
-  }
-
   @override
   void initState() {
     super.initState();
+    Fonts.instance.fontScale = appStateController.settings.fontScale;
+
     logger.setup();
 
     if (kDebugMode) {
@@ -47,7 +41,7 @@ class _ZoncanState extends State<Zoncan> {
     databaseSetup();
     Modular.setNavigatorKey(NavigatorHelper.maiNavigatorKey);
 
-    Modular.setInitialRoute(Routing.routes().splash.path);
+    Modular.setInitialRoute(Routing.to.splash.path);
 
     Modular.setObservers([
       NavigatorHelper.routeObserver,
@@ -55,9 +49,6 @@ class _ZoncanState extends State<Zoncan> {
     ]);
 
     botToastBuilder = BotToastInit();
-
-    loadSettings();
-
     Modular.to.addListener(() =>
         logger.info("Route changed to ${NavigatorHelper.currentRoute()}"));
 
@@ -78,46 +69,59 @@ class _ZoncanState extends State<Zoncan> {
 
   @override
   Widget build(BuildContext context) {
-    var translator = Translations.of(context);
-
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: Themizer.light,
         darkTheme: Themizer.dark,
         themeMode: appStateController.themeMode,
         navigatorKey: NavigatorHelper.wrapNavigatorKey,
         home: ReactionBuilder(
           builder: (reactionContext) {
-            return autorun((_) {
+            return autorun((_) async {
+              try {
+                LocaleSettings.setLocaleRaw(appStateController.settings.locale);
+              } catch (ignore) {
+                // Ignore
+              }
+              Fonts.instance.fontScale = appStateController.settings.fontScale;
+
               if (appStateController.isLoading) {
                 LoadingScreen.instance.show(
-                    context: reactionContext, text: appStateController.loadingText);
+                    context: reactionContext,
+                    text: appStateController.loadingText);
               } else {
                 LoadingScreen.instance.hide();
               }
 
               if (appStateController.errorHappened) {
-                if (appStateController.exception!.justMessage) {
-                  DialogHelper.showMessageBox(
-                      context: reactionContext,
-                      title: "خطا",
-                      dialogButtons: DialogButtons.OK,
-                      message: appStateController.exception!.message!,
-                      dialogType: DialogType.ERROR);
-                } else {
-                  DialogHelper.showCrashReport(
-                    reactionContext,
-                    logger,
-                    "خطا",
-                    appStateController.exception.toString(),
-                  );
-                }
-                appStateController.throwException(null);
+                DialogHelper.showCrashReport(
+                  reactionContext,
+                  logger,
+                  t.error,
+                  appStateController.exception.toString(),
+                );
+              } else if (appStateController.exception != null &&
+                  appStateController.exception!.justMessage) {
+                await DialogHelper.showMessageBox(
+                        context: reactionContext,
+                        title: t.error,
+                        dialogButtons: DialogButtons.OK,
+                        message: appStateController.exception!.message!,
+                        dialogType: DialogType.ERROR)
+                    .then((value) {
+                  appStateController.throwException(null);
+                });
+              }
+
+              if (appStateController.shouldRefreshUI) {
+                setState(() {});
               }
             });
           },
           child: Observer(builder: (obsContext) {
             return MaterialApp.router(
-              title: translator.appName,
+              debugShowCheckedModeBanner: false,
+              title: t.appName,
               builder: (materialBuilderContext, child) {
                 return botToastBuilder(materialBuilderContext, child);
               },
@@ -135,6 +139,7 @@ class _ZoncanState extends State<Zoncan> {
               themeMode: appStateController.themeMode,
               theme: Themizer.light,
               darkTheme: Themizer.dark,
+              useInheritedMediaQuery: true,
             );
           }),
         ));

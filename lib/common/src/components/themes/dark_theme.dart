@@ -1,7 +1,7 @@
 part of common.components;
 
 class DarkTheme {
-  static const kBorderWith = 1.2;
+  static double kBorderWith = 1.2 * Fonts.instance.fontScale;
   static ThemeData get theme => ThemeData(
         useMaterial3: true,
         fontFamily: kDefaultFont,
@@ -19,7 +19,7 @@ class DarkTheme {
 
   static final appBarTheme = AppBarTheme(
     color: Colorize.darkColorScheme.background,
-    elevation: 5.0,
+    elevation: 5.0 * Fonts.instance.fontScale,
     shadowColor: Colorize.darkColorScheme.shadow,
     centerTitle: true,
     systemOverlayStyle: SystemUiOverlayStyle.dark,
@@ -29,20 +29,21 @@ class DarkTheme {
       IconThemeData(color: Colorize.darkColorScheme.onBackground);
 
   static TextTheme get textTheme => TextTheme(
-      headline1: Fonts.headline1(),
-      headline2: Fonts.headline2(),
-      headline3: Fonts.headline3(),
-      headline4: Fonts.headline4(),
-      headline5: Fonts.headline5(),
-      headline6: Fonts.headline6(),
-      bodyText1: Fonts.body1(),
-      bodyText2: Fonts.body2(),
-      subtitle1: Fonts.subtitle1(),
-      subtitle2: Fonts.subtitle2(),
-      caption: Fonts.caption());
+      headline1: Fonts.instance.headline1(),
+      headline2: Fonts.instance.headline2(),
+      headline3: Fonts.instance.headline3(),
+      headline4: Fonts.instance.headline4(),
+      headline5: Fonts.instance.headline5(),
+      headline6: Fonts.instance.headline6(),
+      bodyText1: Fonts.instance.body1(),
+      bodyText2: Fonts.instance.body2(),
+      subtitle1: Fonts.instance.subtitle1(),
+      subtitle2: Fonts.instance.subtitle2(),
+      caption: Fonts.instance.caption());
 
   static InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
-        contentPadding: const EdgeInsets.all(kPadding / 3),
+        contentPadding:
+            EdgeInsets.all((kPadding / 3) * Fonts.instance.fontScale),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
               width: kBorderWith, color: Colorize.darkColorScheme.secondary),
@@ -96,17 +97,22 @@ class DarkTheme {
   static ElevatedButtonThemeData get elevatedButtonThemeData =>
       ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: Colorize.darkColorScheme.primary,
-          onPrimary: Colorize.darkColorScheme.onPrimary,
-          onSurface: Colorize.darkColorScheme.onSurface,
+          foregroundColor: Colorize.darkColorScheme.onPrimary,
+          backgroundColor: Colorize.darkColorScheme.primary,
+          disabledForegroundColor:
+              Colorize.darkColorScheme.onSurface.withOpacity(0.38),
+          disabledBackgroundColor:
+              Colorize.darkColorScheme.onSurface.withOpacity(0.12),
           shadowColor: Colorize.darkColorScheme.shadow,
           surfaceTintColor: Colorize.darkColorScheme.surfaceTint,
           elevation: 0.0,
-          fixedSize: const Size(135, 40),
+          fixedSize: Size(
+              135 * Fonts.instance.fontScale, 40 * Fonts.instance.fontScale),
           animationDuration: kAnimationDuration,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
+          textStyle: Fonts.instance.button(),
         ),
       );
 

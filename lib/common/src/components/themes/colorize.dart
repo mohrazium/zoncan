@@ -13,7 +13,7 @@ class Colorize {
     onSecondary: Color(0xFFffffff),
     secondaryContainer: Color(0xFF8cfa9d),
     onSecondaryContainer: Color(0xFF002108),
-    tertiary: Color(0xFF904d00),
+    tertiary: Color(0xFFF89712),
     onTertiary: Color(0xFFffffff),
     tertiaryContainer: Color(0xFFffdcc3),
     onTertiaryContainer: Color(0xFF2e1500),

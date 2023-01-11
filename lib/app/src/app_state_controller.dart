@@ -2,6 +2,8 @@ part of zoncan.app;
 
 class AppStateController extends _AppStateControllerStore
     with _$AppStateController {
+  AppStateController(super.settingsProvider);
+
   @override
   void didChangeDependencies() {
     logger.info("${this.runtimeType} changed dependencies.");
@@ -14,11 +16,14 @@ class AppStateController extends _AppStateControllerStore
 
   @override
   void initState() {
+    loadAllSettings();
     logger.info("${this.runtimeType} init state.");
   }
 }
 
 abstract class _AppStateControllerStore extends Controller with Store {
+  final SettingsProvider settingsProvider;
+
   @observable
   ThemeMode themeMode = ThemeMode.light;
   @observable
@@ -29,6 +34,12 @@ abstract class _AppStateControllerStore extends Controller with Store {
   FailureException? exception;
   @observable
   UserDetailsModel? currentUser;
+  @observable
+  SettingProperties settings = SettingProperties.init();
+  @observable
+  bool shouldRefreshUI = false;
+
+  _AppStateControllerStore(this.settingsProvider);
 
   @computed
   bool get errorHappened => exception != null && exception!.hasError;
@@ -64,5 +75,17 @@ abstract class _AppStateControllerStore extends Controller with Store {
   @action
   void setCurrentUser(UserDetailsModel user) {
     currentUser = user;
+  }
+
+  @action
+  Future<void> loadAllSettings() async {
+    shouldRefreshUI = false;
+    settings = await settingsProvider.loadSettings();
+  }
+
+  @action
+  Future<void> saveFontScale(double scale) async {
+    settings = await settingsProvider.saveFontScaleFactor(scale);
+    shouldRefreshUI = true;
   }
 }

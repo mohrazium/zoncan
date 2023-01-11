@@ -1,10 +1,9 @@
-import 'package:zoncan/common/common.dart' show StorageProvider;
-
-import 'setting_keys.dart';
+part of zoncan.settings;
 
 abstract class SettingsProvider {
-  Future<bool> saveLocalSettings(String rawLocal);
-  Future<String> getLocalSettings();
+  Future<SettingProperties> loadSettings();
+  Future<SettingProperties> saveLocale(String rawLocale);
+  Future<SettingProperties> saveFontScaleFactor(double scaleFactor);
 }
 
 class SettingsProviderImpl extends SettingsProvider {
@@ -13,13 +12,36 @@ class SettingsProviderImpl extends SettingsProvider {
   SettingsProviderImpl(this._storage);
 
   @override
-  Future<String> getLocalSettings() async {
-    return await _storage
-        .read(SettingsKeys.appLocal.key);
+  Future<SettingProperties> loadSettings() async {
+    final settings = await _storage.read(SettingsKeys.allSettings.key);
+    if (settings == null) {
+      final savedSettings = await _storage.write(SettingsKeys.allSettings.key,
+          SettingProperties.init().toJson().toString());
+
+      if (savedSettings) {
+        return SettingProperties.fromJson(
+            await _storage.read(SettingsKeys.allSettings.key));
+      }
+    }
+    return SettingProperties.fromJson(settings);
   }
 
   @override
-  Future<bool> saveLocalSettings(String rawLocal) async {
-    return await _storage.write(SettingsKeys.appLocal.key, rawLocal);
+  Future<SettingProperties> saveFontScaleFactor(double scaleFactor) async {
+    SettingProperties saveProperties = await loadSettings();
+    saveProperties =
+        saveProperties.rebuild((rb) => rb..fontScale = scaleFactor);
+    _storage.write(
+        SettingsKeys.allSettings.key, saveProperties.toJson().toString());
+    return loadSettings();
+  }
+
+  @override
+  Future<SettingProperties> saveLocale(String rawLocale) async {
+    SettingProperties saveProperties = await loadSettings();
+    saveProperties = saveProperties.rebuild((rb) => rb..locale = rawLocale);
+    _storage.write(
+        SettingsKeys.allSettings.key, saveProperties.toJson().toString());
+    return loadSettings();
   }
 }

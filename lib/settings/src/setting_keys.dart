@@ -1,5 +1,9 @@
+part of zoncan.settings;
+
 enum SettingsKeys {
+  allSettings("all-settings"),
   appLocal("app-local"),
+  fontScaleFactor("font-scale-factor"),
   unknown("unknown");
 
   final String key;

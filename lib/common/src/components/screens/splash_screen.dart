@@ -1,9 +1,6 @@
 part of common.components;
 
 class SplashScreen extends StatefulWidget {
-  /// Seconds to navigate after for time based navigation
-  final int? seconds;
-
   /// switch to load only at startup of app not when get back to home page
   final bool isStartUp;
 
@@ -18,7 +15,6 @@ class SplashScreen extends StatefulWidget {
 
   /// The page where you want to navigate if you have chosen time based navigation
   /// String or Widget
-  final Widget? child;
 
   /// Main image size
   final double? photoSize;
@@ -33,7 +29,7 @@ class SplashScreen extends StatefulWidget {
   final Image? image;
 
   /// Loading text, default: 'Loading'
-  final Text?loadingText;
+  final Text? loadingText;
 
   /// Padding for long Loading text, default: EdgeInsets.all(0)
   final EdgeInsets? loadingTextPadding;
@@ -47,9 +43,6 @@ class SplashScreen extends StatefulWidget {
   /// Whether to display a loader or not
   final bool useLoader;
 
-  /// Custom page route if you have a custom transition you want to play
-  final Route? pageRoute;
-
   /// RouteSettings name for pushing a route with custom name (if left out in MaterialApp route names) to navigator stack (Contribution by )
   final String? routeName;
 
@@ -57,27 +50,28 @@ class SplashScreen extends StatefulWidget {
   /// Future<String> or Future<Widget>
   final Future<Object>? navigateAfterFuture;
 
-  const SplashScreen.show(
-      {this.seconds,
-      this.isStartUp = true,
-      required this.title,
-      this.backgroundColor,
-      this.styleTextUnderTheLoader,
-      this.child,
-      this.photoSize,
-      this.onClick,
-      this.loaderColor,
-      this.image,
-      this.loadingText,
-      this.loadingTextPadding,
-      this.imageBackground,
-      this.gradientBackground,
-      this.useLoader = true,
-      this.pageRoute,
-      this.routeName,
-      this.navigateAfterFuture,
-      Key? key})
-      : super(key: key);
+  final VoidCallback navigationCallback;
+  final int? milliseconds;
+  const SplashScreen.show({
+    Key? key,
+    this.isStartUp = true,
+    required this.title,
+    this.backgroundColor,
+    this.styleTextUnderTheLoader,
+    this.photoSize,
+    this.onClick,
+    this.loaderColor,
+    this.image,
+    this.loadingText,
+    this.loadingTextPadding,
+    this.imageBackground,
+    this.gradientBackground,
+    this.useLoader = true,
+    this.routeName,
+    this.navigateAfterFuture,
+    required this.navigationCallback,
+    this.milliseconds = 5000,
+  }) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -135,17 +129,23 @@ class _SplashScreenState extends State<SplashScreen> {
                         widget.useLoader
                             ? Center(
                                 child: LoadingAnimationWidget.discreteCircle(
-                                    color: Theme.of(context).colorScheme.primary,
-                                    secondRingColor: Theme.of(context).colorScheme.secondary,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    secondRingColor:
+                                        Theme.of(context).colorScheme.secondary,
                                     thirdRingColor: widget.loaderColor ??
-                                        Theme.of(context).colorScheme.primary.withAlpha(50),
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .primary
+                                            .withAlpha(50),
                                     size: 65))
                             : Container(),
                         const Padding(
                           padding: EdgeInsets.only(top: 20.0),
                         ),
                         Padding(
-                          padding: widget.loadingTextPadding?? const EdgeInsets.all(15.0),
+                          padding: widget.loadingTextPadding ??
+                              const EdgeInsets.all(15.0),
                           child: widget.loadingText,
                         ),
                       ],
@@ -172,29 +172,10 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     return Builder(builder: (context) {
-      return AnimatedCrossFade(
-        firstChild: _splashContent,
-        secondChild: widget.child ?? Container(),
-        crossFadeState: isShowFirst ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-        duration: const Duration(milliseconds: 1000),
-        firstCurve: Curves.easeInCubic,
-        secondCurve: Curves.easeOutCubic,
-        layoutBuilder: (Widget topChild, Key topChildKey, Widget bottomChild, Key bottomChildKey) {
-          return Stack(
-            clipBehavior: Clip.hardEdge,
-            children: <Widget>[
-              Positioned(
-                key: bottomChildKey,
-                child: bottomChild,
-              ),
-              Positioned(
-                key: topChildKey,
-                child: topChild,
-              ),
-            ],
-          );
-        },
-      );
+      Future.delayed(Duration(milliseconds: widget.milliseconds??5000)).then((s) {
+        widget.navigationCallback.call();
+      });
+      return _splashContent;
     });
   }
 }

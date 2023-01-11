@@ -35,7 +35,7 @@
     "signupFail": "ایجاد حساب کاربری ناموفق بود.",
     "forgetPassword": "فراموشی رمز عبور؟",
     "haveAccount": "حساب کاربری دارید؟",
-    "loggedIn": "وارد شوید",
+    "loggedIn": "وارد شدید",
     "passwordReset": "بازیابی رمز عبور"
   },
   "fullName": "نام و نام خانوادگی",
@@ -70,5 +70,7 @@
     "usernameNotExists": "نام کاربری در سیستم وجود ندارد",
     "emailNotExists": "آدرس ایمیل در سیستم وجود ندارد"
   },
+  "wrongPassword": "رمز عبور اشتباه است",
+  "error": "خطا",
   "loadingPleaseWait": "درحال بارگذاری...\n لطفا صبر کنید"
 }

@@ -40,7 +40,7 @@ class LoadingScreen {
 
     final overlay = OverlayEntry(
       builder: (context) {
-        final oSize = MediaQuery.of(context).size;
+        final oSize = MediaQuery.of(context).size * Fonts.instance.fontScale;
         final double maxWidth = oSize.width >= 250 ? 250 : oSize.width * 0.8;
         final double maxHeight = oSize.height >= 250 ? 200 : oSize.height * 0.8;
         return Material(
@@ -64,7 +64,7 @@ class LoadingScreen {
                         secondRingColor:
                             Theme.of(context).colorScheme.secondary,
                         thirdRingColor: Theme.of(context).colorScheme.tertiary,
-                        size: 50),
+                        size: 50 * Fonts.instance.fontScale),
                     const SizedBox(height: kSpacing),
                     StreamBuilder(
                       stream: stText.stream,

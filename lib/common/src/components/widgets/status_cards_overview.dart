@@ -13,7 +13,7 @@ class StatusCardsOverview extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(kBorderRadius * 2),
       child: SizedBox(
-        height: 250,
+        height: 250 * Fonts.instance.fontScale,
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
