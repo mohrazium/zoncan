@@ -1,11 +1,13 @@
-part of zoncan.app;
+part of '../app.dart';
 
 class Application {
   static Application instance = Application();
+
   Application();
 
   void run() async {
     WidgetsFlutterBinding.ensureInitialized();
-    runApp(EntryPoint.to().app);
+    Injection.dependencyConfigurations();
+    runApp(EntryPoint.launch.app);
   }
 }

@@ -1,8 +1,8 @@
-part of zoncan.app;
-
+part of '../app.dart';
+@Injectable()
 class AppStateController extends _AppStateControllerStore
     with _$AppStateController {
-  AppStateController(super.settingsProvider);
+  AppStateController(super.settingsProvider, super.authService);
 
   @override
   void didChangeDependencies() {
@@ -23,6 +23,7 @@ class AppStateController extends _AppStateControllerStore
 
 abstract class _AppStateControllerStore extends Controller with Store {
   final SettingsProvider settingsProvider;
+  final AuthenticationRepository authService;
 
   @observable
   ThemeMode themeMode = ThemeMode.light;
@@ -33,19 +34,21 @@ abstract class _AppStateControllerStore extends Controller with Store {
   @observable
   FailureException? exception;
   @observable
-  UserDetailsModel? currentUser;
-  @observable
   SettingProperties settings = SettingProperties.init();
   @observable
   bool shouldRefreshUI = false;
 
-  _AppStateControllerStore(this.settingsProvider);
+  _AppStateControllerStore(this.settingsProvider, this.authService);
 
   @computed
   bool get errorHappened => exception != null && exception!.hasError;
 
+  @computed
+  Future<UserDetailsModel?> get currentUser async =>
+      await authService.currentUserDetails();
+      
   @action
-  void setIsLoading(String? msg) {
+  void setIsLoading([String? msg]) {
     loadingText = msg ?? "";
     isLoading = true;
   }
@@ -70,11 +73,6 @@ abstract class _AppStateControllerStore extends Controller with Store {
   @action
   void throwException(FailureException? exp) {
     exception = exp;
-  }
-
-  @action
-  void setCurrentUser(UserDetailsModel user) {
-    currentUser = user;
   }
 
   @action

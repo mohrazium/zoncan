@@ -1,8 +1,8 @@
-part of zoncan.config;
+part of 'logger.dart';
 
-final LoggerService logger = Modular.get<LoggerService>();
+final LoggerService logger = Injection.serviceLocator.get<LoggerService>();
 
-
+@Injectable()
 class LoggerService {
   static final List<String> _logs = [];
 

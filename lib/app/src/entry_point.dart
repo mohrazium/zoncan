@@ -1,17 +1,17 @@
-part of zoncan.app;
+part of '../app.dart';
 
 class EntryPoint {
+  static EntryPoint get launch => EntryPoint._to();
   final Widget app;
-  EntryPoint.to()
-      : app = ModularApp(
-          debugMode: true,
-          module: App(),
-          child: TranslationProvider(child: const Zoncan()),
+
+  EntryPoint._to()
+      : app = MaterialApp(
+          home: TranslationProvider(child: const Zoncan()),
         );
 }
 
 class Zoncan extends StatefulWidget {
-  const Zoncan({Key? key}) : super(key: key);
+  const Zoncan({super.key});
 
   @override
   State<Zoncan> createState() => _ZoncanState();
@@ -19,16 +19,20 @@ class Zoncan extends StatefulWidget {
 
 class _ZoncanState extends State<Zoncan> {
   late final Function(BuildContext, Widget? child) botToastBuilder;
-  final appStateController = Modular.get<AppStateController>();
+  final appStateController = Injection.serviceLocator.get<AppStateController>();
+
   Future<void> databaseSetup() async {
-    final db = await Modular.getAsync<ZoncanDatabase>();
-    logger.info(" db into ${db.store.directoryPath}");
+    final zoncanDatabase = Injection.serviceLocator<ZoncanDatabase>();
+    zoncanDatabase
+        .initialize()
+        .then((db) async => logger.info("Zoncan Database was initialized!"));
   }
 
   @override
   void initState() {
     super.initState();
-    Fonts.instance.fontScale = appStateController.settings.fontScale;
+    Fonts.instance.fontScale =
+        appStateController.settings.fontScale ?? kDefaultFontScale;
 
     logger.setup();
 
@@ -39,19 +43,7 @@ class _ZoncanState extends State<Zoncan> {
       mainContext.spy((e) => logger.info(e.toString()));
     }
     databaseSetup();
-    Modular.setNavigatorKey(NavigatorHelper.maiNavigatorKey);
-
-    Modular.setInitialRoute(Routing.to.splash.path);
-
-    Modular.setObservers([
-      NavigatorHelper.routeObserver,
-      BotToastNavigatorObserver(),
-    ]);
-
     botToastBuilder = BotToastInit();
-    Modular.to.addListener(() =>
-        logger.info("Route changed to ${NavigatorHelper.currentRoute()}"));
-
     appStateController.initState();
   }
 
@@ -64,26 +56,33 @@ class _ZoncanState extends State<Zoncan> {
   @override
   void dispose() {
     appStateController.dispose();
+    Injection.serviceLocator<ZoncanDatabase>().dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final zoncanDatabase = Injection.serviceLocator<ZoncanDatabase>();
+    zoncanDatabase.zoncanObjectBoxDB.then((db) =>
+        logger.info("Path of Database : ${db.objectBoxStore.directoryPath}"));
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: Themizer.light,
         darkTheme: Themizer.dark,
         themeMode: appStateController.themeMode,
-        navigatorKey: NavigatorHelper.wrapNavigatorKey,
+        navigatorKey: NavigatorHelper.accountsNavigatorKey,
         home: ReactionBuilder(
           builder: (reactionContext) {
             return autorun((_) async {
               try {
-                LocaleSettings.setLocaleRaw(appStateController.settings.locale);
+                LocaleSettings.setLocaleRaw(
+                    appStateController.settings.locale ??
+                        kDefaultLocale.countryCode!);
               } catch (ignore) {
                 // Ignore
               }
-              Fonts.instance.fontScale = appStateController.settings.fontScale;
+              Fonts.instance.fontScale =
+                  appStateController.settings.fontScale ?? kDefaultFontScale;
 
               if (appStateController.isLoading) {
                 LoadingScreen.instance.show(
@@ -134,12 +133,13 @@ class _ZoncanState extends State<Zoncan> {
                 GlobalCupertinoLocalizations.delegate,
                 sl.SfGlobalLocalizations.delegate
               ],
-              routeInformationParser: Modular.routeInformationParser,
-              routerDelegate: Modular.routerDelegate,
+              // routeInformationParser: Modular.routeInformationParser,
+              // routerDelegate: Modular.routerDelegate,
               themeMode: appStateController.themeMode,
               theme: Themizer.light,
               darkTheme: Themizer.dark,
-              useInheritedMediaQuery: true,
+              routeInformationParser: App.get.routeInformationParser,
+              routerDelegate: App.get.routerDelegate,
             );
           }),
         ));

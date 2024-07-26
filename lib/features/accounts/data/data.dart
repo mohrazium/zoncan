@@ -1,15 +1,21 @@
-library zoncan.features.accounts.data;
+library zoncan.features.account.domain;
 
 import 'dart:convert';
 
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+import 'package:injectable/injectable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:uuid/uuid.dart';
-import 'package:zoncan/common/common.dart';
-import 'package:zoncan/exceptions/exceptions.dart';
+import 'package:zoncan/config/config.dart';
+import 'package:zoncan/core/core.dart';
 
-part 'user_details_table.dart';
-part 'user_details_repository.dart';
 
+import '../domain/domain.dart';
+
+
+
+part 'models/user_details_model.dart';
+part 'repository/user_details_repository_impl.dart';
+part 'datasource/local/user_details_table.dart';
 part 'data.g.dart';
+part 'data.mapper.dart';

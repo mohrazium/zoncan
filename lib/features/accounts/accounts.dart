@@ -1,45 +1,54 @@
 library zoncan.features.accounts;
 
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:zoncan/config/config.dart';
-import 'package:zoncan/constants/constants.dart';
+import 'package:qlevar_router/qlevar_router.dart';
+import 'package:zoncan/core/core.dart';
 
-/// Presentation
-import 'screen/screen.dart';
-export 'screen/screen.dart';
+import 'package:zoncan/config/config.dart'
+    show Injection, NavigatorHelper, Routing;
+import 'presentation/presentation.dart';
+
 export 'data/data.dart';
-export 'models/models.dart';
-export 'services/services.dart';
+export 'domain/domain.dart';
+export 'presentation/presentation.dart';
 
-class Accounts extends Module {
-  @override
-  List<Bind> get binds => Injector.inject.accountsBinds;
+class Accounts {
+  static Accounts get get => Accounts();
 
-  @override
-  List<ModularRoute> get routes => [
-        ChildRoute('/',
-            transition: TransitionType.fadeIn,
-            duration: kAnimationDuration,
-            child: (context, args) => const AccountsPage(),
-            children: [
-              ChildRoute(
-                Routing.to.login.named,
-                transition: TransitionType.fadeIn,
-                duration: kAnimationDuration,
-                child: (context, args) => const LoginForm(),
-              ),
-              ChildRoute(
-                Routing.to.signup.named,
-                transition: TransitionType.fadeIn,
-                duration: kAnimationDuration,
-                child: (context, args) => const SignupForm(),
-              ),
-              ChildRoute(
-                Routing.to.passwordReset.named,
-                transition: TransitionType.fadeIn,
-                duration: kAnimationDuration,
-                child: (context, args) => const PasswordRestForm(),
-              ),
-            ]),
-      ];
+  QRoute get routes => QRoute.withChild(
+        path: Routing.to.accounts.path,
+        builderChild: (accountForm) => AccountsPage(child: accountForm),
+        initRoute: Routing.to.login.path,
+        middleware: [
+          QMiddlewareBuilder(
+            redirectGuardFunc: (s) async {
+              final guard = Injection.serviceLocator<AuthenticationGuard>();
+              final bool? isAuth = await guard.isUserAuthenticated();
+              final bool? isExpired = await guard.isUserExpired();
+              if (isAuth!) {
+                if (isExpired!) {
+                  return null;
+                } else {
+                  return Routing.to.dashboard.path;
+                }
+              } else {
+                return null;
+              }
+            },
+          ),
+        ],
+        children: [
+          QRoute(
+              path: Routing.to.login.named,
+              pageType: const QSlidePage(),
+              builder: () => const LoginForm()),
+          QRoute(
+              path: Routing.to.signup.named,
+              pageType: const QSlidePage(),
+              builder: () => const SignupForm()),
+          QRoute(
+              path: Routing.to.passwordReset.named,
+              pageType: const QSlidePage(),
+              builder: () => const PasswordRestForm()),
+        ],
+      );
 }

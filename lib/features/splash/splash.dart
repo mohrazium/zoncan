@@ -1,20 +1,18 @@
 library zoncan.features.splash;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
+import 'package:qlevar_router/qlevar_router.dart';
 import 'package:zoncan/config/config.dart';
-import 'package:zoncan/localization/localization.dart';
 
-import '../../common/common.dart';
+import '../../core/common/common.dart';
 
-part 'screen/pages/splash_page.dart';
+part 'presentation/pages/splash_page.dart';
 
-class Splash extends Module {
-  @override
-  List<Bind> get binds => [];
+part 'presentation/views/splash_view.dart';
 
-  @override
-  List<ModularRoute> get routes => [
-        ChildRoute('/', child: (context, args) => SplashPage(args.data)),
-      ];
+class Splash {
+  static Splash get get => Splash();
+
+  QRoute get routes =>
+      QRoute(path: Routing.to.splash.path, builder: () => const SplashPage());
 }
