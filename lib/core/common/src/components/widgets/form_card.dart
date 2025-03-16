@@ -36,7 +36,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
 
   @override
   Widget build(BuildContext context) {
-    var translator = Translations.of(context);
+    var translator = TranslationsProvider.translator;
     return Form(
       key: globalFormKey,
       child: Column(

@@ -1,5 +1,13 @@
 part of '../components.dart';
 
+typedef DialogButtonLabels = ({
+  String lableOk,
+  String lableCancel,
+  String lableYes,
+  String lableNo,
+  String lableAccept,
+});
+
 class DialogHelper {
   static Future<DialogResult> showMessageBox({
     required BuildContext context,
@@ -42,7 +50,7 @@ class DialogHelper {
                   ),
                 ),
                 const SizedBox(height: kSpacing),
-                _chooseButtons(dialogButtons, context)
+                _chooseButtons( DialogProps.dialogButtonLabels, dialogButtons, context)
               ],
             ),
           ),
@@ -52,16 +60,27 @@ class DialogHelper {
     return (action != null) ? action : DialogResult.OK;
   }
 
-  static Widget _chooseButtons(DialogButtons buttons, BuildContext context) {
-    var translator = Translations.of(context);
-
+  static Widget _chooseButtons(DialogButtonLabels? dialogButtonLabels,
+      DialogButtons buttons, BuildContext context) {
+    DialogButtonLabels dButtonLabels;
+    if (dialogButtonLabels != null) {
+      dButtonLabels = dialogButtonLabels;
+    } else {
+      dButtonLabels = (
+        lableAccept: "Accept",
+        lableCancel: "Cancel",
+        lableNo: "No",
+        lableOk: "Ok",
+        lableYes: "Yes",
+      );
+    }
     switch (buttons) {
       case DialogButtons.OK:
         return Padding(
           padding: const EdgeInsets.all(kPadding),
           child: ElevatedButton(
             onPressed: () => Navigator.of(context).pop(DialogResult.OK),
-            child: Text(translator.ok),
+            child: Text(dButtonLabels.lableOk),
           ),
         );
       case DialogButtons.OK_CANCEL:
@@ -73,18 +92,19 @@ class DialogHelper {
                 padding: const EdgeInsets.all(kPadding),
                 child: ElevatedButton(
                   onPressed: () => Navigator.of(context).pop(DialogResult.OK),
-                  child: Text(translator.accept),
+                  child: Text(dButtonLabels.lableAccept),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(kPadding),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.onError, backgroundColor: Theme.of(context).colorScheme.error,
+                    foregroundColor: Theme.of(context).colorScheme.onError,
+                    backgroundColor: Theme.of(context).colorScheme.error,
                   ),
                   onPressed: () =>
                       Navigator.of(context).pop(DialogResult.CANCEL),
-                  child: Text(translator.cancel),
+                  child: Text(dButtonLabels.lableCancel),
                 ),
               ),
             ]);
@@ -95,15 +115,16 @@ class DialogHelper {
             children: [
               ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(DialogResult.YES),
-                child: Text(translator.yes),
+                child: Text(dButtonLabels.lableYes),
               ),
               const SizedBox(width: kSpacing),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Theme.of(context).colorScheme.onSecondary, backgroundColor: Theme.of(context).colorScheme.secondary,
+                  foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
                 ),
                 onPressed: () => Navigator.of(context).pop(DialogResult.NO),
-                child: Text(translator.no),
+                child: Text(dButtonLabels.lableNo),
               ),
             ]);
       default:
@@ -137,6 +158,7 @@ class DialogHelper {
     bool alwaysOpen = false,
     bool isScrollable = false,
     DialogButtons? dialogButtons,
+    DialogButtonLabels? dialogButtonLabels,
     Widget? child,
   }) async {
     final header = AppBar(
@@ -194,7 +216,8 @@ class DialogHelper {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   dialogButtons != null
-                                      ? _chooseButtons(dialogButtons, context)
+                                      ? _chooseButtons(dialogButtonLabels,
+                                          dialogButtons, context)
                                       : Container()
                                 ])
                           ],

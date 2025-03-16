@@ -161,10 +161,259 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:4395447699393365422",
+      "lastPropertyId": "12:2195092302966817702",
+      "name": "AccountingInfoTable",
+      "properties": [
+        {
+          "id": "1:1000880247835759752",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7124400627664411067",
+          "name": "uid",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "4:6305209355475370402"
+        },
+        {
+          "id": "3:2143965276293220936",
+          "name": "introDate",
+          "type": 10
+        },
+        {
+          "id": "4:7541566161919724489",
+          "name": "referralPersonUid",
+          "type": 9
+        },
+        {
+          "id": "5:892328489288262120",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "6:8986484469508574665",
+          "name": "groupOfOff",
+          "type": 9
+        },
+        {
+          "id": "7:6239218302909922428",
+          "name": "debtCreditLimit",
+          "type": 9
+        },
+        {
+          "id": "8:3914698934202963574",
+          "name": "beggingOfBalance",
+          "type": 8
+        },
+        {
+          "id": "9:3802450902526684760",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "10:7426244479916604065",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "11:5731213155191575527",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "12:2195092302966817702",
+          "name": "dbSettlementInCash",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:4924218306303207708",
+      "lastPropertyId": "11:6809427874770379338",
+      "name": "AddressTable",
+      "properties": [
+        {
+          "id": "1:7500096466016189450",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5657418246137768887",
+          "name": "uid",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "5:7799420180684398295"
+        },
+        {
+          "id": "3:3135791864932527903",
+          "name": "postalCode",
+          "type": 9
+        },
+        {
+          "id": "4:1152497309822488788",
+          "name": "province",
+          "type": 9
+        },
+        {
+          "id": "5:5229962700733228988",
+          "name": "county",
+          "type": 9
+        },
+        {
+          "id": "6:5823800510126913678",
+          "name": "city",
+          "type": 9
+        },
+        {
+          "id": "7:8888990259582918765",
+          "name": "blv",
+          "type": 9
+        },
+        {
+          "id": "8:2837661609643534126",
+          "name": "fullAddress",
+          "type": 9
+        },
+        {
+          "id": "9:4154742024087196227",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "10:2680275656930023265",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "11:6809427874770379338",
+          "name": "updatedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:4993499892333909115",
+      "lastPropertyId": "19:940911699590299210",
+      "name": "PersonTable",
+      "properties": [
+        {
+          "id": "1:4981860518577426117",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1442857125839318178",
+          "name": "uid",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "6:2031658103074422904"
+        },
+        {
+          "id": "3:5625229305373335205",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:6917074785321246828",
+          "name": "family",
+          "type": 9
+        },
+        {
+          "id": "5:8953721742150401721",
+          "name": "fatherName",
+          "type": 9
+        },
+        {
+          "id": "6:629816021924953101",
+          "name": "birthDate",
+          "type": 10
+        },
+        {
+          "id": "7:6066562905494225534",
+          "name": "nationalCode",
+          "type": 6
+        },
+        {
+          "id": "8:3891447549902880860",
+          "name": "phoneNumber",
+          "type": 9
+        },
+        {
+          "id": "9:4102568754486113461",
+          "name": "phoneNumberSms",
+          "type": 9
+        },
+        {
+          "id": "10:6135107507543123811",
+          "name": "telephone",
+          "type": 9
+        },
+        {
+          "id": "11:9031056995003990688",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "12:7344203570591236931",
+          "name": "economicCode",
+          "type": 9
+        },
+        {
+          "id": "13:5140332379860534890",
+          "name": "profilePicture",
+          "type": 9
+        },
+        {
+          "id": "14:5682228534560515823",
+          "name": "addressId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "7:6678634539307372583",
+          "relationTarget": "AddressTable"
+        },
+        {
+          "id": "15:6080394374724881844",
+          "name": "accountingInfoId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "8:858583232108703748",
+          "relationTarget": "AccountingInfoTable"
+        },
+        {
+          "id": "16:5378753916164262366",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "17:6845085237313978469",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "18:3956803522044021426",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "19:940911699590299210",
+          "name": "dbPersonType",
+          "type": 6
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "2:8465067589458936244",
-  "lastIndexId": "3:2510246612039153271",
+  "lastEntityId": "5:4993499892333909115",
+  "lastIndexId": "8:858583232108703748",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,

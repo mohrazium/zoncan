@@ -4,7 +4,7 @@ part of '../../data.dart';
 
 @Entity()
 @JsonSerializable()
-class UserDetailsTable implements UserDetailsEntity {
+class UserDetailsTable extends UserDetailsEntity {
   @override
   @Id()
   int id;
@@ -71,12 +71,24 @@ class UserDetailsTable implements UserDetailsEntity {
     this.expirationDate,
     this.createdAt,
     this.updatedAt,
-  );
-
-  @override
-  String toString() {
-    return 'UserDetailsTable(id: $id, uid: $uid, nickName: $nickName, userName: $userName, email: $email, phoneNumber: $phoneNumber, isActive: $isActive, isAuthenticated: $isAuthenticated, isEmailVerified: $isEmailVerified, isPhoneNumberVerified: $isPhoneNumberVerified, encryptedPassword: $encryptedPassword, isCompletedFirstSetup: $isCompletedFirstSetup, setupLevel: $setupLevel, expirationDate: $expirationDate, createdAt: $createdAt, updatedAt: $updatedAt)';
-  }
+  ) : super(
+          id: id,
+          uid: uid,
+          nickName: nickName,
+          userName: userName,
+          email: email,
+          phoneNumber: phoneNumber,
+          isActive: isActive,
+          isAuthenticated: isAuthenticated,
+          isEmailVerified: isEmailVerified,
+          isPhoneNumberVerified: isPhoneNumberVerified,
+          encryptedPassword: encryptedPassword,
+          isCompletedFirstSetup: isCompletedFirstSetup,
+          setupLevel: setupLevel,
+          expirationDate: expirationDate,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+        );
 
   factory UserDetailsTable.fromJson(String jsonString) =>
       _$UserDetailsTableFromJson(json.decode(jsonString));

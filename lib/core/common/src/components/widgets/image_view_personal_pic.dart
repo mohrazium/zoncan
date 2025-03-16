@@ -14,7 +14,7 @@ class ImageViewPersonalPic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var translator = Translations.of(context);
+    var translator = TranslationsProvider.translator;
     return GroupBox(
         width: kTextFieldWidth * Fonts.instance.fontScale,
         height: kTextFieldWidth * Fonts.instance.fontScale * 1.2 ,

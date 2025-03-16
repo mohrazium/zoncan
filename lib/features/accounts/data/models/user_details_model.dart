@@ -8,72 +8,25 @@ typedef UserModel = UserDetailsModelMapper;
         GenerateMethods.stringify |
         GenerateMethods.decode |
         GenerateMethods.encode)
-class UserDetailsModel
-    with UserDetailsModelMappable
-    implements UserDetailsEntity {
-  @override
-  final int id;
-
-  @override
-  final String? uid;
-
-  @override
-  final String? nickName;
-
-  @override
-  final String userName;
-
-  @override
-  final String? email;
-
-  @override
-  final String? phoneNumber;
-
-  @override
-  final bool isActive;
-
-  @override
-  final bool isAuthenticated;
-
-  @override
-  final bool isEmailVerified;
-
-  @override
-  final bool isPhoneNumberVerified;
-
-  @override
-  final String? encryptedPassword;
-  @override
-  final bool? isCompletedFirstSetup;
-  @override
-  final int? setupLevel;
-
-  @override
-  final DateTime? expirationDate;
-
-  @override
-  final DateTime? createdAt;
-
-  @override
-  final DateTime? updatedAt;
+class UserDetailsModel extends UserDetailsEntity with UserDetailsModelMappable {
 
   UserDetailsModel(
-      {required this.id,
-        this.uid,
-        this.nickName,
-        required this.userName,
-        this.email,
-        this.phoneNumber,
-        required this.isActive,
-        required this.isAuthenticated,
-        required this.isEmailVerified,
-        required this.isPhoneNumberVerified,
-        this.encryptedPassword,
-        this.isCompletedFirstSetup,
-        this.setupLevel,
-        this.expirationDate,
-        this.createdAt,
-        this.updatedAt});
+      {required super.id,
+      super.uid,
+      super.nickName,
+      required super.userName,
+      super.email,
+      super.phoneNumber,
+      required super.isActive,
+      required super.isAuthenticated,
+      required super.isEmailVerified,
+      required super.isPhoneNumberVerified,
+      super.encryptedPassword,
+      super.isCompletedFirstSetup,
+      super.setupLevel,
+      super.expirationDate,
+      super.createdAt,
+      super.updatedAt});
 
   factory UserDetailsModel.init() => UserDetailsModel(
       id: 0,

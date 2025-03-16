@@ -8,7 +8,6 @@ class HomeViewLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      var translator = Translations.of(context);
       return Scaffold(
         // body: Column(
         //   children: [

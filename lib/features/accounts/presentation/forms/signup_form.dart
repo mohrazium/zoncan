@@ -30,7 +30,7 @@ class _SignupFormState extends State<SignupForm> {
 
   @override
   Widget build(BuildContext context) {
-    var translator = Translations.of(context);
+    var translator = TranslationsProvider.translator;
     return SingleChildScrollView(
       child: Observer(builder: (obsContext) {
         return Form(

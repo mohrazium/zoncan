@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Builder(builder: (BuildContext context) {
         // ignore: always_specify_types
-        var translator = Translations.of(context);
+        var translator = TranslationsProvider.translator;
         return Scaffold(
           appBar: AppBar(
             toolbarHeight: 40,

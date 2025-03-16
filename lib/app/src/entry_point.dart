@@ -96,17 +96,17 @@ class _ZoncanState extends State<Zoncan> {
                 DialogHelper.showCrashReport(
                   reactionContext,
                   logger,
-                  t.error,
+                  TranslationsProvider.translator.error,
                   appStateController.exception.toString(),
                 );
               } else if (appStateController.exception != null &&
                   appStateController.exception!.justMessage) {
                 await DialogHelper.showMessageBox(
                         context: reactionContext,
-                        title: t.error,
+                        title: TranslationsProvider.translator.error,
                         dialogButtons: DialogButtons.OK,
                         message: appStateController.exception!.message!,
-                        dialogType: DialogType.ERROR)
+                        dialogType: DialogType.ERROR,)
                     .then((value) {
                   appStateController.throwException(null);
                 });
@@ -120,12 +120,12 @@ class _ZoncanState extends State<Zoncan> {
           child: Observer(builder: (obsContext) {
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
-              title: t.appName,
+              title: TranslationsProvider.translator.appName,
               builder: (materialBuilderContext, child) {
                 return botToastBuilder(materialBuilderContext, child);
               },
-              locale: TranslationProvider.of(context).flutterLocale,
-              supportedLocales: LocaleSettings.supportedLocales,
+              locale: TranslationsProvider.localeOf(context),
+              supportedLocales: TranslationsProvider.supportedLocales,
               localizationsDelegates: const [
                 ...GlobalMaterialLocalizations.delegates,
                 GlobalMaterialLocalizations.delegate,

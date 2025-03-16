@@ -1,4 +1,5 @@
 part of '../../security.dart';
+
 @Injectable()
 class StrengthPasswordChecker {
   static const List<String> _weakPasswords = [
@@ -24,21 +25,36 @@ class StrengthPasswordChecker {
     "password123",
   ];
 
-  String? check(String password) {
+  String? check(
+    String password, {
+    String? weakPassMsg,
+    String? passwordLengthMsg,
+    String? passwordUpperCaseMsg,
+    String? passwordLowerCaseMsg,
+    String? passwordDigitMsg,
+    String? passwordNoSpaceMsg,
+  }) {
     for (var weak in _weakPasswords) {
       if (equals(password, weak)) {
-        return t.validation.passwordIsVeryWeak;
+        return weakPassMsg ?? "Password Is Very Weak";
       }
     }
 
     PasswordPolicy passwordPolicy = PasswordPolicy(
       minimumScore: 0.6,
       validationRules: [
-        LengthRule(minimalLength: 6, name: t.validation.passwordLength),
-        UpperCaseRule(name: t.validation.passwordUpperCase),
-        LowerCaseRule(name: t.validation.passwordLowerCase),
-        DigitRule(name: t.validation.passwordDigit),
-        NoSpaceRule(name: t.validation.passwordNoSpace),
+        LengthRule(
+            minimalLength: 6,
+            name: passwordLengthMsg ?? "Password should have 6 letter!"),
+        UpperCaseRule(
+            name: passwordUpperCaseMsg ??
+                "Password should have upper case letter!"),
+        LowerCaseRule(
+            name: passwordLowerCaseMsg ??
+                "Password should have lower case letter!"),
+        DigitRule(name: passwordDigitMsg ?? "Password should have digits"),
+        NoSpaceRule(
+            name: passwordNoSpaceMsg ?? "Space is not allowed in password"),
         SpecialCharacterRule(isMandatory: false, name: null),
       ],
     );

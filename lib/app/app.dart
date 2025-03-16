@@ -15,10 +15,6 @@ import 'package:syncfusion_localizations/syncfusion_localizations.dart' as sl;
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/core/core.dart';
 import 'package:zoncan/features/features.dart';
-import 'package:zoncan/config/src/localization/localization.dart'
-    show LocaleSettings, TranslationProvider, t;
-import 'package:zoncan/config/src/settings/settings.dart'
-    show SettingProperties, SettingsProvider;
 
 part 'src/application.dart';
 

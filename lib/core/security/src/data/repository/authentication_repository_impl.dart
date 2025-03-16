@@ -37,12 +37,12 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
         throw FailureException(
             level: ExceptionLevel.WARNING,
             type: ExceptionType.IsDUPLICATED,
-            message: t.validation.alreadyExistsEmail);
+            message: "Already Exists Email");
       } else if (await usernameAlreadyExists(user.userName)) {
         throw FailureException(
             level: ExceptionLevel.WARNING,
             type: ExceptionType.IsDUPLICATED,
-            message: t.validation.alreadyExistsUsername);
+            message:"Already Exists Username");
       } else {
         return await _passwordEncryption.hashB64(password).then((hash) async {
           UserDetailsModel userDetails = user.copyWith(encryptedPassword: hash);
@@ -146,7 +146,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     return await _passwordEncryption.verifyB64(password, b64HashedPassword)
         ? true
         : throw FailureException(
-            level: ExceptionLevel.IGNORE, message: t.wrongPassword);
+            level: ExceptionLevel.IGNORE, message: "Wrong Password!");
   }
 
   @override

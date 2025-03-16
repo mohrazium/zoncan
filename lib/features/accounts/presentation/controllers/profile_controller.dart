@@ -48,7 +48,7 @@ abstract class _ProfileController with Store {
 
   @action
   Future<bool> logout() async {
-    appStateController.setIsLoading(t.loadingPleaseWait);
+    appStateController.setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
     return await logoutUsecase
         .call()
         .then((resultValue) => resultValue.fold((error) {

@@ -5,7 +5,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:objectbox/objectbox.dart' show Box;
 import 'package:zoncan/core/core.dart';
 
-part 'service.dart';
+part 'entity.dart';
 part 'storing.dart';
 part 'controller.dart';
 part 'usecase.dart';

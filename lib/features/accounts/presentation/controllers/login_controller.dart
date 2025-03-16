@@ -124,7 +124,7 @@ abstract class _LoginController with Store {
   @action
   Future<void> validateUsername(_) async {
     if (isNull(username) || username.isEmpty) {
-      validator.usernameError = t.validation.pleaseEnterUsernameOrEmail;
+      validator.usernameError = TranslationsProvider.translator.validation.pleaseEnterUsernameOrEmail;
     } else {
       if (username.length >= 4) {
         if (isEmail(username)) {
@@ -140,7 +140,7 @@ abstract class _LoginController with Store {
             validator.usernameError = null;
             username = username.trim();
           } else {
-            validator.usernameError = t.validation.emailNotExists;
+            validator.usernameError = TranslationsProvider.translator.validation.emailNotExists;
           }
         } else {
           usernameAbility = ObservableFuture(usernameAlreadyExistsUsecase
@@ -155,7 +155,7 @@ abstract class _LoginController with Store {
             username = username.trim();
             validator.usernameError = null;
           } else {
-            validator.usernameError = t.validation.usernameNotExists;
+            validator.usernameError = TranslationsProvider.translator.validation.usernameNotExists;
           }
         }
       }
@@ -165,7 +165,7 @@ abstract class _LoginController with Store {
   @action
   void validatePassword(_) {
     if (isNull(password) || password.isEmpty) {
-      validator.passwordError = t.validation.pleaseEnterPassword;
+      validator.passwordError = TranslationsProvider.translator.validation.pleaseEnterPassword;
     } else {
       validator.passwordError = null;
       password = password.trim();
@@ -178,16 +178,16 @@ abstract class _LoginController with Store {
   @action
   void validateForm() {
     if (username.isEmpty) {
-      validator.usernameError = t.validation.pleaseEnterUsernameOrEmail;
+      validator.usernameError = TranslationsProvider.translator.validation.pleaseEnterUsernameOrEmail;
     } else if (password.isEmpty) {
-      validator.passwordError = t.validation.pleaseEnterPassword;
+      validator.passwordError = TranslationsProvider.translator.validation.pleaseEnterPassword;
     }
   }
 
   @action
   Future<void> login() async {
     validateForm();
-    appStateController.setIsLoading(t.loadingPleaseWait);
+    appStateController.setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
     if (canLogin) {
       final isLoggedIn = await loginUsecase.call(params: (
         username: username,
@@ -207,11 +207,11 @@ abstract class _LoginController with Store {
           clearForm();
           QR.navigator.replaceAll(Routing.to.dashboard.path);
           BotToast.showText(
-              text: t.accounts.loginSuccess, duration: kDelayWaiting);
+              text: TranslationsProvider.translator.accounts.loginSuccess, duration: kDelayWaiting);
         }).then((value) async {
           await Future.delayed(kDelayWaiting).whenComplete(() async {
             BotToast.showText(
-                text: t.welcome(
+                text: TranslationsProvider.translator.welcome(
                     fullName: await appStateController.currentUser
                             .then((user) => user?.nickName) ??
                         ""),
@@ -227,7 +227,7 @@ abstract class _LoginController with Store {
         } else if (validator.passwordError != null) {
           appStateController.throwMessageException(validator.passwordError!);
         } else {
-          appStateController.throwMessageException(t.accounts.loginFail);
+          appStateController.throwMessageException(TranslationsProvider.translator.accounts.loginFail);
         }
       });
     }

@@ -19,8 +19,9 @@ import '../../../core/security/security.dart' as _i4;
 import '../../../features/accounts/accounts.dart' as _i11;
 import '../../../features/accounts/data/data.dart' as _i8;
 import '../../../features/accounts/domain/domain.dart' as _i7;
-import '../../../features/accounts/presentation/presentation.dart' as _i13;
-import '../../../features/home/presentation/presentation.dart' as _i14;
+import '../../../features/accounts/presentation/presentation.dart' as _i14;
+import '../../../features/home/presentation/presentation.dart' as _i15;
+import '../../config.dart' as _i13;
 import '../logger/logger.dart' as _i3;
 import '../settings/settings.dart' as _i9;
 
@@ -81,17 +82,17 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i4.RememberedUsernameUsecase>(() =>
         _i4.RememberedUsernameUsecase(gh<_i4.AuthenticationRepository>()));
     gh.factory<_i12.AppStateController>(() => _i12.AppStateController(
-          gh<_i9.SettingsProvider>(),
+          gh<_i13.SettingsProvider>(),
           gh<_i10.AuthenticationRepository>(),
         ));
-    gh.factory<_i13.SignupController>(() => _i13.SignupController(
+    gh.factory<_i14.SignupController>(() => _i14.SignupController(
           gh<_i4.SignUpUsecase>(),
           gh<_i4.UsernameAlreadyExistsUsecase>(),
           gh<_i4.EmailAddressAlreadyExistsUsecase>(),
           gh<_i4.StrengthPasswordChecker>(),
           gh<_i12.AppStateController>(),
         ));
-    gh.factory<_i13.LoginController>(() => _i13.LoginController(
+    gh.factory<_i14.LoginController>(() => _i14.LoginController(
           gh<_i12.AppStateController>(),
           gh<_i4.LoginUsecase>(),
           gh<_i4.EmailAddressAlreadyExistsUsecase>(),
@@ -99,11 +100,11 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i4.RememberedPasswordUsecase>(),
           gh<_i4.RememberedUsernameUsecase>(),
         ));
-    gh.factory<_i14.HomeController>(() => _i14.HomeController(
+    gh.factory<_i15.HomeController>(() => _i15.HomeController(
           gh<_i4.AuthenticationRepository>(),
           gh<_i12.AppStateController>(),
         ));
-    gh.factory<_i13.ProfileController>(() => _i13.ProfileController(
+    gh.factory<_i14.ProfileController>(() => _i14.ProfileController(
           gh<_i12.AppStateController>(),
           gh<_i4.LogoutUsecase>(),
         ));

@@ -23,7 +23,7 @@ class _LanguageChangerState extends State<LanguageChanger> {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      var translator = Translations.of(context);
+      var translator = TranslationsProvider.translator;
       return ClipRRect(
         borderRadius: BorderRadius.circular(kBorderRadius),
         child: PopupMenuButton<Locale>(

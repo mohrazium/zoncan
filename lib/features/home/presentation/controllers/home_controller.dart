@@ -44,7 +44,7 @@ abstract class _HomeController with Store {
 
   @action
   Future<bool?> logoutUser() async {
-    appStateController.setIsLoading(t.loadingPleaseWait);
+    appStateController.setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
     return await authService.logout().then((isLoggedOut) {
       if (isLoggedOut!) {
         appStateController.unsetIsLoading();
@@ -57,7 +57,7 @@ abstract class _HomeController with Store {
   @action
   Future<void> loadSetupPage(
       BuildContext context, AsyncSnapshot snapshot) async {
-    appStateController.setIsLoading(t.loadingPleaseWait);
+    appStateController.setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
     if (snapshot.hasData) {
       if (snapshot.data != null && !snapshot.data!) {
         //!TODO :  Fix setup page call
