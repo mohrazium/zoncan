@@ -172,7 +172,7 @@ class UserDetailsRepositoryImpl extends Storing<int, UserDetailsTable>
           return query.findUnique();
         })
         .then((foundedUser) => foundedUser != null
-            ? UserModel.fromJson(foundedUser.toJson())
+            ? UserDetailsModel.fromTable(foundedUser)
             : null)
         .onError((error, stackTrace) => throw FailureException(
               level: ExceptionLevel.ERROR,
@@ -192,7 +192,7 @@ class UserDetailsRepositoryImpl extends Storing<int, UserDetailsTable>
           return query.findUnique();
         })
         .then((foundedUser) => foundedUser != null
-            ? UserModel.fromJson(foundedUser.toJson())
+            ?  UserDetailsModel.fromTable(foundedUser)
             : null)
         .onError((error, stackTrace) => throw FailureException(
               level: ExceptionLevel.ERROR,
@@ -212,7 +212,7 @@ class UserDetailsRepositoryImpl extends Storing<int, UserDetailsTable>
           return query.findUnique();
         })
         .then((foundedUser) => foundedUser != null
-            ? UserModel.fromJson(foundedUser.toJson())
+            ?  UserDetailsModel.fromTable(foundedUser)
             : null)
         .onError((error, stackTrace) => throw FailureException(
               level: ExceptionLevel.ERROR,
@@ -225,7 +225,7 @@ class UserDetailsRepositoryImpl extends Storing<int, UserDetailsTable>
 
   @override
   Future<bool> deleteUser(UserDetailsModel model) =>
-      delete(UserDetailsTable.fromJson(model.toJson()));
+      delete(model.toTable());
 
   @override
   Future<bool> deleteUserByUUID(String uuid) async {
@@ -253,18 +253,18 @@ class UserDetailsRepositoryImpl extends Storing<int, UserDetailsTable>
     List<UserDetailsModel?> foundedUsers = List.empty();
     for (var user in await findAll()) {
       if (user != null) {
-        foundedUsers.add(UserModel.fromJson(user.toJson()));
+        foundedUsers.add(UserDetailsModel.fromTable(user));
       }
     }
     return foundedUsers;
   }
 
   @override
-  Future<UserDetailsModel?> updateUser(UserDetailsModel entity) async {
-    return await update(UserDetailsTable.fromJson(entity.toJson()))
+  Future<UserDetailsModel?> updateUser(UserDetailsModel model) async {
+    return await update(model.toTable())
         .then((isUpdated) async {
       if (isUpdated) {
-        return await findUserByUUID(entity.uid ?? "");
+        return await findUserByUUID(model.uid ?? "");
       }
     }).onError((error, stackTrace) => throw FailureException(
               level: ExceptionLevel.ERROR,
@@ -278,7 +278,7 @@ class UserDetailsRepositoryImpl extends Storing<int, UserDetailsTable>
   @override
   Future<UserDetailsModel?> updateUserByUUID(String uuid) async {
     return await findUserByUUID(uuid).then((foundedUser) async {
-      return await update(UserDetailsTable.fromJson(foundedUser!.toJson()))
+      return await update(foundedUser!.toTable())
           .then((isUpdated) async {
         if (isUpdated) {
           return await findUserByUUID(uuid);

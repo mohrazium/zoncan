@@ -113,7 +113,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   @override
   Future<UserDetailsModel?> currentUserDetails() => _storage
       .read(SecurityKeys.userDetails)
-      .then((user) => user != null ? UserModel.fromJson(user) : null);
+      .then((user) => user != null ? UserDetailsModel.fromTable(user) : null);
 
   Future<bool> _saveUserDetails(UserDetailsModel user) async =>
       _storage.write(SecurityKeys.userDetails, user.toJson());

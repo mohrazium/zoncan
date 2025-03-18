@@ -1,6 +1,6 @@
 part of '../data.dart';
 
-typedef UserModel = UserDetailsModelMapper;
+typedef UserDetails = UserDetailsModelMapper;
 
 @MappableClass(
     generateMethods: GenerateMethods.copy |
@@ -9,10 +9,10 @@ typedef UserModel = UserDetailsModelMapper;
         GenerateMethods.decode |
         GenerateMethods.encode)
 class UserDetailsModel extends UserDetailsEntity with UserDetailsModelMappable {
-
   UserDetailsModel(
       {required super.id,
       super.uid,
+      super.person,
       super.nickName,
       required super.userName,
       super.email,
@@ -36,8 +36,45 @@ class UserDetailsModel extends UserDetailsEntity with UserDetailsModelMappable {
       isEmailVerified: false,
       isPhoneNumberVerified: false);
 
-  factory UserDetailsModel.fromTable(UserDetailsTable table) =>
-      UserModel.fromJson(table.toJson());
+  factory UserDetailsModel.fromTable(UserDetailsTable table) {
+    return UserDetailsModel(
+      id: table.id,
+      uid: table.uid,
+      person: PersonModel.fromTable(table.person!),
+      nickName: table.nickName,
+      userName: table.userName,
+      phoneNumber: table.phoneNumber,
+      email: table.email,
+      isActive: table.isActive,
+      isAuthenticated: table.isAuthenticated,
+      isEmailVerified: table.isEmailVerified,
+      isPhoneNumberVerified: table.isPhoneNumberVerified,
+      encryptedPassword: table.encryptedPassword,
+      isCompletedFirstSetup: table.isCompletedFirstSetup,
+      setupLevel: table.setupLevel,
+      expirationDate: table.expirationDate,
+      createdAt: table.createdAt,
+      updatedAt: table.updatedAt,
+    );
+  }
 
-  UserDetailsTable toTable() => UserDetailsTable.fromJson(toJson());
+  UserDetailsTable toTable() {
+    return UserDetailsTable(
+        this.id,
+        this.uid,
+        this.nickName,
+        this.userName,
+        this.email,
+        this.phoneNumber,
+        this.isActive,
+        this.isAuthenticated,
+        this.isEmailVerified,
+        this.isPhoneNumberVerified,
+        this.encryptedPassword,
+        this.isCompletedFirstSetup,
+        this.setupLevel,
+        this.expirationDate,
+        this.createdAt,
+        this.updatedAt);
+  }
 }

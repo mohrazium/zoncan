@@ -1,17 +1,17 @@
 part of '../domain.dart';
 
-class AddressEntity {
-  final int id;
-  final String? uid;
-  final String? postalCode;
-  final String? province;
-  final String? county;
-  final String? city;
-  final String? blv;
-  final String fullAddress;
-  final String? description;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+abstract class AddressEntity {
+  int id;
+  String? uid;
+  String? postalCode;
+  String? province;
+  String? county;
+  String? city;
+  String? blv;
+  String fullAddress;
+  String? description;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   AddressEntity({
     required this.id,

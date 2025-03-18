@@ -1,26 +1,28 @@
 part of '../domain.dart';
 
 abstract class UserDetailsEntity {
-  final int id;
-  final String? uid;
-  final String? nickName;
-  final String userName;
-  final String? email;
-  final String? phoneNumber;
-  final bool isActive;
-  final bool isAuthenticated;
-  final bool isEmailVerified;
-  final bool isPhoneNumberVerified;
-  final String? encryptedPassword;
-  final bool? isCompletedFirstSetup;
-  final int? setupLevel;
-  final DateTime? expirationDate;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  int id;
+  String? uid;
+  PersonEntity? person;
+  String? nickName;
+  String userName;
+  String? email;
+  String? phoneNumber;
+  bool isActive;
+  bool isAuthenticated;
+  bool isEmailVerified;
+  bool isPhoneNumberVerified;
+  String? encryptedPassword;
+  bool? isCompletedFirstSetup;
+  int? setupLevel;
+  DateTime? expirationDate;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   UserDetailsEntity(
       {required this.id,
       this.uid,
+      this.person,
       this.nickName,
       required this.userName,
       this.email,

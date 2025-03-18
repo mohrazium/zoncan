@@ -8,8 +8,12 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/core/core.dart';
+import 'package:zoncan/features/accounts/accounts.dart';
+import 'package:zoncan/features/features.dart';
+import 'package:zoncan/features/persons/data/data.dart';
 
 
+import '../../persons/domain/domain.dart';
 import '../domain/domain.dart';
 
 

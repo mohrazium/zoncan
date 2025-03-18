@@ -25,6 +25,9 @@ class UserDetailsModelMapper extends ClassMapperBase<UserDetailsModel> {
   static String? _$uid(UserDetailsModel v) => v.uid;
   static const Field<UserDetailsModel, String> _f$uid =
       Field('uid', _$uid, opt: true);
+  static PersonEntity? _$person(UserDetailsModel v) => v.person;
+  static const Field<UserDetailsModel, PersonEntity> _f$person =
+      Field('person', _$person, opt: true);
   static String? _$nickName(UserDetailsModel v) => v.nickName;
   static const Field<UserDetailsModel, String> _f$nickName =
       Field('nickName', _$nickName, opt: true);
@@ -74,6 +77,7 @@ class UserDetailsModelMapper extends ClassMapperBase<UserDetailsModel> {
   final MappableFields<UserDetailsModel> fields = const {
     #id: _f$id,
     #uid: _f$uid,
+    #person: _f$person,
     #nickName: _f$nickName,
     #userName: _f$userName,
     #email: _f$email,
@@ -94,6 +98,7 @@ class UserDetailsModelMapper extends ClassMapperBase<UserDetailsModel> {
     return UserDetailsModel(
         id: data.dec(_f$id),
         uid: data.dec(_f$uid),
+        person: data.dec(_f$person),
         nickName: data.dec(_f$nickName),
         userName: data.dec(_f$userName),
         email: data.dec(_f$email),
@@ -167,6 +172,7 @@ abstract class UserDetailsModelCopyWith<$R, $In extends UserDetailsModel, $Out>
   $R call(
       {int? id,
       String? uid,
+      PersonEntity? person,
       String? nickName,
       String? userName,
       String? email,
@@ -197,6 +203,7 @@ class _UserDetailsModelCopyWithImpl<$R, $Out>
   $R call(
           {int? id,
           Object? uid = $none,
+          Object? person = $none,
           Object? nickName = $none,
           String? userName,
           Object? email = $none,
@@ -214,6 +221,7 @@ class _UserDetailsModelCopyWithImpl<$R, $Out>
       $apply(FieldCopyWithData({
         if (id != null) #id: id,
         if (uid != $none) #uid: uid,
+        if (person != $none) #person: person,
         if (nickName != $none) #nickName: nickName,
         if (userName != null) #userName: userName,
         if (email != $none) #email: email,
@@ -235,6 +243,7 @@ class _UserDetailsModelCopyWithImpl<$R, $Out>
   UserDetailsModel $make(CopyWithData data) => UserDetailsModel(
       id: data.get(#id, or: $value.id),
       uid: data.get(#uid, or: $value.uid),
+      person: data.get(#person, or: $value.person),
       nickName: data.get(#nickName, or: $value.nickName),
       userName: data.get(#userName, or: $value.userName),
       email: data.get(#email, or: $value.email),

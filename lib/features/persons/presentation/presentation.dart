@@ -22,6 +22,7 @@ import 'package:zoncan/config/src/localization/localization.dart';
 import 'package:zoncan/core/security/security.dart';
 import 'package:zoncan/core/utils/utils.dart';
 
+import '../../features.dart';
 import '../data/data.dart';
 
 part 'pages/accounts_page.dart';
@@ -29,12 +30,10 @@ part 'views/accounts_view_large.dart';
 part 'widgets/slider.dart';
 part 'widgets/login_header.dart';
 part 'widgets/password_reset_form.dart';
-// part 'forms/signup_form.dart';
-// part 'forms/login_form.dart';
-// part 'forms/profile_form.dart';
-// part 'controllers/login_controller.dart';
-// part 'controllers/profile_controller.dart';
-// part 'controllers/signup_controller.dart';
-
+part 'forms/signup_form.dart';
+part 'forms/login_form.dart';
+part 'forms/profile_form.dart';
+part 'controllers/login_controller.dart';
+part 'controllers/profile_controller.dart';
+part 'controllers/signup_controller.dart';
 part 'presentation.g.dart';
-

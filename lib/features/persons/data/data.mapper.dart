@@ -13,6 +13,7 @@ class PersonModelMapper extends ClassMapperBase<PersonModel> {
   static PersonModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = PersonModelMapper._());
+      PersonTypeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -56,15 +57,16 @@ class PersonModelMapper extends ClassMapperBase<PersonModel> {
   static String? _$profilePicture(PersonModel v) => v.profilePicture;
   static const Field<PersonModel, String> _f$profilePicture =
       Field('profilePicture', _$profilePicture, opt: true);
-  static dynamic _$address(PersonModel v) => v.address;
-  static const Field<PersonModel, dynamic> _f$address =
-      Field('address', _$address);
-  static dynamic _$accountingInfo(PersonModel v) => v.accountingInfo;
-  static const Field<PersonModel, dynamic> _f$accountingInfo =
-      Field('accountingInfo', _$accountingInfo);
+  static AddressEntity? _$address(PersonModel v) => v.address;
+  static const Field<PersonModel, AddressEntity> _f$address =
+      Field('address', _$address, opt: true);
+  static AccountingInfoEntity? _$accountingInfo(PersonModel v) =>
+      v.accountingInfo;
+  static const Field<PersonModel, AccountingInfoEntity> _f$accountingInfo =
+      Field('accountingInfo', _$accountingInfo, opt: true);
   static PersonType _$personType(PersonModel v) => v.personType;
   static const Field<PersonModel, PersonType> _f$personType =
-      Field('personType', _$personType);
+      Field('personType', _$personType, opt: true, def: PersonType.all);
   static String? _$description(PersonModel v) => v.description;
   static const Field<PersonModel, String> _f$description =
       Field('description', _$description, opt: true);
@@ -186,8 +188,8 @@ abstract class PersonModelCopyWith<$R, $In extends PersonModel, $Out>
       String? email,
       String? economicCode,
       String? profilePicture,
-      dynamic address,
-      dynamic accountingInfo,
+      AddressEntity? address,
+      AccountingInfoEntity? accountingInfo,
       PersonType? personType,
       String? description,
       DateTime? createdAt,
@@ -280,6 +282,8 @@ class AccountingInfoModelMapper extends ClassMapperBase<AccountingInfoModel> {
   static AccountingInfoModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = AccountingInfoModelMapper._());
+      BalanceTypeMapper.ensureInitialized();
+      BeggingOfBalanceTypeMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -308,17 +312,20 @@ class AccountingInfoModelMapper extends ClassMapperBase<AccountingInfoModel> {
   static String? _$debtCreditLimit(AccountingInfoModel v) => v.debtCreditLimit;
   static const Field<AccountingInfoModel, String> _f$debtCreditLimit =
       Field('debtCreditLimit', _$debtCreditLimit, opt: true);
-  static String? _$settlementInCash(AccountingInfoModel v) =>
-      v.settlementInCash;
-  static const Field<AccountingInfoModel, String> _f$settlementInCash =
-      Field('settlementInCash', _$settlementInCash, opt: true);
+  static BalanceType _$settlementInCashType(AccountingInfoModel v) =>
+      v.settlementInCashType;
+  static const Field<AccountingInfoModel, BalanceType> _f$settlementInCashType =
+      Field('settlementInCashType', _$settlementInCashType,
+          opt: true, def: BalanceType.saleinvoice);
   static double _$beggingOfBalance(AccountingInfoModel v) => v.beggingOfBalance;
   static const Field<AccountingInfoModel, double> _f$beggingOfBalance =
       Field('beggingOfBalance', _$beggingOfBalance);
-  static String _$beggingOfBalanceType(AccountingInfoModel v) =>
+  static BeggingOfBalanceType _$beggingOfBalanceType(AccountingInfoModel v) =>
       v.beggingOfBalanceType;
-  static const Field<AccountingInfoModel, String> _f$beggingOfBalanceType =
-      Field('beggingOfBalanceType', _$beggingOfBalanceType);
+  static const Field<AccountingInfoModel, BeggingOfBalanceType>
+      _f$beggingOfBalanceType = Field(
+          'beggingOfBalanceType', _$beggingOfBalanceType,
+          opt: true, def: BeggingOfBalanceType.incalculable);
   static String? _$description(AccountingInfoModel v) => v.description;
   static const Field<AccountingInfoModel, String> _f$description =
       Field('description', _$description, opt: true);
@@ -338,7 +345,7 @@ class AccountingInfoModelMapper extends ClassMapperBase<AccountingInfoModel> {
     #category: _f$category,
     #groupOfOff: _f$groupOfOff,
     #debtCreditLimit: _f$debtCreditLimit,
-    #settlementInCash: _f$settlementInCash,
+    #settlementInCashType: _f$settlementInCashType,
     #beggingOfBalance: _f$beggingOfBalance,
     #beggingOfBalanceType: _f$beggingOfBalanceType,
     #description: _f$description,
@@ -355,7 +362,7 @@ class AccountingInfoModelMapper extends ClassMapperBase<AccountingInfoModel> {
         category: data.dec(_f$category),
         groupOfOff: data.dec(_f$groupOfOff),
         debtCreditLimit: data.dec(_f$debtCreditLimit),
-        settlementInCash: data.dec(_f$settlementInCash),
+        settlementInCashType: data.dec(_f$settlementInCashType),
         beggingOfBalance: data.dec(_f$beggingOfBalance),
         beggingOfBalanceType: data.dec(_f$beggingOfBalanceType),
         description: data.dec(_f$description),
@@ -426,9 +433,9 @@ abstract class AccountingInfoModelCopyWith<$R, $In extends AccountingInfoModel,
       String? category,
       String? groupOfOff,
       String? debtCreditLimit,
-      String? settlementInCash,
+      BalanceType? settlementInCashType,
       double? beggingOfBalance,
-      String? beggingOfBalanceType,
+      BeggingOfBalanceType? beggingOfBalanceType,
       String? description,
       DateTime? createdAt,
       DateTime? updatedAt});
@@ -453,9 +460,9 @@ class _AccountingInfoModelCopyWithImpl<$R, $Out>
           Object? category = $none,
           Object? groupOfOff = $none,
           Object? debtCreditLimit = $none,
-          Object? settlementInCash = $none,
+          BalanceType? settlementInCashType,
           double? beggingOfBalance,
-          String? beggingOfBalanceType,
+          BeggingOfBalanceType? beggingOfBalanceType,
           Object? description = $none,
           Object? createdAt = $none,
           Object? updatedAt = $none}) =>
@@ -467,7 +474,8 @@ class _AccountingInfoModelCopyWithImpl<$R, $Out>
         if (category != $none) #category: category,
         if (groupOfOff != $none) #groupOfOff: groupOfOff,
         if (debtCreditLimit != $none) #debtCreditLimit: debtCreditLimit,
-        if (settlementInCash != $none) #settlementInCash: settlementInCash,
+        if (settlementInCashType != null)
+          #settlementInCashType: settlementInCashType,
         if (beggingOfBalance != null) #beggingOfBalance: beggingOfBalance,
         if (beggingOfBalanceType != null)
           #beggingOfBalanceType: beggingOfBalanceType,
@@ -485,8 +493,8 @@ class _AccountingInfoModelCopyWithImpl<$R, $Out>
       category: data.get(#category, or: $value.category),
       groupOfOff: data.get(#groupOfOff, or: $value.groupOfOff),
       debtCreditLimit: data.get(#debtCreditLimit, or: $value.debtCreditLimit),
-      settlementInCash:
-          data.get(#settlementInCash, or: $value.settlementInCash),
+      settlementInCashType:
+          data.get(#settlementInCashType, or: $value.settlementInCashType),
       beggingOfBalance:
           data.get(#beggingOfBalance, or: $value.beggingOfBalance),
       beggingOfBalanceType:

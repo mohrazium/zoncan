@@ -4,6 +4,7 @@ import 'package:built_value/built_value.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:zoncan/core/core.dart';
+import 'package:zoncan/features/persons/domain/domain.dart';
 
 import '../data/data.dart';
 

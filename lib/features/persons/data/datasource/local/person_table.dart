@@ -4,56 +4,47 @@ part of '../../data.dart';
 
 @Entity()
 @JsonSerializable()
-class PersonTable extends PersonEntity {
-  @override
+class PersonTable {
   @Id()
-   int id;
-  @override
+  int id;
   @Unique()
-  final String? uid;
-  @override
-  final String name;
-  @override
-  final String family;
-  @override
-  final String? fatherName;
-  @override
-  final DateTime? birthDate;
-  @override
-  final int? nationalCode;
-  @override
-  final String? phoneNumber;
-  @override
-  final String? phoneNumberSms;
-  @override
-  final String? telephone;
-  @override
-  final String? email;
-  @override
-  final String? economicCode;
-  @override
-  final String? profilePicture;
-  @override
-  final ToOne<AddressTable> address;
-  @override
-  final ToOne<AccountingInfoTable> accountingInfo;
-  @override
-  int personType;
-  @override
-  final String? description;
-  @override
+  String? uid;
+  String name;
+  String family;
+  String? fatherName;
   @Property(type: PropertyType.date)
-  @JsonKey(
-      fromJson: DateTimeEpochConverter.fromJsonNullable,
-      toJson: DateTimeEpochConverter.toJsonNullable)
-  final DateTime? createdAt;
-  @override
-  @Property(type: PropertyType.date)
-  @JsonKey(
-      fromJson: DateTimeEpochConverter.fromJsonNullable,
-      toJson: DateTimeEpochConverter.toJsonNullable)
-  final DateTime? updatedAt;
+  DateTime? birthDate;
+  int? nationalCode;
+  String? phoneNumber;
+  String? phoneNumberSms;
+  String? telephone;
+  String? email;
+  @Transient()
+  PersonType get personType =>
+      PersonType.values.firstWhere((e) => e.code == _personTypeCode);
 
+  @Property(type: PropertyType.int)
+  final int _personTypeCode;
+  @Transient()
+  AddressTable? get address => _addressRel.target;
+  final ToOne<AddressTable> _addressRel = ToOne<AddressTable>();
+  @Transient()
+  AccountingInfoTable? get accountingInfo => _accountingInfoRel.target;
+  final ToOne<AccountingInfoTable> _accountingInfoRel =
+      ToOne<AccountingInfoTable>();
+  String? economicCode;
+  String? profilePicture;
+  String? description;
+  @Property(type: PropertyType.date)
+  @JsonKey(
+      fromJson: DateTimeEpochConverter.fromJsonNullable,
+      toJson: DateTimeEpochConverter.toJsonNullable)
+  DateTime? createdAt;
+  @Property(type: PropertyType.date)
+  @JsonKey(
+      fromJson: DateTimeEpochConverter.fromJsonNullable,
+      toJson: DateTimeEpochConverter.toJsonNullable)
+  DateTime? updatedAt;
   PersonTable({
     required this.id,
     this.uid,
@@ -68,33 +59,12 @@ class PersonTable extends PersonEntity {
     this.email,
     this.economicCode,
     this.profilePicture,
-    required this.address,
-    required this.accountingInfo,
-    required this.personType,
+    int personTypeCode = 1,
     this.description,
     this.createdAt,
     this.updatedAt,
-  }) : super(
-          id: id,
-          uid: uid,
-          name: name,
-          family: family,
-          fatherName: fatherName,
-          birthDate: birthDate,
-          nationalCode: nationalCode,
-          phoneNumber: phoneNumber,
-          phoneNumberSms: phoneNumberSms,
-          telephone: telephone,
-          email: email,
-          economicCode: economicCode,
-          profilePicture: profilePicture,
-          address: address,
-          accountingInfo: accountingInfo,
-          personType: personType,
-          description: description,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-        );
+  })  : _personTypeCode = personTypeCode;
+
 
   factory PersonTable.fromJson(String jsonString) =>
       _$PersonTableFromJson(json.decode(jsonString));

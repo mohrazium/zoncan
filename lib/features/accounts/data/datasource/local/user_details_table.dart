@@ -4,50 +4,37 @@ part of '../../data.dart';
 
 @Entity()
 @JsonSerializable()
-class UserDetailsTable extends UserDetailsEntity {
-  @override
+class UserDetailsTable {
   @Id()
   int id;
-  @override
   @Unique()
-  final String? uid;
-  @override
-  final String? nickName;
-  @override
+  String? uid;
+  @Transient()
+  PersonTable? get person => _person.target;
+  final ToOne<PersonTable> _person = ToOne<PersonTable>();
+  String? nickName;
   @Unique()
-  final String userName;
-  @override
+  String userName;
   @Unique()
-  final String? email;
-  @override
-  final String? phoneNumber;
-  @override
-  final bool isActive;
-  @override
-  final bool isAuthenticated;
-  @override
-  final bool isEmailVerified;
-  @override
-  final bool isPhoneNumberVerified;
-  @override
-  final String encryptedPassword;
-  @override
-  final bool? isCompletedFirstSetup;
-  @override
-  final int? setupLevel;
-  @override
+  String? email;
+  String? phoneNumber;
+  bool isActive;
+  bool isAuthenticated;
+  bool isEmailVerified;
+  bool isPhoneNumberVerified;
+  String? encryptedPassword;
+  bool? isCompletedFirstSetup;
+  int? setupLevel;
   @Property(type: PropertyType.date)
   @JsonKey(
       fromJson: DateTimeEpochConverter.fromJsonNullable,
       toJson: DateTimeEpochConverter.toJsonNullable)
   final DateTime? expirationDate;
-  @override
   @Property(type: PropertyType.date)
   @JsonKey(
       fromJson: DateTimeEpochConverter.fromJsonNullable,
       toJson: DateTimeEpochConverter.toJsonNullable)
   final DateTime? createdAt;
-  @override
   @Property(type: PropertyType.date)
   @JsonKey(
       fromJson: DateTimeEpochConverter.fromJsonNullable,
@@ -71,25 +58,7 @@ class UserDetailsTable extends UserDetailsEntity {
     this.expirationDate,
     this.createdAt,
     this.updatedAt,
-  ) : super(
-          id: id,
-          uid: uid,
-          nickName: nickName,
-          userName: userName,
-          email: email,
-          phoneNumber: phoneNumber,
-          isActive: isActive,
-          isAuthenticated: isAuthenticated,
-          isEmailVerified: isEmailVerified,
-          isPhoneNumberVerified: isPhoneNumberVerified,
-          encryptedPassword: encryptedPassword,
-          isCompletedFirstSetup: isCompletedFirstSetup,
-          setupLevel: setupLevel,
-          expirationDate: expirationDate,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-        );
-
+  );
   factory UserDetailsTable.fromJson(String jsonString) =>
       _$UserDetailsTableFromJson(json.decode(jsonString));
 

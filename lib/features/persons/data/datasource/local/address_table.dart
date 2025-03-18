@@ -4,39 +4,28 @@ part of '../../data.dart';
 
 @Entity()
 @JsonSerializable()
-class AddressTable extends AddressEntity {
-  @override
+class AddressTable {
   @Id()
-   int id;
-  @override
+  int id;
   @Unique()
-  final String? uid;
-  @override
-  final String? postalCode;
-  @override
-  final String? province;
-  @override
-  final String? county;
-  @override
-  final String? city;
-  @override
-  final String? blv;
-  @override
-  final String fullAddress;
-  @override
-  final String? description;
-  @override
+  String? uid;
+  String? postalCode;
+  String? province;
+  String? county;
+  String? city;
+  String? blv;
+  String fullAddress;
+  String? description;
   @Property(type: PropertyType.date)
   @JsonKey(
       fromJson: DateTimeEpochConverter.fromJsonNullable,
       toJson: DateTimeEpochConverter.toJsonNullable)
-  final DateTime? createdAt;
-  @override
+  DateTime? createdAt;
   @Property(type: PropertyType.date)
   @JsonKey(
       fromJson: DateTimeEpochConverter.fromJsonNullable,
       toJson: DateTimeEpochConverter.toJsonNullable)
-  final DateTime? updatedAt;
+  DateTime? updatedAt;
 
   AddressTable({
     required this.id,
@@ -50,22 +39,10 @@ class AddressTable extends AddressEntity {
     this.description,
     this.createdAt,
     this.updatedAt,
-  }) : super(
-          id: id,
-          uid: uid,
-          postalCode: postalCode,
-          province: province,
-          county: county,
-          city: city,
-          blv: blv,
-          fullAddress: fullAddress,
-          description: description,
-          createdAt: createdAt,
-          updatedAt: updatedAt,
-        );
+  });
 
   factory AddressTable.fromJson(String jsonString) =>
-      _$AddressTableJson(json.decode(jsonString));
+      _$AddressTableFromJson(json.decode(jsonString));
 
   String toJson() => json.encode(_$AddressTableToJson(this));
 }

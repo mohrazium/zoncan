@@ -7,3 +7,4 @@ export 'src/constants/constants.dart';
 export 'src/injection/injection.dart';
 export 'src/localization/localization.dart';
 export 'src/settings/settings.dart';
+

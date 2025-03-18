@@ -1,29 +1,31 @@
 part of '../domain.dart';
 
 abstract class PersonEntity {
-  final int id;
-  final String? uid;
-  final String name;
-  final String family;
-  final String? fatherName;
-  final DateTime? birthDate;
-  final int? nationalCode;
-  final String? phoneNumber;
-  final String? phoneNumberSms;
-  final String? telephone;
-  final String? email;
-  final String? economicCode;
-  final String? profilePicture;
-  final dynamic address;
-  final dynamic accountingInfo;
-  final int personType;
-  final String? description;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  int id;
+  String? uid;
+  UserDetailsEntity? userDetails;
+  String name;
+  String family;
+  String? fatherName;
+  DateTime? birthDate;
+  int? nationalCode;
+  String? phoneNumber;
+  String? phoneNumberSms;
+  String? telephone;
+  String? email;
+  String? economicCode;
+  String? profilePicture;
+  AddressEntity? address;
+  AccountingInfoEntity? accountingInfo;
+  PersonType personType;
+  String? description;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   PersonEntity({
     required this.id,
     this.uid,
+    this.userDetails,
     required this.name,
     required this.family,
     this.fatherName,
@@ -35,9 +37,9 @@ abstract class PersonEntity {
     this.email,
     this.economicCode,
     this.profilePicture,
-    required this.address,
-    required this.accountingInfo,
-    required this.personType,
+    this.address,
+    this.accountingInfo,
+    this.personType = PersonType.all,
     this.description,
     this.createdAt,
     this.updatedAt,

@@ -1,19 +1,19 @@
 part of '../domain.dart';
 
-class AccountingInfoEntity {
-  final int id;
-  final String? uid;
-  final DateTime? introDate;
-  final String? referralPersonUid;
-  final String? category;
-  final String? groupOfOff;
-  final String? debtCreditLimit;
-  final String? settlementInCashType;
-  final double beggingOfBalance;
-  final int beggingOfBalanceType;
-  final String? description;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+abstract class AccountingInfoEntity{
+  int id;
+  String? uid;
+  DateTime? introDate;
+  String? referralPersonUid;
+  String? category;
+  String? groupOfOff;
+  String? debtCreditLimit;
+  BalanceType settlementInCashType;
+  double beggingOfBalance;
+  BeggingOfBalanceType beggingOfBalanceType;
+  String? description;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   AccountingInfoEntity({
     required this.id,
@@ -23,9 +23,9 @@ class AccountingInfoEntity {
     this.category,
     this.groupOfOff,
     this.debtCreditLimit,
-    this.settlementInCashType,
+    this.settlementInCashType = BalanceType.saleinvoice,
     required this.beggingOfBalance,
-    required this.beggingOfBalanceType,
+    this.beggingOfBalanceType = BeggingOfBalanceType.incalculable,
     this.description,
     this.createdAt,
     this.updatedAt,
