@@ -27,7 +27,7 @@ class TextBox extends StatefulWidget {
   final bool autofocus;
 
   const TextBox({
-    Key? key,
+    super.key,
     this.titleText,
     this.hintText,
     this.icon,
@@ -52,7 +52,7 @@ class TextBox extends StatefulWidget {
     this.errorText,
     this.suffixWidget,
     this.autofocus = false,
-  }) : super(key: key);
+  });
 
   @override
   _TextBoxState createState() => _TextBoxState();

@@ -76,8 +76,7 @@ class SplashScreen extends StatefulWidget {
         //this.pageRoute,
         this.routeName,
         this.navigateAfterFuture,
-        Key? key})
-      : super(key: key);
+        super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();

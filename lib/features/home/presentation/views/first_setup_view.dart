@@ -30,7 +30,7 @@ class _FirstSetupViewState extends State<FirstSetupView> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
+              const Column(
                 children: [
                   TextBox(
                     keyboardType: TextInputType.number,
@@ -92,7 +92,7 @@ class _FirstSetupViewState extends State<FirstSetupView> {
               Column(
                 children: [
                   //! National id field
-                  TextBox(
+                  const TextBox(
                     keyboardType: TextInputType.number,
                     titleText: "Strings.nationalIdentity",
                     maxLength: 10,
@@ -101,7 +101,7 @@ class _FirstSetupViewState extends State<FirstSetupView> {
                   ),
     
                   //! Last name field
-                  TextBox(
+                  const TextBox(
                     titleText: "Strings.lastName",
                     // controller: controller.lastNameController,
                     // readOnly: controller.readOnly.value,
@@ -134,7 +134,7 @@ class _FirstSetupViewState extends State<FirstSetupView> {
                   ),
     
                   //! Place of birth name field
-                  TextBox(
+                  const TextBox(
                     titleText: "Strings.placeOfIssue",
                     // controller: controller.placeOfIssueController,
                     // readOnly: controller.readOnly.value,

@@ -17,8 +17,8 @@ class StatusCard extends StatelessWidget {
     required this.data,
     required this.primary,
     required this.onPrimary,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final StatusCardData data;
   final Color primary;
@@ -163,8 +163,8 @@ class _IconLabel extends StatelessWidget {
     required this.color,
     required this.iconData,
     required this.label,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final Color color;
   final IconData iconData;
@@ -193,8 +193,7 @@ class _IconLabel extends StatelessWidget {
 }
 
 class _BackgroundDecoration extends StatelessWidget {
-  const _BackgroundDecoration({required this.child, Key? key})
-      : super(key: key);
+  const _BackgroundDecoration({required this.child, super.key});
 
   final Widget child;
 

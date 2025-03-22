@@ -1,4 +1,5 @@
 part of '../domain.dart';
+
 @Injectable()
 class UserFindByEmailUsecase extends Usecase<UserDetailsModel, String> {
   final UserDetailsRepository _repository;
@@ -7,14 +8,7 @@ class UserFindByEmailUsecase extends Usecase<UserDetailsModel, String> {
 
   @override
   Future<Either<FailureException, UserDetailsModel>> call(
-      {required String params}) async {
-    try {
-      return await _repository
-          .findUserByEmail(params)
-          .then((foundedUser) => Either.right(foundedUser!));
-    } on FailureException catch (e) {
-      return Either.left(e);
-    }
-  }
+          {required String params}) async =>
+      await _repository.findUserByEmail(params).then((res) =>
+          res.match((failure) => Left(failure), (result) => Right(result)));
 }
-

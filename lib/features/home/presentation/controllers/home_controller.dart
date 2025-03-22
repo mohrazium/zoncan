@@ -44,20 +44,25 @@ abstract class _HomeController with Store {
 
   @action
   Future<bool?> logoutUser() async {
-    appStateController.setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
-    return await authService.logout().then((isLoggedOut) {
-      if (isLoggedOut!) {
-        appStateController.unsetIsLoading();
-        QR.navigator.replaceAll(Routing.to.login.path);
-      }
-      return isLoggedOut;
-    });
+    appStateController
+        .setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
+    return await authService
+        .logout()
+        .then((isLoggedOut) => isLoggedOut.fold((failure) {
+              appStateController.showMessage(failure.userMessage ?? "");
+              return false;
+            }, (loggedOut) {
+              appStateController.unsetIsLoading();
+              QR.navigator.replaceAll(Routing.to.login.path);
+              return true;
+            }));
   }
 
   @action
   Future<void> loadSetupPage(
       BuildContext context, AsyncSnapshot snapshot) async {
-    appStateController.setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
+    appStateController
+        .setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
     if (snapshot.hasData) {
       if (snapshot.data != null && !snapshot.data!) {
         //!TODO :  Fix setup page call

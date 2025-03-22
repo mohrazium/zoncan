@@ -15,8 +15,8 @@ class ProgressLineData {
 class ProgressLine extends StatelessWidget {
   const ProgressLine({
     required this.data,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final ProgressLineData data;
 

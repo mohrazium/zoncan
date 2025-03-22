@@ -3,8 +3,8 @@ part of '../components.dart';
 class StatusCardsOverview extends StatelessWidget {
   const StatusCardsOverview({
     required this.data,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<StatusCardData> data;
 

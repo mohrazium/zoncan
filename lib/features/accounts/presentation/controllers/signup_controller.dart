@@ -30,6 +30,7 @@ abstract class _SignupFormValidator with Store, ValidatorMixin {
       passwordError == null &&
       confirmPasswordError == null;
 }
+
 @Injectable()
 class SignupController extends _SignupController
     with _$SignupController
@@ -129,11 +130,14 @@ abstract class _SignupController with Store {
   void validateNickname(_) {
     validator.nickNameError = null;
     if (isNull(nickName) || nickName.isEmpty) {
-      validator.nickNameError = TranslationsProvider.translator.validation.notBeEmpty;
+      validator.nickNameError =
+          TranslationsProvider.translator.validation.notBeEmpty;
     } else if (nickName.length <= 5) {
-      validator.nickNameError = TranslationsProvider.translator.validation.notValidLength(length: 5);
+      validator.nickNameError =
+          TranslationsProvider.translator.validation.notValidLength(length: 5);
     } else if (isAlpha(nickName)) {
-      validator.nickNameError = TranslationsProvider.translator.validation.notValidNickname;
+      validator.nickNameError =
+          TranslationsProvider.translator.validation.notValidNickname;
     } else {
       nickName = nickName.trim();
     }
@@ -143,21 +147,25 @@ abstract class _SignupController with Store {
   Future<void> validateUsername(_) async {
     validator.usernameError = null;
     if (isNull(username) || username.isEmpty) {
-      validator.usernameError = TranslationsProvider.translator.validation.notBeEmpty;
+      validator.usernameError =
+          TranslationsProvider.translator.validation.notBeEmpty;
     } else if (username.length <= 6) {
-      validator.usernameError = TranslationsProvider.translator.validation.notValidLength(length: 6);
+      validator.usernameError =
+          TranslationsProvider.translator.validation.notValidLength(length: 6);
     } else if (!validator.isValidUsername(username)) {
-      validator.usernameError = TranslationsProvider.translator.validation.notValidUsername;
+      validator.usernameError =
+          TranslationsProvider.translator.validation.notValidUsername;
     } else {
       usernameCheck = ObservableFuture(usernameAlreadyExistsUsecase
           .call(params: username)
           .then((resultValue) => resultValue.fold((error) {
-                appStateController.throwException(error);
+                appStateController.showMessage(error);
                 return false;
               }, (onResult) => onResult)));
       await Future.delayed(const Duration(seconds: 1));
       if (await usernameCheck) {
-        validator.usernameError = TranslationsProvider.translator.validation.alreadyExistsUsername;
+        validator.usernameError =
+            TranslationsProvider.translator.validation.alreadyExistsUsername;
       } else {
         username = username.trim();
       }
@@ -168,19 +176,22 @@ abstract class _SignupController with Store {
   Future<void> validateEmail(_) async {
     validator.emailError = null;
     if (isNull(email) || email.isEmpty) {
-      validator.emailError = TranslationsProvider.translator.validation.notBeEmpty;
+      validator.emailError =
+          TranslationsProvider.translator.validation.notBeEmpty;
     } else if (!isEmail(email)) {
-      validator.emailError = TranslationsProvider.translator.validation.notValidEmail;
+      validator.emailError =
+          TranslationsProvider.translator.validation.notValidEmail;
     } else {
       emailCheck = ObservableFuture(emailAddressAlreadyExistsUsecase
           .call(params: email)
           .then((resultValue) => resultValue.fold((error) {
-                appStateController.throwException(error);
+                appStateController.showMessage(error);
                 return false;
               }, (onResult) => onResult)));
       await Future.delayed(kDelayWaiting);
       if (await emailCheck) {
-        validator.emailError = TranslationsProvider.translator.validation.alreadyExistsEmail;
+        validator.emailError =
+            TranslationsProvider.translator.validation.alreadyExistsEmail;
       } else {
         email = email.trim();
       }
@@ -191,9 +202,11 @@ abstract class _SignupController with Store {
   void validatePassword(_) {
     validator.passwordError = null;
     if (password.isEmpty) {
-      validator.passwordError = TranslationsProvider.translator.validation.notBeEmpty;
+      validator.passwordError =
+          TranslationsProvider.translator.validation.notBeEmpty;
     } else if (password.contains(" ")) {
-      validator.passwordError = TranslationsProvider.translator.validation.passwordNoSpace;
+      validator.passwordError =
+          TranslationsProvider.translator.validation.passwordNoSpace;
     } else {
       var passwordErrors = passwordChecker.check(password);
       if (passwordErrors != null) {
@@ -208,9 +221,11 @@ abstract class _SignupController with Store {
   void validateConfirmPassword(_) {
     validator.confirmPasswordError = null;
     if (confirmPassword.isEmpty) {
-      validator.confirmPasswordError = TranslationsProvider.translator.validation.notBeEmpty;
+      validator.confirmPasswordError =
+          TranslationsProvider.translator.validation.notBeEmpty;
     } else if (!equals(password, confirmPassword)) {
-      validator.confirmPasswordError = TranslationsProvider.translator.validation.passwordsIsNotMatch;
+      validator.confirmPasswordError =
+          TranslationsProvider.translator.validation.passwordsIsNotMatch;
     } else {
       confirmPassword = confirmPassword.trim();
     }
@@ -219,26 +234,31 @@ abstract class _SignupController with Store {
   @action
   void validateForm() {
     if (nickName.isEmpty) {
-      validator.nickNameError = TranslationsProvider.translator.validation.notBeEmpty;
+      validator.nickNameError =
+          TranslationsProvider.translator.validation.notBeEmpty;
     } else if (email.isEmpty) {
-      validator.emailError = TranslationsProvider.translator.validation.notBeEmpty;
+      validator.emailError =
+          TranslationsProvider.translator.validation.notBeEmpty;
     } else if (password.isEmpty) {
-      validator.passwordError = TranslationsProvider.translator.validation.notBeEmpty;
+      validator.passwordError =
+          TranslationsProvider.translator.validation.notBeEmpty;
     } else if (confirmPassword.isEmpty) {
-      validator.confirmPasswordError = TranslationsProvider.translator.validation.passwordsIsNotMatch;
+      validator.confirmPasswordError =
+          TranslationsProvider.translator.validation.passwordsIsNotMatch;
     }
   }
 
   @action
   Future<void> signup() async {
     validateForm();
-    appStateController.setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
+    appStateController
+        .setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
     if (canSignup) {
       userDetails = UserDetailsModel.init();
       userDetails = userDetails.copyWith(
         nickName: nickName,
         email: email,
-        userName: username,
+        userName: username.isNotEmpty ? username : email,
         isActive: true,
       );
       final isSignedUp = await signUpUsecase.call(params: (
@@ -246,7 +266,7 @@ abstract class _SignupController with Store {
         password: confirmPassword,
       )).then((resultValue) => resultValue.fold((error) {
             appStateController.unsetIsLoading();
-            appStateController.throwException(error);
+            appStateController.showMessage(error);
             return false;
           }, (onResult) {
             if (onResult != null) {
@@ -264,7 +284,8 @@ abstract class _SignupController with Store {
           QR.navigator.replaceAll(Routing.to.dashboard.path);
 
           BotToast.showText(
-              text: TranslationsProvider.translator.accounts.signupSuccess, duration: kDelayWaiting);
+              text: TranslationsProvider.translator.accounts.signupSuccess,
+              duration: kDelayWaiting);
         }).then((value) async {
           await Future.delayed(kDelayWaiting).whenComplete(() async {
             BotToast.showText(
@@ -280,16 +301,17 @@ abstract class _SignupController with Store {
       await Future.delayed(kDelayWaiting).whenComplete(() {
         appStateController.unsetIsLoading();
         if (validator.nickNameError != null) {
-          appStateController.throwMessageException(validator.nickNameError!);
+          appStateController.showMessage(validator.nickNameError!);
         } else if (validator.usernameError != null) {
-          appStateController.throwMessageException(validator.usernameError!);
+          appStateController.showMessage(validator.usernameError!);
         } else if (validator.passwordError != null) {
-          appStateController.throwMessageException(validator.passwordError!);
+          appStateController.showMessage(validator.passwordError!);
         } else if (validator.confirmPasswordError != null) {
           appStateController
-              .throwMessageException(validator.confirmPasswordError!);
+              .showMessage(validator.confirmPasswordError!);
         } else {
-          appStateController.throwMessageException(TranslationsProvider.translator.accounts.signupFail);
+          appStateController.showMessage(
+              TranslationsProvider.translator.accounts.signupFail);
         }
       });
     }

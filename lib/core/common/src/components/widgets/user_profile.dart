@@ -16,8 +16,8 @@ class UserProfile extends StatelessWidget {
   const UserProfile({
     required this.data,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final UserProfileData data;
   final Function()? onPressed;

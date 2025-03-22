@@ -1,6 +1,5 @@
 library zoncan.features.home.presentaion;
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:floy/floy.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +11,6 @@ import 'package:qlevar_router/qlevar_router.dart';
 import 'package:zoncan/app/app.dart';
 import 'package:zoncan/core/common/common.dart';
 import 'package:zoncan/config/config.dart';
-import 'package:zoncan/config/src/constants/constants.dart';
-import 'package:zoncan/config/src/localization/localization.dart';
 import 'package:zoncan/core/security/security.dart';
 
 part 'controllers/home_controller.dart';

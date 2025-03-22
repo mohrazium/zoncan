@@ -8,73 +8,89 @@ typedef UserDetails = UserDetailsModelMapper;
         GenerateMethods.stringify |
         GenerateMethods.decode |
         GenerateMethods.encode)
-class UserDetailsModel extends UserDetailsEntity with UserDetailsModelMappable {
+class UserDetailsModel with UserDetailsModelMappable {
+  final int? id;
+  final String? uid;
+  final PersonModel? person;
+  final String? nickName;
+  final String userName;
+  final String? email;
+  final String? phoneNumber;
+  final bool isActive;
+  final bool isAuthenticated;
+  final bool isEmailVerified;
+  final bool isPhoneNumberVerified;
+  final String? encryptedPassword;
+  final bool? isCompletedFirstSetup;
+  final int? setupLevel;
+  final DateTime? expirationDate;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+
   UserDetailsModel(
-      {required super.id,
-      super.uid,
-      super.person,
-      super.nickName,
-      required super.userName,
-      super.email,
-      super.phoneNumber,
-      required super.isActive,
-      required super.isAuthenticated,
-      required super.isEmailVerified,
-      required super.isPhoneNumberVerified,
-      super.encryptedPassword,
-      super.isCompletedFirstSetup,
-      super.setupLevel,
-      super.expirationDate,
-      super.createdAt,
-      super.updatedAt});
+      {this.id,
+       this.uid,
+       this.person,
+       this.nickName,
+      required this.userName,
+       this.email,
+       this.phoneNumber,
+      required this.isActive,
+      required this.isAuthenticated,
+      required this.isEmailVerified,
+      required this.isPhoneNumberVerified,
+       this.encryptedPassword,
+       this.isCompletedFirstSetup,
+       this.setupLevel,
+       this.expirationDate,
+       this.createdAt,
+       this.updatedAt});
 
   factory UserDetailsModel.init() => UserDetailsModel(
-      id: 0,
       userName: "",
       isActive: false,
       isAuthenticated: false,
       isEmailVerified: false,
       isPhoneNumberVerified: false);
 
-  factory UserDetailsModel.fromTable(UserDetailsTable table) {
-    return UserDetailsModel(
-      id: table.id,
-      uid: table.uid,
-      person: PersonModel.fromTable(table.person!),
-      nickName: table.nickName,
-      userName: table.userName,
-      phoneNumber: table.phoneNumber,
-      email: table.email,
-      isActive: table.isActive,
-      isAuthenticated: table.isAuthenticated,
-      isEmailVerified: table.isEmailVerified,
-      isPhoneNumberVerified: table.isPhoneNumberVerified,
-      encryptedPassword: table.encryptedPassword,
-      isCompletedFirstSetup: table.isCompletedFirstSetup,
-      setupLevel: table.setupLevel,
-      expirationDate: table.expirationDate,
-      createdAt: table.createdAt,
-      updatedAt: table.updatedAt,
+      factory UserDetailsModel.fromEntity(UserDetailsEntity entity) => UserDetailsModel(
+        id: entity.id,
+        uid: entity.uid,
+        person: entity.person != null ? PersonModel.fromEntity(entity.person!) : null,
+        nickName: entity.nickName,
+        userName: entity.userName,
+        email: entity.email,
+        phoneNumber: entity.phoneNumber,
+        isActive: entity.isActive,
+        isAuthenticated: entity.isAuthenticated,
+        isEmailVerified: entity.isEmailVerified,
+        isPhoneNumberVerified: entity.isPhoneNumberVerified,
+        encryptedPassword: entity.encryptedPassword,
+        isCompletedFirstSetup: entity.isCompletedFirstSetup,
+        setupLevel: entity.setupLevel,
+        expirationDate: entity.expirationDate,
+        createdAt: entity.createdAt,
+        updatedAt: entity.updatedAt,
+      );
+      UserDetailsEntity toEntity() => UserDetailsEntity(
+      id: id,
+      uid: uid,
+      person: person?.toEntity(),
+      nickName: nickName,
+      userName: userName,
+      email: email,
+      phoneNumber: phoneNumber,
+      isActive: isActive,
+      isAuthenticated: isAuthenticated,
+      isEmailVerified: isEmailVerified,
+      isPhoneNumberVerified: isPhoneNumberVerified,
+      encryptedPassword: encryptedPassword,
+      isCompletedFirstSetup: isCompletedFirstSetup,
+      setupLevel: setupLevel,
+      expirationDate: expirationDate,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
-  }
 
-  UserDetailsTable toTable() {
-    return UserDetailsTable(
-        this.id,
-        this.uid,
-        this.nickName,
-        this.userName,
-        this.email,
-        this.phoneNumber,
-        this.isActive,
-        this.isAuthenticated,
-        this.isEmailVerified,
-        this.isPhoneNumberVerified,
-        this.encryptedPassword,
-        this.isCompletedFirstSetup,
-        this.setupLevel,
-        this.expirationDate,
-        this.createdAt,
-        this.updatedAt);
-  }
+    bool get isEmpty => userName ==""&&!isActive&&!isAuthenticated&&!isEmailVerified&&!isPhoneNumberVerified ;
 }

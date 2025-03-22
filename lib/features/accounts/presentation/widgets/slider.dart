@@ -3,9 +3,9 @@ part of '../presentation.dart';
 class Slider extends StatefulWidget {
   final List<Slide> slides;
   const Slider({
-    Key? key,
+    super.key,
     required this.slides,
-  }) : super(key: key);
+  });
 
   @override
   _SliderState createState() => _SliderState();
@@ -41,11 +41,11 @@ class Slide extends StatefulWidget {
   final String? title;
   final String? description;
   const Slide({
-    Key? key,
+    super.key,
     this.title,
     this.description,
     required this.image,
-  }) : super(key: key);
+  });
 
   @override
   _SlideState createState() => _SlideState();

@@ -74,13 +74,13 @@ class LoadingScreen {
         allowClick: false,
 
         ignoreContentClick: true,
-        animationDuration: Duration(milliseconds: 500),
+        animationDuration: const Duration(milliseconds: 500),
         animationReverseDuration:
-            Duration(milliseconds: 500),
-        duration: Duration(
+            const Duration(milliseconds: 500),
+        duration: const Duration(
           seconds: 2,
         ),
-        backgroundColor: Color(0x42000000),
+        backgroundColor: const Color(0x42000000),
         align: Alignment.center,
         toastBuilder: (cancelFunc) {
           return w;
@@ -156,7 +156,7 @@ class LoadingScreen {
       },
     );
 
-    state?.insert(overlay);
+    state.insert(overlay);
 
     return _LoadingScreenController(
       close: () {

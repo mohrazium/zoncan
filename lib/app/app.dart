@@ -16,6 +16,7 @@ import 'package:zoncan/config/config.dart';
 import 'package:zoncan/core/core.dart';
 import 'package:zoncan/features/features.dart';
 
+
 part 'src/application.dart';
 
 part 'src/entry_point.dart';

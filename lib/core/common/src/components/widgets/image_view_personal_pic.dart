@@ -6,11 +6,11 @@ class ImageViewPersonalPic extends StatelessWidget {
   final void Function()? onRemovePressed;
 
   const ImageViewPersonalPic({
-    Key? key,
+    super.key,
     required this.image,
     required this.onNewPressed,
     required this.onRemovePressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

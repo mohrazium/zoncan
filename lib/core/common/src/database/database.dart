@@ -1,28 +1,21 @@
 library zoncan.core.common.database;
 
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:objectbox/objectbox.dart';
-import 'package:zoncan/app/app.dart';
-import 'package:zoncan/config/config.dart';
-import 'package:zoncan/core/exceptions/exceptions.dart';
-import 'generated/objectbox.g.dart';
 
-export 'generated/objectbox.g.dart'
-    hide Entity, Id, Property, PropertyType, Unique, Store;
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
-import '../generics/generics.dart';
+import '../../../../features/features.dart';
+import 'helper/drift_serializer.dart';
 
 part 'auditor/audit_table.dart';
 
-part 'auditor/auditor.dart';
-
-part 'zoncan_database.dart';
-
+part 'auditor/auditor_dao.dart';
+part 'helper/zoncan_database.dart';
 part 'database.g.dart';
 
 // part 'auditor/auditor.dart';

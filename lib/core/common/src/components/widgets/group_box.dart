@@ -14,7 +14,7 @@ class GroupBox extends StatelessWidget {
   final bool isExpandable;
 
   const GroupBox({
-    Key? key,
+    super.key,
     required this.child,
     this.padding,
     this.margin,
@@ -26,7 +26,7 @@ class GroupBox extends StatelessWidget {
     this.inMaterial = false,
     this.haveShadow = false,
     this.isExpandable = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class GroupBox extends StatelessWidget {
           : null,
       borderRadius: borderRadius ??
           const BorderRadius.all(Radius.circular(kBorderRadius)),
-      color: color ?? Theme.of(context).colorScheme.background,
+      color: color ?? Theme.of(context).colorScheme.surface,
     );
   }
 }

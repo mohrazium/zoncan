@@ -1,4 +1,5 @@
 part of '../app.dart';
+
 @Injectable()
 class AppStateController extends _AppStateControllerStore
     with _$AppStateController {
@@ -45,8 +46,11 @@ abstract class _AppStateControllerStore extends Controller with Store {
 
   @computed
   Future<UserDetailsModel?> get currentUser async =>
-      await authService.currentUserDetails();
-      
+      await authService.currentUserDetails().then((res) => res.fold((failure) {
+            showMessage(failure.userMessage);
+            return null;
+          }, (user) => user));
+
   @action
   void setIsLoading([String? msg]) {
     loadingText = msg ?? "";
@@ -66,13 +70,14 @@ abstract class _AppStateControllerStore extends Controller with Store {
   }
 
   @action
-  void throwMessageException(String message) {
-    exception = FailureException(message: message);
-  }
-
-  @action
-  void throwException(FailureException? exp) {
-    exception = exp;
+  void showMessage(dynamic error) {
+    if (error is FailureException) {
+      exception = error;
+    } else if (error is String) {
+      exception = FailureException(userMessage: error);
+    } else {
+      exception = null;
+    }
   }
 
   @action

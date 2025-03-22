@@ -3,8 +3,8 @@ part of '../components.dart';
 class HeaderText extends StatelessWidget {
   const HeaderText(
     this.data, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   final String data;
   @override
   Widget build(BuildContext context) {

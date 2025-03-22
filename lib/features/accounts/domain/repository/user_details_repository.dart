@@ -1,13 +1,18 @@
 part of '../domain.dart';
 
 abstract class UserDetailsRepository {
-  Future<UserDetailsModel?> saveUser(UserDetailsModel user);
-  Future<UserDetailsModel?> findUserByUUID(String uuid);
-  Future<UserDetailsModel?> findUserByEmail(String email);
-  Future<UserDetailsModel?> findUserByUsername(String username);
-  Future<bool> deleteUser(UserDetailsModel entity);
-  Future<UserDetailsModel?> updateUser(UserDetailsModel entity);
-  Future<bool> deleteUserByUUID(String uuid);
-  Future<UserDetailsModel?> updateUserByUUID(String uuid);
-  Future<List<UserDetailsModel?>> findAllUsers();
+  Future<Either<FailureException, UserDetailsModel>> saveUser(
+      UserDetailsModel user);
+  Future<Either<FailureException, UserDetailsModel>> findUserByUUID(
+      String uuid);
+  Future<Either<FailureException, UserDetailsModel>> findUserByEmail(
+      String email);
+  Future<Either<FailureException, UserDetailsModel>> findUserByUsername(
+      String username);
+  Future<Either<FailureException, bool>> userExist(String usernameOrEmail);
+  Future<Either<FailureException, bool>> deleteUser(UserDetailsModel entity);
+  Future<Either<FailureException, UserDetailsModel>> updateUser(
+      UserDetailsModel entity);
+  Future<Either<FailureException, bool>> deleteUserByUUID(String uuid);
+  Future<Either<FailureException, List<UserDetailsModel>>> findAllUsers();
 }

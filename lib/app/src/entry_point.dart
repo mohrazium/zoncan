@@ -22,10 +22,14 @@ class _ZoncanState extends State<Zoncan> {
   final appStateController = Injection.serviceLocator.get<AppStateController>();
 
   Future<void> databaseSetup() async {
-    final zoncanDatabase = Injection.serviceLocator<ZoncanDatabase>();
-    zoncanDatabase
-        .initialize()
-        .then((db) async => logger.info("Zoncan Database was initialized!"));
+    final zoncanDatabaseHelper =
+        Injection.serviceLocator<ZoncanDatabase>();
+    try {
+      logger.info("Zoncan Database was initialized!");
+      zoncanDatabaseHelper.audit.setup();
+    } catch (e) {
+      logger.info("Zoncan Database can't initialize!+ $e");
+    }
   }
 
   @override
@@ -56,15 +60,18 @@ class _ZoncanState extends State<Zoncan> {
   @override
   void dispose() {
     appStateController.dispose();
-    Injection.serviceLocator<ZoncanDatabase>().dispose();
+    Injection.serviceLocator<ZoncanDatabase>().close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final zoncanDatabase = Injection.serviceLocator<ZoncanDatabase>();
-    zoncanDatabase.zoncanObjectBoxDB.then((db) =>
-        logger.info("Path of Database : ${db.objectBoxStore.directoryPath}"));
+    final zoncanDatabaseHelper =
+        Injection.serviceLocator<ZoncanDatabase>();
+    zoncanDatabaseHelper.databaseFile.then((file) {
+      logger.info("Path of Database : ${file.path}");
+    });
+    
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: Themizer.light,
@@ -102,13 +109,13 @@ class _ZoncanState extends State<Zoncan> {
               } else if (appStateController.exception != null &&
                   appStateController.exception!.justMessage) {
                 await DialogHelper.showMessageBox(
-                        context: reactionContext,
-                        title: TranslationsProvider.translator.error,
-                        dialogButtons: DialogButtons.OK,
-                        message: appStateController.exception!.message!,
-                        dialogType: DialogType.ERROR,)
-                    .then((value) {
-                  appStateController.throwException(null);
+                  context: reactionContext,
+                  title: TranslationsProvider.translator.error,
+                  dialogButtons: DialogButtons.OK,
+                  message: appStateController.exception!.userMessage!,
+                  dialogType: DialogType.ERROR,
+                ).then((value) {
+                  appStateController.showMessage(null);
                 });
               }
 
@@ -133,8 +140,6 @@ class _ZoncanState extends State<Zoncan> {
                 GlobalCupertinoLocalizations.delegate,
                 sl.SfGlobalLocalizations.delegate
               ],
-              // routeInformationParser: Modular.routeInformationParser,
-              // routerDelegate: Modular.routerDelegate,
               themeMode: appStateController.themeMode,
               theme: Themizer.light,
               darkTheme: Themizer.dark,

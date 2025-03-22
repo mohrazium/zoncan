@@ -1,25 +1,34 @@
 part of '../../../security.dart';
 
 abstract class _RedirectRoute {
-  Future<bool?> isUserAuthenticated();
-  Future<bool?> isUserExpired();
+  Future<Either<FailureException,bool?>> isUserAuthenticated();
+  Future<Either<FailureException,bool?>> isUserExpired();
 }
 
 @Injectable()
 class AuthenticationGuard implements _RedirectRoute {
   AuthenticationGuard();
 
+@override
+Future<Either<FailureException, bool?>> isUserAuthenticated() async {
+  final authResult = await Injection.serviceLocator
+      .get<AuthenticationRepository>()
+      .isUserLoggedIn(); // Get the login status from AuthenticationRepository
+  
+  return authResult.fold(
+    (failure) => const Right(false), // Return the failure as Left if authentication check fails
+    (loggedIn) => Right(loggedIn), // Return the logged-in status as Right if successful
+  );
+}
   @override
-  Future<bool?> isUserAuthenticated() async {
-    return await Injection.serviceLocator
-        .get<AuthenticationRepository>()
-        .isUserLoggedIn();
-  }
-
-  @override
-  Future<bool?> isUserExpired() {
-    // TODO: Check last login time with now if more than of some value for example 10 days, the user should expired and remove from cache and user should login again.
-    
-    return Future.value(false);
-  }
+Future<Either<FailureException, bool?>> isUserExpired() async {
+  final authResult = await Injection.serviceLocator
+      .get<AuthenticationRepository>()
+      .isUserLoggedIn(); // Get the login status from AuthenticationRepository
+  
+  return authResult.fold(
+    (failure) => const Right(false), // Return the failure as Left if authentication check fails
+    (loggedIn) => Right(loggedIn), // Return the logged-in status as Right if successful
+  );
+}
 }

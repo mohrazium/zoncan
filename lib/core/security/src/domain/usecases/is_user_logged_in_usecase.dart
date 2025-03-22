@@ -1,4 +1,5 @@
 part of '../../../security.dart';
+
 @Injectable()
 class IsUserLoggedInUsecase extends Usecase<bool, String?> {
   final AuthenticationRepository _repository;
@@ -6,13 +7,7 @@ class IsUserLoggedInUsecase extends Usecase<bool, String?> {
   IsUserLoggedInUsecase(this._repository);
 
   @override
-  Future<Either<FailureException, bool>> call({String? params}) async {
-    try {
-      return await _repository
-          .isUserLoggedIn()
-          .then((resultValue) => Either.right(resultValue));
-    } on FailureException catch (e) {
-      return Either.left(e);
-    }
-  }
+  Future<Either<FailureException, bool>> call({String? params}) async =>
+      await _repository.isUserLoggedIn().then((res) =>
+          res.match((failure) => Left(failure), (result) => Right(result)));
 }

@@ -4,8 +4,8 @@ class UserProfileTile extends StatelessWidget {
   const UserProfileTile({
     required this.name,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final String name;
   final Function() onPressed;
@@ -29,7 +29,7 @@ class UserProfileTile extends StatelessWidget {
   Widget _buildAvatar(BuildContext context) {
     return CircleAvatar(
       radius: 20,
-      backgroundColor: Theme.of(context).colorScheme.background.withOpacity(.2),
+      backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(.2),
       child: Text(
         name.toUpperCase(),
         style: TextStyle(

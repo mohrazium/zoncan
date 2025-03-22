@@ -12,7 +12,6 @@ import 'package:validators2/validators2.dart';
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/core/core.dart';
 import 'package:zoncan/features/accounts/accounts.dart';
-import 'package:zoncan/config/src/localization/localization.dart';
 
 
 part 'src/application/services/authentication_guard.dart';

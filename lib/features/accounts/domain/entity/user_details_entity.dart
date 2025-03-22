@@ -1,7 +1,7 @@
 part of '../domain.dart';
 
-abstract class UserDetailsEntity {
-  int id;
+ class UserDetailsEntity {
+  int? id;
   String? uid;
   PersonEntity? person;
   String? nickName;
@@ -20,7 +20,7 @@ abstract class UserDetailsEntity {
   DateTime? updatedAt;
 
   UserDetailsEntity(
-      {required this.id,
+      { this.id,
       this.uid,
       this.person,
       this.nickName,

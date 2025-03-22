@@ -11,8 +11,6 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:persian_tools/persian_tools.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:zoncan/config/config.dart';
-import 'package:zoncan/config/src/localization/localization.dart';
-import 'package:zoncan/config/src/settings/settings.dart';
 import 'package:zoncan/core/utils/utils.dart';
 
 part 'dialogs/dialog_helper.dart';
