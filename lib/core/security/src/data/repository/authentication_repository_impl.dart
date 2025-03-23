@@ -50,7 +50,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     } catch (e, s) {
       return Left(FailureException(
         type: ExceptionType.FAILED,
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         message: "Error retrieving logged in user from cache: $e",
         userMessage:
             "Error retrieving logged in user from memory", // User-friendly message
@@ -76,7 +76,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     } catch (e, stackTrace) {
       return Left(FailureException(
         type: ExceptionType.FAILED,
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         message: "Error retrieving user from cache: $e",
         userMessage:
             "Error retrieving user from memory", // User-friendly message
@@ -116,7 +116,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
                 ? Right(inCacheUser) // Return cached user if password matches
                 : Left(FailureException(
                     type: ExceptionType.NotMATCH,
-                    level: ExceptionLevel.WARNING,
+                    level: LogLevel.WARNING,
                     message: "Incorrect password for cached user",
                     userMessage: "Incorrect password", // User-friendly error
                   )),
@@ -140,7 +140,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
                   if (!isValid) {
                     return Left(FailureException(
                       type: ExceptionType.NotMATCH,
-                      level: ExceptionLevel.WARNING,
+                      level: LogLevel.WARNING,
                       message: "Incorrect password for user: $username",
                       userMessage: "Incorrect password", // User-friendly error
                     ));
@@ -151,7 +151,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
                   if (!isSavedInCache) {
                     return Left(FailureException(
                       type: ExceptionType.FAILED,
-                      level: ExceptionLevel.ERROR,
+                      level: LogLevel.ERROR,
                       message: "Failed to save user in cache",
                       userMessage:
                           "Error saving login details", // User-friendly error
@@ -168,7 +168,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
                     } catch (e, stackTrace) {
                       return Left(FailureException(
                         type: ExceptionType.FAILED,
-                        level: ExceptionLevel.ERROR,
+                        level: LogLevel.ERROR,
                         message: "Error saving remember me data: $e",
                         userMessage:
                             "Error saving login details", // User-friendly error
@@ -213,7 +213,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     } catch (e) {
       return Left(FailureException(
         type: ExceptionType.NotFOUND,
-        level: ExceptionLevel.WARNING,
+        level: LogLevel.WARNING,
         error: e,
       ));
     }
@@ -234,7 +234,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     } on Error catch (e) {
       return Left(FailureException(
         type: ExceptionType.NotFOUND,
-        level: ExceptionLevel.WARNING,
+        level: LogLevel.WARNING,
         error: e,
         stackTrace: e.stackTrace,
         userMessage: "Error retrieving password", // User-friendly error
@@ -257,7 +257,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     } on Error catch (e) {
       return Left(FailureException(
         type: ExceptionType.NotFOUND,
-        level: ExceptionLevel.WARNING,
+        level: LogLevel.WARNING,
         error: e,
         stackTrace: e.stackTrace,
         userMessage: "Error retrieving username", // User-friendly error
@@ -273,7 +273,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     if (user.email == null) {
       return Left(FailureException(
         type: ExceptionType.NotVALID,
-        level: ExceptionLevel.WARNING,
+        level: LogLevel.WARNING,
         message: "Email is required for signup",
         userMessage: "Please enter an email", // User-friendly error
       ));
@@ -287,7 +287,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
         if (emailExists) {
           return Left(FailureException(
             type: ExceptionType.IsDUPLICATED,
-            level: ExceptionLevel.WARNING,
+            level: LogLevel.WARNING,
             message: "Email already exists: ${user.email}",
             userMessage:
                 "This email is already registered", // User-friendly error
@@ -302,7 +302,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
             if (usernameExists) {
               return Left(FailureException(
                 type: ExceptionType.IsDUPLICATED,
-                level: ExceptionLevel.WARNING,
+                level: LogLevel.WARNING,
                 message: "Username already exists: ${user.userName}",
                 userMessage:
                     "This username is already taken", // User-friendly error
@@ -328,7 +328,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
                   } else {
                     return Left(FailureException(
                       type: ExceptionType.FAILED,
-                      level: ExceptionLevel.ERROR,
+                      level: LogLevel.ERROR,
                       message: "Failed to save user details in cache",
                       userMessage:
                           "Error saving user details", // User-friendly error
@@ -339,7 +339,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
             } catch (e, stackTrace) {
               return Left(FailureException(
                 type: ExceptionType.FAILED,
-                level: ExceptionLevel.ERROR,
+                level: LogLevel.ERROR,
                 message: "Error during signup: $e",
                 userMessage:
                     "Error occurred during signup", // User-friendly error
@@ -376,7 +376,7 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     } catch (e, stackTrace) {
       return Left(FailureException(
         type: ExceptionType.FAILED,
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         message: "Error verifying password: $e",
         userMessage: "Error verifying password", // User-friendly error
         error: e,

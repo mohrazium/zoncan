@@ -4,7 +4,7 @@ part of '../exceptions.dart';
 
 class FailureException implements Exception {
   final ExceptionType type;
-  final ExceptionLevel level;
+  final LogLevel level;
   final String? message;
   final String? userMessage;
   final Object? error;
@@ -12,29 +12,30 @@ class FailureException implements Exception {
 
   FailureException({
     ExceptionType? type,
-    ExceptionLevel? level,
+    LogLevel? level,
     this.message,
     String? userMessage,
     this.error,
     this.stackTrace,
   })  : type = type ?? ExceptionType.NONE,
-        level = level ?? ExceptionLevel.IGNORE,
+        level = level ?? LogLevel.IGNORE,
         userMessage = userMessage ?? "" {
     _logException(); // Call logging logic in constructor
   }
 
   bool get isActive => !(type == ExceptionType.NONE &&
-      level == ExceptionLevel.IGNORE &&
+      level == LogLevel.IGNORE &&
       message == null &&
       stackTrace == null);
 
   bool get hasError =>
-      level == ExceptionLevel.ERROR &&
+      level == LogLevel.ERROR &&
       message != null &&
       error != null &&
       stackTrace != null;
 
-  bool get justMessage => level == ExceptionLevel.IGNORE && message != null;
+  bool get justMessage =>
+      level == LogLevel.IGNORE || message != null || userMessage != null;
 
   Future<void> _logException() async {
     final logMessage = _buildLogMessage();
@@ -42,19 +43,19 @@ class FailureException implements Exception {
 
     // Log to console based on level
     switch (level) {
-      case ExceptionLevel.INFO:
+      case LogLevel.INFO:
         logger.info(message ?? "");
         break;
-      case ExceptionLevel.NOT_FOUND:
+      case LogLevel.NOT_FOUND:
         logger.log(message: message ?? "", level: Level.FINE);
         break;
-      case ExceptionLevel.IGNORE:
+      case LogLevel.IGNORE:
         logger.log(message: message ?? "", level: Level.FINER);
         break;
-      case ExceptionLevel.WARNING:
+      case LogLevel.WARNING:
         logger.warning(message ?? "");
         break;
-      case ExceptionLevel.ERROR:
+      case LogLevel.ERROR:
         if (error is Exception) {
           logger.error("${error.runtimeType} => ${error.toString()}");
         }
@@ -75,7 +76,8 @@ class FailureException implements Exception {
   Future<void> _writeLogToFile(String logMessage) async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final logFileName = 'app_logs_${DateTime.now().toString().substring(0, 10)}.txt';
+      final logFileName =
+          'zoncan_logs_${DateTime.now().toString().substring(0, 10)}.txt';
       final logFile = File('${directory.path}/$logFileName');
 
       await _manageLogFiles(directory);
@@ -90,11 +92,13 @@ class FailureException implements Exception {
 
     final logFiles = directory
         .listSync()
-        .where((file) => file.path.contains('app_logs_') && file.path.endsWith('.txt'))
+        .where((file) =>
+            file.path.contains('zoncan_logs_') && file.path.endsWith('.txt'))
         .map((file) => File(file.path))
         .toList();
 
-    logFiles.sort((a, b) => a.lastModifiedSync().compareTo(b.lastModifiedSync()));
+    logFiles
+        .sort((a, b) => a.lastModifiedSync().compareTo(b.lastModifiedSync()));
 
     if (logFiles.length >= maxLogFiles) {
       final filesToDelete = logFiles.take(logFiles.length - (maxLogFiles - 1));
@@ -111,5 +115,25 @@ class FailureException implements Exception {
   @override
   String toString() {
     return 'FailureException(type: $type, level: $level, message: $message, error: $error, stackTrace: $stackTrace)';
+  }
+}
+
+class ZLogger extends FailureException {
+  ZLogger({
+    required LogLevel logLevel,
+    required String message,
+  }) : super(
+          level: logLevel,
+          message: message,
+          userMessage: null, // اینو null می‌ذاریم چون نیازی بهش نداریم
+          type: ExceptionType.NONE, // مقدار پیش‌فرض
+          error: null, // حذفش می‌کنیم
+          stackTrace: null, // حذفش می‌کنیم
+        );
+
+  // می‌تونیم متدهای اضافی رو اورراید کنیم اگه نیاز باشه
+  @override
+  String toString() {
+    return 'Logger(level: $level, message: $message)';
   }
 }

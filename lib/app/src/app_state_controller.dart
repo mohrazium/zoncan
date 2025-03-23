@@ -7,18 +7,22 @@ class AppStateController extends _AppStateControllerStore
 
   @override
   void didChangeDependencies() {
-    logger.info("${this.runtimeType} changed dependencies.");
+    ZLogger(
+        logLevel: LogLevel.IGNORE,
+        message: "${this.runtimeType} changed dependencies.");
   }
 
   @override
   void dispose() {
-    logger.info("${this.runtimeType} disposed.");
+    FailureException(message: "${this.runtimeType} disposed.");
   }
 
   @override
   void initState() {
     loadAllSettings();
-    logger.info("${this.runtimeType} init state.");
+    ZLogger(
+        logLevel: LogLevel.IGNORE,
+        message: "${this.runtimeType} init state.");
   }
 }
 
@@ -47,7 +51,7 @@ abstract class _AppStateControllerStore extends Controller with Store {
   @computed
   Future<UserDetailsModel?> get currentUser async =>
       await authService.currentUserDetails().then((res) => res.fold((failure) {
-            showMessage(failure.userMessage);
+            showMessage(failure);
             return null;
           }, (user) => user));
 

@@ -4,7 +4,7 @@ import 'package:qlevar_router/qlevar_router.dart';
 import 'package:zoncan/core/core.dart';
 
 import 'package:zoncan/config/config.dart'
-    show Injection, NavigatorHelper, Routing, logger;
+    show Injection, Routing, logger;
 import 'presentation/presentation.dart';
 
 export 'data/data.dart';

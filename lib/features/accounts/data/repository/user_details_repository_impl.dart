@@ -28,7 +28,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
       }
     } on Error catch (e) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.CantCREATE,
         message: "Can't save this user :${user.toString()}",
         userMessage: ".کاربر ذخیره نشد! مشکلی در ذخیره کاربر پیش امده است",
@@ -51,7 +51,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
       }
     } catch (e, stackTrace) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.CantDELETE,
         error: e,
         stackTrace: stackTrace,
@@ -69,7 +69,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
           .then((res) => Right(res));
     } catch (e, stackTrace) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.CantDELETE,
         error: e,
         stackTrace: stackTrace,
@@ -94,7 +94,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
       return Right(users);
     } catch (e, stackTrace) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.CantDELETE,
         error: e,
         stackTrace: stackTrace,
@@ -111,7 +111,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
       final foundedUser = await _userDetailsDao.getUserByEmail(email);
       if (foundedUser == null) {
         return Left(FailureException(
-          level: ExceptionLevel.ERROR,
+          level: LogLevel.ERROR,
           type: ExceptionType.CantCREATE,
           message: "Can't find this user by username or email address :$email",
           userMessage: "کاربری بااین ایمیل یافت نشد!",
@@ -121,7 +121,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
       }
     } on Error catch (e) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.CantCREATE,
         message: "Finding user by :$email faild. check the error",
         userMessage: ".کاربر یافت نشد! مشکلی درعملیات یافتن کاربر پیش امده است",
@@ -140,14 +140,14 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
         return Right(UserDetailsModel.fromEntity(user.toEntity()));
       } else {
         return Left(FailureException(
-          level: ExceptionLevel.INFO,
+          level: LogLevel.INFO,
           type: ExceptionType.NONE,
           userMessage: "متاسفانه کاربر یافت نشد",
         ));
       }
     } catch (e, stackTrace) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.CantDELETE,
         error: e,
         stackTrace: stackTrace,
@@ -166,14 +166,14 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
         return Right(UserDetailsModel.fromEntity(user.toEntity()));
       } else {
         return Left(FailureException(
-          level: ExceptionLevel.INFO,
+          level: LogLevel.INFO,
           type: ExceptionType.NONE,
           userMessage: "کاربری بااین نام کاربری یافت نشد!",
         ));
       }
     } on Error catch (e) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.CantCREATE,
         message: "Finding user by :$username faild. check the error",
         userMessage: ".کاربر یافت نشد! مشکلی درعملیات یافتن کاربر پیش امده است",
@@ -192,14 +192,14 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
         return Right(UserDetailsModel.fromEntity(user.toEntity()));
       } else {
         return Left(FailureException(
-          level: ExceptionLevel.INFO,
+          level: LogLevel.INFO,
           type: ExceptionType.NONE,
           userMessage: "اطلاعات کاربر بروز نشد",
         ));
       }
     } on Error catch (e) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.CantCREATE,
         message: "Updating user by :${model.toString()} faild. check the error",
         userMessage:
@@ -224,7 +224,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
       }
     } on Error catch (e) {
       return Left(FailureException(
-        level: ExceptionLevel.ERROR,
+        level: LogLevel.ERROR,
         type: ExceptionType.NotFOUND,
         message: "Finding user by :$usernameOrEmail faild. check the error",
         userMessage:

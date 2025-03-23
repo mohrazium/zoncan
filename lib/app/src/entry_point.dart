@@ -22,13 +22,16 @@ class _ZoncanState extends State<Zoncan> {
   final appStateController = Injection.serviceLocator.get<AppStateController>();
 
   Future<void> databaseSetup() async {
-    final zoncanDatabaseHelper =
-        Injection.serviceLocator<ZoncanDatabase>();
+    final zoncanDatabaseHelper = Injection.serviceLocator<ZoncanDatabase>();
     try {
-      logger.info("Zoncan Database was initialized!");
+      ZLogger(
+          logLevel: LogLevel.IGNORE,
+          message: "Zoncan Database was initialized!");
       zoncanDatabaseHelper.audit.setup();
     } catch (e) {
-      logger.info("Zoncan Database can't initialize!+ $e");
+      ZLogger(
+          logLevel: LogLevel.IGNORE,
+          message: "Zoncan Database can't initialize!+ $e");
     }
   }
 
@@ -44,7 +47,8 @@ class _ZoncanState extends State<Zoncan> {
       mainContext.config = mainContext.config.clone(
         isSpyEnabled: true,
       );
-      mainContext.spy((e) => logger.info(e.toString()));
+      mainContext
+          .spy((e) => ZLogger(logLevel: LogLevel.INFO, message: e.toString()));
     }
     databaseSetup();
     botToastBuilder = BotToastInit();
@@ -66,12 +70,13 @@ class _ZoncanState extends State<Zoncan> {
 
   @override
   Widget build(BuildContext context) {
-    final zoncanDatabaseHelper =
-        Injection.serviceLocator<ZoncanDatabase>();
+    final zoncanDatabaseHelper = Injection.serviceLocator<ZoncanDatabase>();
     zoncanDatabaseHelper.databaseFile.then((file) {
-      logger.info("Path of Database : ${file.path}");
+      ZLogger(
+          logLevel: LogLevel.IGNORE,
+          message: "Path of Database : ${file.path}");
     });
-    
+
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: Themizer.light,
@@ -100,6 +105,8 @@ class _ZoncanState extends State<Zoncan> {
               }
 
               if (appStateController.errorHappened) {
+                appStateController
+                    .showMessage(appStateController.exception!.userMessage!);
                 DialogHelper.showCrashReport(
                   reactionContext,
                   logger,
@@ -108,6 +115,8 @@ class _ZoncanState extends State<Zoncan> {
                 );
               } else if (appStateController.exception != null &&
                   appStateController.exception!.justMessage) {
+                appStateController
+                    .showMessage(appStateController.exception!.userMessage!);
                 await DialogHelper.showMessageBox(
                   context: reactionContext,
                   title: TranslationsProvider.translator.error,
