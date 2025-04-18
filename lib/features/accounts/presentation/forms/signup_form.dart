@@ -1,36 +1,27 @@
 part of '../presentation.dart';
 
-class SignupForm extends StatefulWidget {
+class SignupForm extends Hooks.HookWidget {
   const SignupForm({super.key});
 
   @override
-  State<SignupForm> createState() => _SignupFormState();
-}
-
-class _SignupFormState extends State<SignupForm> {
-  final SignupController controller = Injection.serviceLocator.get<SignupController>();
-
-  @override
-  void initState() {
-    super.initState();
-    controller.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    controller.didChangeDependencies();
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var translator = TranslationsProvider.translator;
+    final controller = Hooks.useMemoized(
+        () => Injection.serviceLocator.get<SignupController>());
+
+    final translator = Hooks.useMemoized(() => TranslationsProvider.translator);
+
+    Hooks.useEffect(() {
+      controller.initState();
+      return () {
+        controller.dispose();
+      };
+    }, []);
+
+    Hooks.useEffect(() {
+      controller.didChangeDependencies();
+      return null;
+    }, [controller]);
+
     return SingleChildScrollView(
       child: Observer(builder: (obsContext) {
         return Form(

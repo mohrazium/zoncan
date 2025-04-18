@@ -54,7 +54,6 @@ class UserDetailsModel with UserDetailsModelMappable {
       isPhoneNumberVerified: false);
 
       factory UserDetailsModel.fromEntity(UserDetailsEntity entity) => UserDetailsModel(
-        id: entity.id,
         uid: entity.uid,
         person: entity.person != null ? PersonModel.fromEntity(entity.person!) : null,
         nickName: entity.nickName,
@@ -73,7 +72,6 @@ class UserDetailsModel with UserDetailsModelMappable {
         updatedAt: entity.updatedAt,
       );
       UserDetailsEntity toEntity() => UserDetailsEntity(
-      id: id,
       uid: uid,
       person: person?.toEntity(),
       nickName: nickName,

@@ -11,8 +11,8 @@ const kTextFieldHeight = 65.0;
 const kTextFieldWidth = 220.0;
 const kLogoHeight = 46.0;
 const kLogoWidth = 46.0;
+const kDefaultUiScale = 1.0;
 // Font constants
-const kDefaultFontScale = 1.0;
 const kDefaultFont = 'Sahel';
 const kDefaultFallBackFont = 'Vazir';
 const kFontLight = FontWeight.w300;
@@ -35,4 +35,4 @@ Locale get kDefaultLocale => const Locale('fa', 'IR');
 
 const kAnimationDuration = Duration(milliseconds: 250);
 
-const kDelayWaiting = Duration(seconds: 2);
+const kDelayWaiting = Duration(seconds: 1);

@@ -292,8 +292,8 @@ class PersonModelMapper extends ClassMapperBase<PersonModel> {
   @override
   final String id = 'PersonModel';
 
-  static int _$id(PersonModel v) => v.id;
-  static const Field<PersonModel, int> _f$id = Field('id', _$id);
+  static int? _$id(PersonModel v) => v.id;
+  static const Field<PersonModel, int> _f$id = Field('id', _$id, opt: true);
   static String? _$uid(PersonModel v) => v.uid;
   static const Field<PersonModel, String> _f$uid =
       Field('uid', _$uid, opt: true);
@@ -500,7 +500,7 @@ class _PersonModelCopyWithImpl<$R, $Out>
           .$chain((v) => call(accountingInfo: v));
   @override
   $R call(
-          {int? id,
+          {Object? id = $none,
           Object? uid = $none,
           Object? userDetails = $none,
           String? name,
@@ -521,7 +521,7 @@ class _PersonModelCopyWithImpl<$R, $Out>
           Object? createdAt = $none,
           Object? updatedAt = $none}) =>
       $apply(FieldCopyWithData({
-        if (id != null) #id: id,
+        if (id != $none) #id: id,
         if (uid != $none) #uid: uid,
         if (userDetails != $none) #userDetails: userDetails,
         if (name != null) #name: name,
@@ -585,8 +585,6 @@ class AddressModelMapper extends ClassMapperBase<AddressModel> {
   @override
   final String id = 'AddressModel';
 
-  static int _$id(AddressModel v) => v.id;
-  static const Field<AddressModel, int> _f$id = Field('id', _$id);
   static String? _$uid(AddressModel v) => v.uid;
   static const Field<AddressModel, String> _f$uid =
       Field('uid', _$uid, opt: true);
@@ -620,7 +618,6 @@ class AddressModelMapper extends ClassMapperBase<AddressModel> {
 
   @override
   final MappableFields<AddressModel> fields = const {
-    #id: _f$id,
     #uid: _f$uid,
     #postalCode: _f$postalCode,
     #province: _f$province,
@@ -635,7 +632,6 @@ class AddressModelMapper extends ClassMapperBase<AddressModel> {
 
   static AddressModel _instantiate(DecodingData data) {
     return AddressModel(
-        id: data.dec(_f$id),
         uid: data.dec(_f$uid),
         postalCode: data.dec(_f$postalCode),
         province: data.dec(_f$province),
@@ -701,8 +697,7 @@ extension AddressModelValueCopy<$R, $Out>
 abstract class AddressModelCopyWith<$R, $In extends AddressModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   $R call(
-      {int? id,
-      String? uid,
+      {String? uid,
       String? postalCode,
       String? province,
       String? county,
@@ -725,8 +720,7 @@ class _AddressModelCopyWithImpl<$R, $Out>
       AddressModelMapper.ensureInitialized();
   @override
   $R call(
-          {int? id,
-          Object? uid = $none,
+          {Object? uid = $none,
           Object? postalCode = $none,
           Object? province = $none,
           Object? county = $none,
@@ -737,7 +731,6 @@ class _AddressModelCopyWithImpl<$R, $Out>
           Object? createdAt = $none,
           Object? updatedAt = $none}) =>
       $apply(FieldCopyWithData({
-        if (id != null) #id: id,
         if (uid != $none) #uid: uid,
         if (postalCode != $none) #postalCode: postalCode,
         if (province != $none) #province: province,
@@ -751,7 +744,6 @@ class _AddressModelCopyWithImpl<$R, $Out>
       }));
   @override
   AddressModel $make(CopyWithData data) => AddressModel(
-      id: data.get(#id, or: $value.id),
       uid: data.get(#uid, or: $value.uid),
       postalCode: data.get(#postalCode, or: $value.postalCode),
       province: data.get(#province, or: $value.province),
@@ -785,8 +777,6 @@ class AccountingInfoModelMapper extends ClassMapperBase<AccountingInfoModel> {
   @override
   final String id = 'AccountingInfoModel';
 
-  static int _$id(AccountingInfoModel v) => v.id;
-  static const Field<AccountingInfoModel, int> _f$id = Field('id', _$id);
   static String? _$uid(AccountingInfoModel v) => v.uid;
   static const Field<AccountingInfoModel, String> _f$uid =
       Field('uid', _$uid, opt: true);
@@ -829,7 +819,6 @@ class AccountingInfoModelMapper extends ClassMapperBase<AccountingInfoModel> {
 
   @override
   final MappableFields<AccountingInfoModel> fields = const {
-    #id: _f$id,
     #uid: _f$uid,
     #introDate: _f$introDate,
     #referralPersonUid: _f$referralPersonUid,
@@ -846,7 +835,6 @@ class AccountingInfoModelMapper extends ClassMapperBase<AccountingInfoModel> {
 
   static AccountingInfoModel _instantiate(DecodingData data) {
     return AccountingInfoModel(
-        id: data.dec(_f$id),
         uid: data.dec(_f$uid),
         introDate: data.dec(_f$introDate),
         referralPersonUid: data.dec(_f$referralPersonUid),
@@ -917,8 +905,7 @@ extension AccountingInfoModelValueCopy<$R, $Out>
 abstract class AccountingInfoModelCopyWith<$R, $In extends AccountingInfoModel,
     $Out> implements ClassCopyWith<$R, $In, $Out> {
   $R call(
-      {int? id,
-      String? uid,
+      {String? uid,
       DateTime? introDate,
       String? referralPersonUid,
       String? category,
@@ -944,8 +931,7 @@ class _AccountingInfoModelCopyWithImpl<$R, $Out>
       AccountingInfoModelMapper.ensureInitialized();
   @override
   $R call(
-          {int? id,
-          Object? uid = $none,
+          {Object? uid = $none,
           Object? introDate = $none,
           Object? referralPersonUid = $none,
           Object? category = $none,
@@ -958,7 +944,6 @@ class _AccountingInfoModelCopyWithImpl<$R, $Out>
           Object? createdAt = $none,
           Object? updatedAt = $none}) =>
       $apply(FieldCopyWithData({
-        if (id != null) #id: id,
         if (uid != $none) #uid: uid,
         if (introDate != $none) #introDate: introDate,
         if (referralPersonUid != $none) #referralPersonUid: referralPersonUid,
@@ -975,7 +960,6 @@ class _AccountingInfoModelCopyWithImpl<$R, $Out>
       }));
   @override
   AccountingInfoModel $make(CopyWithData data) => AccountingInfoModel(
-      id: data.get(#id, or: $value.id),
       uid: data.get(#uid, or: $value.uid),
       introDate: data.get(#introDate, or: $value.introDate),
       referralPersonUid:

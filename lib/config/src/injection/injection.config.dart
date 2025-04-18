@@ -23,6 +23,7 @@ import '../../../features/accounts/presentation/presentation.dart' as _i610;
 import '../../../features/home/presentation/presentation.dart' as _i652;
 import '../../config.dart' as _i379;
 import '../logger/logger.dart' as _i512;
+import '../router/zrouter.dart' as _i356;
 import '../settings/settings.dart' as _i405;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -36,6 +37,7 @@ extension GetItInjectableX on _i174.GetIt {
       environment,
       environmentFilter,
     );
+    gh.factory<_i356.ZRouter>(() => _i356.ZRouter());
     gh.factory<_i512.LoggerService>(() => _i512.LoggerService());
     gh.factory<_i925.AuthenticationGuard>(() => _i925.AuthenticationGuard());
     gh.factory<_i925.StrengthPasswordChecker>(
@@ -91,19 +93,19 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i353.AuthenticationRepository>(),
         ));
     gh.factory<_i610.SignupController>(() => _i610.SignupController(
-          gh<_i925.SignUpUsecase>(),
-          gh<_i925.UsernameAlreadyExistsUsecase>(),
-          gh<_i925.EmailAddressAlreadyExistsUsecase>(),
-          gh<_i925.StrengthPasswordChecker>(),
+          gh<_i353.SignUpUsecase>(),
+          gh<_i353.UsernameAlreadyExistsUsecase>(),
+          gh<_i353.EmailAddressAlreadyExistsUsecase>(),
+          gh<_i353.StrengthPasswordChecker>(),
           gh<_i89.AppStateController>(),
         ));
     gh.factory<_i610.LoginController>(() => _i610.LoginController(
           gh<_i89.AppStateController>(),
-          gh<_i925.LoginUsecase>(),
-          gh<_i925.EmailAddressAlreadyExistsUsecase>(),
-          gh<_i925.UsernameAlreadyExistsUsecase>(),
-          gh<_i925.RememberedPasswordUsecase>(),
-          gh<_i925.RememberedUsernameUsecase>(),
+          gh<_i353.LoginUsecase>(),
+          gh<_i353.EmailAddressAlreadyExistsUsecase>(),
+          gh<_i353.UsernameAlreadyExistsUsecase>(),
+          gh<_i353.RememberedPasswordUsecase>(),
+          gh<_i353.RememberedUsernameUsecase>(),
         ));
     gh.factory<_i652.HomeController>(() => _i652.HomeController(
           gh<_i925.AuthenticationRepository>(),
@@ -111,7 +113,7 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i610.ProfileController>(() => _i610.ProfileController(
           gh<_i89.AppStateController>(),
-          gh<_i925.LogoutUsecase>(),
+          gh<_i353.LogoutUsecase>(),
         ));
     return this;
   }

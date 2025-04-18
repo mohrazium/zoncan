@@ -1,7 +1,7 @@
-library zoncan.config;
+library;
 
 export 'src/logger/logger.dart';
-export 'src/router/router.dart';
+export 'src/router/zrouter.dart';
 export 'src/serializers/serializers.dart';
 export 'src/constants/constants.dart';
 export 'src/injection/injection.dart';

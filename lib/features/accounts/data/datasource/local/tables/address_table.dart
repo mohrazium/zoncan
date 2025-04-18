@@ -2,8 +2,7 @@ part of '../../../data.dart';
 
 @DataClassName('AddressData')
 class AddressTable extends Table {
-  IntColumn get id => integer().nullable()();
-  TextColumn get uid => text().nullable().unique()();
+  TextColumn get uid => text()();
   TextColumn get postalCode => text().nullable()();
   TextColumn get province => text().nullable()();
   TextColumn get county => text().nullable()();
@@ -14,12 +13,11 @@ class AddressTable extends Table {
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
  @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {uid};
 }
 
 extension AddressDataExtension on AddressData {
   AddressEntity toEntity() => AddressEntity(
-        id: id??0,
         uid: uid,
         postalCode: postalCode,
         province: province,
@@ -35,8 +33,7 @@ extension AddressDataExtension on AddressData {
 
 extension AddressEntityExtension on AddressEntity {
   AddressData toData() => AddressData(
-        id: id,
-        uid: uid,
+        uid: uid ?? Uuid().v4(),
         postalCode: postalCode,
         province: province,
         county: county,

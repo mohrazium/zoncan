@@ -1,4 +1,4 @@
-library zoncan.features.account.domain;
+library;
 
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:drift/drift.dart';

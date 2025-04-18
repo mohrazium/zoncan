@@ -9,7 +9,6 @@ typedef AddressMapper = AddressModelMapper;
     GenerateMethods.decode |
     GenerateMethods.encode)
 class AddressModel with AddressModelMappable {
-  final int id;
   final String? uid;
   final String? postalCode;
   final String? province;
@@ -22,7 +21,6 @@ class AddressModel with AddressModelMappable {
   final DateTime? updatedAt;
 
   AddressModel({
-    required this.id,
     this.uid,
     this.postalCode,
     this.province,
@@ -35,10 +33,9 @@ class AddressModel with AddressModelMappable {
     this.updatedAt,
   });
 
-  factory AddressModel.init() => AddressModel(id: 0, fullAddress: "");
+  factory AddressModel.init() => AddressModel(fullAddress: "");
 
   factory AddressModel.fromEntity(AddressEntity entity) => AddressModel(
-        id: entity.id,
         uid: entity.uid,
         postalCode: entity.postalCode,
         province: entity.province,
@@ -52,7 +49,6 @@ class AddressModel with AddressModelMappable {
       );
 
 AddressEntity toEntity() => AddressEntity(
-      id: id,
       uid: uid,
       postalCode: postalCode,
       province: province,

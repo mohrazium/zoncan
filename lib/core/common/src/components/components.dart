@@ -2,7 +2,6 @@ library zoncan.core.common.components;
 
 import 'dart:async';
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,15 +10,16 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:persian_tools/persian_tools.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:zoncan/config/config.dart';
+import 'package:zoncan/config/src/localization/languages/strings.g.dart';
 import 'package:zoncan/core/utils/utils.dart';
 
 part 'dialogs/dialog_helper.dart';
 part 'dialogs/dialog_props.dart';
 part 'dialogs/loading_dialog.dart';
 
-part 'screens/not_found_screen.dart';
-part 'screens/splash_screen.dart';
-part 'screens/unsupported_size_screen.dart';
+part 'pages/not_found_screen.dart';
+part 'pages/splash_screen.dart';
+part 'pages/unsupported_size_screen.dart';
 
 part 'themes/colorize.dart';
 part 'themes/dark_theme.dart';

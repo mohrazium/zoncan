@@ -9,7 +9,7 @@ typedef PersonMapper = PersonModelMapper;
         GenerateMethods.decode |
         GenerateMethods.encode)
 class PersonModel with PersonModelMappable {
-  final int id;
+  final int? id;
   final String? uid;
   final UserDetailsModel? userDetails;
   final String name;
@@ -31,7 +31,7 @@ class PersonModel with PersonModelMappable {
   final DateTime? updatedAt;
 
   PersonModel({
-    required this.id,
+     this.id,
     this.uid,
     this.userDetails,
     required this.name,
@@ -53,10 +53,9 @@ class PersonModel with PersonModelMappable {
     this.updatedAt,
   });
 
-  factory PersonModel.init() => PersonModel(id: 0, name: "", family: "");
+  factory PersonModel.init() => PersonModel( name: "", family: "");
 
   factory PersonModel.fromEntity(PersonEntity entity) => PersonModel(
-        id: entity.id,
         uid: entity.uid,
         userDetails: entity.userDetails != null
             ? UserDetailsModel.fromEntity(entity.userDetails!)
@@ -85,7 +84,6 @@ class PersonModel with PersonModelMappable {
       );
 
       PersonEntity toEntity() => PersonEntity(
-      id: id,
       uid: uid,
       userDetails: userDetails?.toEntity(),
       name: name,

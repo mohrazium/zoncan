@@ -1,4 +1,4 @@
-part of 'router.dart';
+part of 'zrouter.dart';
 
 class NavigatorHelper extends NavigatorObserver{
   static GlobalKey<NavigatorState> rootNavigatorKey =

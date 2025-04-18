@@ -127,7 +127,7 @@ abstract class _SignupController with Store {
   bool get canSignup => !validator.hasError && validator.isValid;
 
   @action
-  void validateNickname(_) {
+  void validateNickname(n) {
     validator.nickNameError = null;
     if (isNull(nickName) || nickName.isEmpty) {
       validator.nickNameError =
@@ -144,7 +144,7 @@ abstract class _SignupController with Store {
   }
 
   @action
-  Future<void> validateUsername(_) async {
+  Future<void> validateUsername(u) async {
     validator.usernameError = null;
     if (isNull(username) || username.isEmpty) {
       validator.usernameError =
@@ -173,7 +173,7 @@ abstract class _SignupController with Store {
   }
 
   @action
-  Future<void> validateEmail(_) async {
+  Future<void> validateEmail(e) async {
     validator.emailError = null;
     if (isNull(email) || email.isEmpty) {
       validator.emailError =
@@ -199,7 +199,7 @@ abstract class _SignupController with Store {
   }
 
   @action
-  void validatePassword(_) {
+  void validatePassword(p) {
     validator.passwordError = null;
     if (password.isEmpty) {
       validator.passwordError =
@@ -218,7 +218,7 @@ abstract class _SignupController with Store {
   }
 
   @action
-  void validateConfirmPassword(_) {
+  void validateConfirmPassword(cp) {
     validator.confirmPasswordError = null;
     if (confirmPassword.isEmpty) {
       validator.confirmPasswordError =
@@ -319,11 +319,11 @@ abstract class _SignupController with Store {
 
   void setupValidations() {
     disposers = [
-      reaction((_) => nickName, validateNickname),
-      reaction((_) => username, validateUsername),
-      reaction((_) => email, validateEmail),
-      reaction((_) => password, validatePassword),
-      reaction((_) => confirmPassword, validateConfirmPassword),
+      reaction((n) => nickName, validateNickname),
+      reaction((u) => username, validateUsername),
+      reaction((e) => email, validateEmail),
+      reaction((p) => password, validatePassword),
+      reaction((cp) => confirmPassword, validateConfirmPassword),
     ];
   }
 

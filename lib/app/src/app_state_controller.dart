@@ -21,8 +21,7 @@ class AppStateController extends _AppStateControllerStore
   void initState() {
     loadAllSettings();
     ZLogger(
-        logLevel: LogLevel.IGNORE,
-        message: "${this.runtimeType} init state.");
+        logLevel: LogLevel.IGNORE, message: "${this.runtimeType} init state.");
   }
 }
 
@@ -43,7 +42,8 @@ abstract class _AppStateControllerStore extends Controller with Store {
   @observable
   bool shouldRefreshUI = false;
 
-  _AppStateControllerStore(this.settingsProvider, this.authService);
+  _AppStateControllerStore(
+      this.settingsProvider, this.authService);
 
   @computed
   bool get errorHappened => exception != null && exception!.hasError;

@@ -1,7 +1,6 @@
 part of '../domain.dart';
 
 class PersonEntity {
-  final int id;
   final String? uid;
   final UserDetailsEntity? userDetails;
   final String name;
@@ -23,7 +22,6 @@ class PersonEntity {
   final DateTime? updatedAt;
 
   PersonEntity({
-    required this.id,
     this.uid,
     this.userDetails,
     required this.name,

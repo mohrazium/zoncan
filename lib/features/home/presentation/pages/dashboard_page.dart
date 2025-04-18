@@ -1,17 +1,10 @@
 part of '../presentation.dart';
 
-class DashboardPage extends StatefulWidget {
+// مثال برای صفحات داخلی Home (اینها هم می‌توانند HookWidget باشند)
+class DashboardPage extends Hooks.HookWidget {
   const DashboardPage({super.key});
-
-  @override
-  State<DashboardPage> createState() => _DashboardPageState();
-}
-
-class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text("Dashboard"),
-    );
+    return const Center(child: Text("Dashboard Content"));
   }
 }

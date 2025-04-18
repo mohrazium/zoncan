@@ -2,8 +2,7 @@ part of '../../../data.dart';
 
 @DataClassName('AccountingInfoData')
 class AccountingInfoTable extends Table {
-  IntColumn get id => integer().nullable()();
-  TextColumn get uid => text().nullable().unique()();
+  TextColumn get uid => text()();
   DateTimeColumn get introDate => dateTime().nullable()();
   TextColumn get referralPersonUid => text().nullable()();
   TextColumn get category => text().nullable()();
@@ -16,12 +15,11 @@ class AccountingInfoTable extends Table {
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
  @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {uid};
 }
 
 extension AccountingInfoDataExtension on AccountingInfoData {
   AccountingInfoEntity toEntity() => AccountingInfoEntity(
-        id: id??0,
         uid: uid,
         introDate: introDate,
         referralPersonUid: referralPersonUid,
@@ -39,8 +37,7 @@ extension AccountingInfoDataExtension on AccountingInfoData {
 
 extension AccountingInfoEntityExtension on AccountingInfoEntity {
   AccountingInfoData toData() => AccountingInfoData(
-        id: id,
-        uid: uid,
+        uid: uid ?? Uuid().v4(),
         introDate: introDate,
         referralPersonUid: referralPersonUid,
         category: category,

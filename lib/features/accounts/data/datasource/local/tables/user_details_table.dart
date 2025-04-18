@@ -2,9 +2,8 @@ part of '../../../data.dart';
 
 @DataClassName('UserDetailsData')
 class UserDetailsTable extends Table {
-  IntColumn get id => integer().nullable()();
-  TextColumn get uid => text().nullable().unique()();
-  IntColumn get person => integer().nullable().references(PersonTable, #id)();
+  TextColumn get uid => text()();
+  TextColumn get person => text().nullable().references(PersonTable, #uid)();
   TextColumn get nickName => text().nullable()();
   TextColumn get userName => text().unique()();
   TextColumn get email => text().nullable().unique()();
@@ -19,14 +18,12 @@ class UserDetailsTable extends Table {
   DateTimeColumn get expirationDate => dateTime().nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
-
-  @override
-  Set<Column> get primaryKey => {id};
+ @override
+  Set<Column> get primaryKey => {uid};
 }
 
 extension UserDataExtension on UserDetailsData {
   UserDetailsEntity toEntity() => UserDetailsEntity(
-        id: id??0,
         uid: uid,
         nickName: nickName,
         userName: userName,
@@ -47,8 +44,7 @@ extension UserDataExtension on UserDetailsData {
 
 extension UserDetailsEntityExtension on UserDetailsEntity {
   UserDetailsData toData() => UserDetailsData(
-        id: id,
-        uid: uid,
+        uid: uid ?? Uuid().v4(),
         nickName: nickName,
         userName: userName,
         email: email,

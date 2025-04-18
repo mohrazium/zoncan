@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:floy/floy.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart' as Hooks;
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:injectable/injectable.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -19,6 +20,8 @@ import 'package:zoncan/app/app.dart' show AppStateController;
 import 'package:zoncan/core/common/common.dart';
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/config/src/localization/localization.dart';
+import 'package:zoncan/core/core.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
 import 'package:zoncan/core/security/security.dart';
 import 'package:zoncan/core/utils/utils.dart';
 

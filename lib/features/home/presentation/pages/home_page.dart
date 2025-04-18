@@ -1,148 +1,72 @@
 part of '../presentation.dart';
 
-class HomePage extends StatefulWidget {
-  final Widget child;
+class HomePage extends Hooks.HookWidget {
+  final Widget child; // محتوای داخلی (داشبورد، محصولات و ...)
 
   const HomePage({super.key, required this.child});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final HomeController controller = Injection.serviceLocator<HomeController>();
-
-  @override
-  void didChangeDependencies() {
-    controller.didChangeDependencies();
-    super.didChangeDependencies();
-  }
-
-  @override
-  void initState() {
-    controller.initState();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Builder(builder: (BuildContext context) {
-        // ignore: always_specify_types
-        var translator = TranslationsProvider.translator;
-        return Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 40,
-            title: Row(
-              children: <Widget>[
-                const LanguageChanger(),
-                const Icon(Icons.more_vert),
-                Expanded(child: Container()),
-                ToolbarIconButton(
-                  onTap: () async {
-                    await controller.logoutUser();
-                  },
-                  icon: const Icon(
-                    Icons.logout,
-                    color: Colors.deepPurpleAccent,
-                  ),
-                ),
-                Stack(
-                  children: <Widget>[
-                    IconButton(
-                        icon: Icon(
-                          Icons.notifications,
-                          color: Colors.deepPurpleAccent.withOpacity(.7),
-                        ),
-                        onPressed: () {}),
-                    Positioned(
-                      top: 7,
-                      right: 7,
-                      child: Container(
-                        width: 12,
-                        height: 12,
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                            color: Colors.redAccent,
-                            borderRadius: BorderRadius.circular(30),
-                            border: Border.all(
-                                color: Colors.lightBlueAccent, width: 2)),
-                      ),
-                    )
-                  ],
-                ),
-                Container(
-                  width: 1,
-                  height: 22,
-                  color: Colors.blueGrey,
-                ),
-                const SizedBox(
-                  width: 24,
-                ),
-                Observer(
-                  builder: (_) => Text(
-                    translator.welcome(
-                        fullName: controller.currentUserNickName ?? ""),
-                    style: const TextStyle(
-                      color: Colors.blueGrey,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey.withOpacity(.5),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30)),
-                    padding: const EdgeInsets.all(2),
-                    margin: const EdgeInsets.all(2),
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.blueGrey,
-                      child: Icon(
-                        Icons.person_outline,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            actions: <Widget>[
-              IconButton(
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Colors.deepPurpleAccent.withOpacity(.7),
-                  ),
-                  onPressed: () {}),
-              IconButton(
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Colors.deepPurpleAccent.withOpacity(.7),
-                  ),
-                  onPressed: () {}),
-            ],
-            iconTheme: const IconThemeData(color: Colors.blueGrey),
-            elevation: 0,
-            backgroundColor: Colors.amber,
-          ),
-          body: HomeViewLarge(
-            child: widget.child,
-          ),
-        );
-      }),
-    );
+    // دریافت کنترلر (اگر همچنان از آن استفاده می‌کنید)
+    // useMemoized باعث می‌شود فقط یک بار ساخته شود
+    final controller = Hooks.useMemoized(() => Injection.serviceLocator<HomeController>());
 
-    // return HomeView();
+    // معادل initState و didChangeDependencies
+    Hooks.useEffect(() {
+      controller.initState();
+      // اگر controller نیاز به context دارد، شاید بهتر باشد
+      // controller.didChangeDependencies(context); را اینجا فراخوانی کنید
+      // یا منطق آن را به داخل build منتقل کنید اگر به context وابسته است
+
+      // معادل dispose
+      return () => controller.dispose();
+    }, [controller]); // هر بار controller تغییر کند (که اینجا نمی‌کند) اجرا می‌شود
+
+    // UI صفحه Home
+    final translator = TranslationsProvider.translator; // فرض وجود این کلاس
+
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+           toolbarHeight: 40, // ارتفاع سفارشی AppBar
+           title: Row(
+            children: <Widget>[
+              // ویجت‌های AppBar شما... مثل قبل
+              // مثال: دکمه خروج
+              ToolbarIconButton(
+                onTap: () async {
+                  await controller.logoutUser();
+                  // بعد از خروج به صفحه لاگین هدایت شود
+                  // replaceAll برای پاک کردن تاریخچه صفحات داخلی home
+                  QR.navigator.replaceAll(Routing.to.login.path);
+                },
+                icon: const Icon(Icons.logout, color: Colors.deepPurpleAccent),
+              ),
+              // ... بقیه ویجت‌های AppBar
+              Expanded(child: Container()), // فضای خالی
+               Observer( // اگر از MobX استفاده می‌کنید
+                 builder: (_) => Text(
+                   translator.welcome(fullName: controller.currentUserNickName ?? ""),
+                   style: const TextStyle(color: Colors.blueGrey),
+                 ),
+               ),
+               // ... بقیه ویجت‌ها
+            ],
+          ),
+           // ... تنظیمات دیگر AppBar
+           backgroundColor: Colors.white, // یا رنگ دلخواه شما
+           elevation: 1.0, // سایه کم
+           iconTheme: const IconThemeData(color: Colors.blueGrey),
+        ),
+        // بدنه اصلی که پوسته بیرونی است
+        // HomeViewLarge شما می‌تواند اینجا باشد یا مستقیم همینجا پیاده‌سازی شود
+        body: HomeViewLarge(
+           // این child همان ویجتی است که از QRoute فرزند می‌آید (مثل DashboardPage)
+           child: child,
+        ),
+        // می‌توانید Drawer یا BottomNavigationBar هم اینجا اضافه کنید
+        // drawer: AppDrawer(),
+      ),
+    );
   }
 }

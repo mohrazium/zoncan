@@ -1,7 +1,7 @@
 part of '../components.dart';
 
 class Fonts {
-  late double fontScale;
+  late double fontScale = 1.0;
   static Fonts instance = Fonts();
 
   // Font constants

@@ -1,38 +1,27 @@
 part of '../presentation.dart';
 
-class ProfileForm extends StatefulWidget {
+
+class ProfileForm extends Hooks.HookWidget {
   const ProfileForm({super.key});
 
   @override
-  State<ProfileForm> createState() => _ProfileFormState();
-}
-
-class _ProfileFormState extends State<ProfileForm> {
-  final ProfileController controller =
-  Injection.serviceLocator.get<ProfileController>();
-
-  @override
-  void initState() {
-    super.initState();
-    controller.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    controller.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var translator = TranslationsProvider.translator;
+    final controller = Hooks.useMemoized(
+        () => Injection.serviceLocator.get<ProfileController>());
 
+    final translator = Hooks.useMemoized(() => TranslationsProvider.translator);
+
+    Hooks.useEffect(() {
+      controller.initState();
+      return () {
+        controller.dispose();
+      };
+    }, []);
+
+    Hooks.useEffect(() {
+      controller.didChangeDependencies();
+      return null;
+    }, [controller]);
     return ElevatedButton(
         onPressed: () async {
           await controller.logout();

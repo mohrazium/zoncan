@@ -7,7 +7,8 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
 
   @override
   Future<Either<FailureException, UserDetailsModel>> saveUser(
-      UserDetailsModel user) async {
+    UserDetailsModel user,
+  ) async {
     try {
       if (user.uid == null) {
         user = user.copyWith(uid: const Uuid().v4());
@@ -19,69 +20,31 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
 
       UserDetailsModel? savedUser = await _userDetailsDao
           .insert(user.toEntity().toData())
-          .then((savedUser) =>
-              UserDetailsModel.fromEntity(savedUser!.toEntity()));
+          .then(
+            (savedUser) => UserDetailsModel.fromEntity(savedUser!.toEntity()),
+          );
       if (savedUser != null) {
         return Right(savedUser);
       } else {
         return Left(FailureException(userMessage: "کاربر ذخیره نشد"));
       }
     } on Error catch (e) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.CantCREATE,
-        message: "Can't save this user :${user.toString()}",
-        userMessage: ".کاربر ذخیره نشد! مشکلی در ذخیره کاربر پیش امده است",
-        error: e,
-        stackTrace: e.stackTrace,
-      ));
-    }
-  }
-
-  @override
-  Future<Either<FailureException, bool>> deleteUser(
-      UserDetailsModel user) async {
-    try {
-      if (user.id != null) {
-        return await _userDetailsDao
-            .deleteUser(user.id!)
-            .then((res) => Right(res));
-      } else {
-        return const Right(false);
-      }
-    } catch (e, stackTrace) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.CantDELETE,
-        error: e,
-        stackTrace: stackTrace,
-        message: "Can't find this user by id:${user.id}",
-        userMessage: "خطا در حذف کاربر!",
-      ));
-    }
-  }
-
-  @override
-  Future<Either<FailureException, bool>> deleteUserByUUID(String uuid) async {
-    try {
-      return await _userDetailsDao
-          .deleteUserByUUID(uuid)
-          .then((res) => Right(res));
-    } catch (e, stackTrace) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.CantDELETE,
-        error: e,
-        stackTrace: stackTrace,
-        message: "Can't find this user by uid:$uuid",
-        userMessage: "خطا در حذف کاربر!",
-      ));
+      return Left(
+        FailureException(
+          level: LogLevel.ERROR,
+          type: ExceptionType.CantCREATE,
+          message: "Can't save this user :${user.toString()}",
+          userMessage: ".کاربر ذخیره نشد! مشکلی در ذخیره کاربر پیش امده است",
+          error: e,
+          stackTrace: e.stackTrace,
+        ),
+      );
     }
   }
 
   @override
   Future<Either<FailureException, List<UserDetailsModel>>>
-      findAllUsers() async {
+  findAllUsers() async {
     try {
       List<UserDetailsModel> users = List.empty();
       await _userDetailsDao.getAllUser.then((res) {
@@ -93,149 +56,200 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
       });
       return Right(users);
     } catch (e, stackTrace) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.CantDELETE,
-        error: e,
-        stackTrace: stackTrace,
-        message: "Can't retrive users from db",
-        userMessage: "بارگذاری کاربران امکان پذیرنیست",
-      ));
+      return Left(
+        FailureException(
+          level: LogLevel.ERROR,
+          type: ExceptionType.CantDELETE,
+          error: e,
+          stackTrace: stackTrace,
+          message: "Can't retrive users from db",
+          userMessage: "بارگذاری کاربران امکان پذیرنیست",
+        ),
+      );
     }
   }
 
   @override
   Future<Either<FailureException, UserDetailsModel>> findUserByEmail(
-      String email) async {
+    String email,
+  ) async {
     try {
       final foundedUser = await _userDetailsDao.getUserByEmail(email);
       if (foundedUser == null) {
-        return Left(FailureException(
-          level: LogLevel.ERROR,
-          type: ExceptionType.CantCREATE,
-          message: "Can't find this user by username or email address :$email",
-          userMessage: "کاربری بااین ایمیل یافت نشد!",
-        ));
+        return Left(
+          FailureException(
+            level: LogLevel.ERROR,
+            type: ExceptionType.CantCREATE,
+            message:
+                "Can't find this user by username or email address :$email",
+            userMessage: "کاربری بااین ایمیل یافت نشد!",
+          ),
+        );
       } else {
         return Right(UserDetailsModel.fromEntity(foundedUser.toEntity()));
       }
     } on Error catch (e) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.CantCREATE,
-        message: "Finding user by :$email faild. check the error",
-        userMessage: ".کاربر یافت نشد! مشکلی درعملیات یافتن کاربر پیش امده است",
-        error: e,
-        stackTrace: e.stackTrace,
-      ));
+      return Left(
+        FailureException(
+          level: LogLevel.ERROR,
+          type: ExceptionType.CantCREATE,
+          message: "Finding user by :$email faild. check the error",
+          userMessage:
+              ".کاربر یافت نشد! مشکلی درعملیات یافتن کاربر پیش امده است",
+          error: e,
+          stackTrace: e.stackTrace,
+        ),
+      );
     }
   }
 
   @override
-  Future<Either<FailureException, UserDetailsModel>> findUserByUUID(
-      String uuid) async {
+  Future<Either<FailureException, UserDetailsModel>> findUser(
+    String uuid,
+  ) async {
     try {
-      final user = await _userDetailsDao.getUserByUUID(uuid);
+      final user = await _userDetailsDao.getUser(uuid);
       if (user != null) {
         return Right(UserDetailsModel.fromEntity(user.toEntity()));
       } else {
-        return Left(FailureException(
-          level: LogLevel.INFO,
-          type: ExceptionType.NONE,
-          userMessage: "متاسفانه کاربر یافت نشد",
-        ));
+        return Left(
+          FailureException(
+            level: LogLevel.INFO,
+            type: ExceptionType.NONE,
+            userMessage: "متاسفانه کاربر یافت نشد",
+          ),
+        );
       }
     } catch (e, stackTrace) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.CantDELETE,
-        error: e,
-        stackTrace: stackTrace,
-        message: "Can't find this user by uid:$uuid",
-        userMessage: "خطا در پیدا کردن کاربر!",
-      ));
+      return Left(
+        FailureException(
+          level: LogLevel.ERROR,
+          type: ExceptionType.CantDELETE,
+          error: e,
+          stackTrace: stackTrace,
+          message: "Can't find this user by uid:$uuid",
+          userMessage: "خطا در پیدا کردن کاربر!",
+        ),
+      );
     }
   }
 
   @override
   Future<Either<FailureException, UserDetailsModel>> findUserByUsername(
-      String username) async {
+    String username,
+  ) async {
     try {
       final user = await _userDetailsDao.getUserByUsername(username);
       if (user != null) {
         return Right(UserDetailsModel.fromEntity(user.toEntity()));
       } else {
-        return Left(FailureException(
-          level: LogLevel.INFO,
-          type: ExceptionType.NONE,
-          userMessage: "کاربری بااین نام کاربری یافت نشد!",
-        ));
+        return Left(
+          FailureException(
+            level: LogLevel.INFO,
+            type: ExceptionType.NONE,
+            userMessage: "کاربری بااین نام کاربری یافت نشد!",
+          ),
+        );
       }
     } on Error catch (e) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.CantCREATE,
-        message: "Finding user by :$username faild. check the error",
-        userMessage: ".کاربر یافت نشد! مشکلی درعملیات یافتن کاربر پیش امده است",
-        error: e,
-        stackTrace: e.stackTrace,
-      ));
+      return Left(
+        FailureException(
+          level: LogLevel.ERROR,
+          type: ExceptionType.CantCREATE,
+          message: "Finding user by :$username faild. check the error",
+          userMessage:
+              ".کاربر یافت نشد! مشکلی درعملیات یافتن کاربر پیش امده است",
+          error: e,
+          stackTrace: e.stackTrace,
+        ),
+      );
     }
   }
 
   @override
   Future<Either<FailureException, UserDetailsModel>> updateUser(
-      UserDetailsModel model) async {
+    UserDetailsModel model,
+  ) async {
     try {
       final user = await _userDetailsDao.updateUser(model.toEntity().toData());
       if (user != null) {
         return Right(UserDetailsModel.fromEntity(user.toEntity()));
       } else {
-        return Left(FailureException(
-          level: LogLevel.INFO,
-          type: ExceptionType.NONE,
-          userMessage: "اطلاعات کاربر بروز نشد",
-        ));
+        return Left(
+          FailureException(
+            level: LogLevel.INFO,
+            type: ExceptionType.NONE,
+            userMessage: "اطلاعات کاربر بروز نشد",
+          ),
+        );
       }
     } on Error catch (e) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.CantCREATE,
-        message: "Updating user by :${model.toString()} faild. check the error",
-        userMessage:
-            ".کاربر یافت نشد! مشکلی درعملیات بروزرسانی کاربر پیش امده است",
-        error: e,
-        stackTrace: e.stackTrace,
-      ));
+      return Left(
+        FailureException(
+          level: LogLevel.ERROR,
+          type: ExceptionType.CantCREATE,
+          message:
+              "Updating user by :${model.toString()} faild. check the error",
+          userMessage:
+              ".کاربر یافت نشد! مشکلی درعملیات بروزرسانی کاربر پیش امده است",
+          error: e,
+          stackTrace: e.stackTrace,
+        ),
+      );
     }
   }
 
   @override
   Future<Either<FailureException, bool>> userExist(
-      String usernameOrEmail) async {
+    String usernameOrEmail,
+  ) async {
     try {
       final userByEmail = await _userDetailsDao.getUserByEmail(usernameOrEmail);
-      final userByUsername =
-          await _userDetailsDao.getUserByUsername(usernameOrEmail);
+      final userByUsername = await _userDetailsDao.getUserByUsername(
+        usernameOrEmail,
+      );
       if (userByEmail != null || userByUsername != null) {
         return const Right(true);
       } else {
         return const Right(false);
       }
     } on Error catch (e) {
-      return Left(FailureException(
-        level: LogLevel.ERROR,
-        type: ExceptionType.NotFOUND,
-        message: "Finding user by :$usernameOrEmail faild. check the error",
-        userMessage:
-            ".کاربر یافت نشد! مشکلی درعملیات جستجوی کاربر پیش امده است",
-        error: e,
-        stackTrace: e.stackTrace,
-      ));
+      return Left(
+        FailureException(
+          level: LogLevel.ERROR,
+          type: ExceptionType.NotFOUND,
+          message: "Finding user by :$usernameOrEmail faild. check the error",
+          userMessage:
+              ".کاربر یافت نشد! مشکلی درعملیات جستجوی کاربر پیش امده است",
+          error: e,
+          stackTrace: e.stackTrace,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<FailureException, bool>> removeUser(
+    UserDetailsModel entity,
+  ) async {
+    try {
+      return await _userDetailsDao
+          .deleteUser(entity.toEntity().toData())
+          .then((res) => Right(res));
+    } catch (e, stackTrace) {
+      return Left(
+        FailureException(
+          level: LogLevel.ERROR,
+          type: ExceptionType.CantDELETE,
+          error: e,
+          stackTrace: stackTrace,
+          message: "Can't find this user by uid:${entity.uid}",
+          userMessage: "خطا در حذف کاربر!",
+        ),
+      );
     }
   }
 }
-
 
 // For api integration declare ds here
 // like: final UserDetailsClient _client;

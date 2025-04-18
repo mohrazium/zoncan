@@ -1,37 +1,27 @@
 part of '../presentation.dart';
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends Hooks.HookWidget {
   const LoginForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
-}
-
-class _LoginFormState extends State<LoginForm> {
-  final LoginController controller =
-      Injection.serviceLocator.get<LoginController>();
-
-  @override
-  void initState() {
-    super.initState();
-    controller.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    controller.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    var translator = TranslationsProvider.translator;
+    final controller = Hooks.useMemoized(
+        () => Injection.serviceLocator.get<LoginController>());
+
+    final translator = Hooks.useMemoized(() => TranslationsProvider.translator);
+
+    Hooks.useEffect(() {
+      controller.initState();
+      return () {
+        controller.dispose();
+      };
+    }, []);
+
+    Hooks.useEffect(() {
+      controller.didChangeDependencies();
+      return null;
+    }, [controller]);
+
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -110,7 +100,8 @@ class _LoginFormState extends State<LoginForm> {
                             ?.copyWith(color: Colors.blue),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            QR.navigator.replaceAll(Routing.to.passwordReset.path);
+                            QR.navigator
+                                .replaceAll(Routing.to.passwordReset.path);
                           },
                       ),
                     ],

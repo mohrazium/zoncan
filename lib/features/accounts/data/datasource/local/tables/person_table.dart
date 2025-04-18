@@ -2,8 +2,7 @@ part of '../../../data.dart';
 
 @DataClassName('PersonData')
 class PersonTable extends Table {
-  IntColumn get id => integer().nullable()();
-  TextColumn get uid => text().nullable().unique()();
+  TextColumn get uid => text()();
   TextColumn get name => text()();
   TextColumn get family => text()();
   TextColumn get fatherName => text().nullable()();
@@ -15,15 +14,15 @@ class PersonTable extends Table {
   TextColumn get email => text().nullable()();
   TextColumn get economicCode => text().nullable()();
   TextColumn get profilePicture => text().nullable()();
-  IntColumn get addressId => integer().references(AddressTable, #id)();
-  IntColumn get accountingInfoId =>
-      integer().references(AccountingInfoTable, #id)();
+  TextColumn get addressId => text().nullable().references(AddressTable, #uid)();
+  TextColumn get accountingInfoId =>
+      text().nullable().references(AccountingInfoTable, #uid)();
   IntColumn get personType => integer()();
   TextColumn get description => text().nullable()();
   DateTimeColumn get createdAt => dateTime().nullable()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
  @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {uid};
   
 }
 
@@ -33,7 +32,6 @@ extension PersonDataExtension on PersonData {
     required AccountingInfoEntity accountingInfo,
   }) =>
       PersonEntity(
-        id: id??0,
         uid: uid,
         name: name,
         family: family,
@@ -57,12 +55,11 @@ extension PersonDataExtension on PersonData {
 
 extension PersonEntityExtension on PersonEntity {
   PersonData toData({
-    required int addressId,
-    required int accountingInfoId,
+    required String addressId,
+    required String accountingInfoId,
   }) =>
       PersonData(
-        id: id,
-        uid: uid,
+        uid: uid ?? Uuid().v4(),
         name: name,
         family: family,
         fatherName: fatherName,

@@ -1,7 +1,6 @@
 part of '../domain.dart';
 
- class AccountingInfoEntity{
-  final int id;
+class AccountingInfoEntity {
   final String? uid;
   final DateTime? introDate;
   final String? referralPersonUid;
@@ -16,7 +15,6 @@ part of '../domain.dart';
   final DateTime? updatedAt;
 
   AccountingInfoEntity({
-    required this.id,
     this.uid,
     this.introDate,
     this.referralPersonUid,

@@ -5,11 +5,11 @@ part of '../../../data.dart';
 class PersonDao extends DatabaseAccessor<ZoncanDatabase> with _$PersonDaoMixin {
   PersonDao(super.db);
 
-  Future<PersonData?> getPerson(int id) => (select(personTable)..where((t) => t.id.equals(id))).getSingleOrNull();
+  Future<PersonData?> getPerson(String uid) => (select(personTable)..where((t) => t.uid.equals(uid))).getSingleOrNull();
 
   Future<void> insertPerson(PersonData person) => into(personTable).insert(person);
 
   Future<void> updatePerson(PersonData person) => update(personTable).replace(person);
 
-  Future<void> deletePerson(int id) => (delete(personTable)..where((t) => t.id.equals(id))).go();
+  Future<void> deletePerson(String uid) => (delete(personTable)..where((t) => t.uid.equals(uid))).go();
 }

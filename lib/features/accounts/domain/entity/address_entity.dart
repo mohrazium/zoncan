@@ -1,8 +1,6 @@
 part of '../domain.dart';
 
- class AddressEntity {
-
-  final int id;
+class AddressEntity {
   final String? uid;
   final String? postalCode;
   final String? province;
@@ -15,7 +13,6 @@ part of '../domain.dart';
   final DateTime? updatedAt;
 
   AddressEntity({
-    required this.id,
     this.uid,
     this.postalCode,
     this.province,

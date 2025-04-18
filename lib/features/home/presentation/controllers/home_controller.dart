@@ -35,7 +35,7 @@ abstract class _HomeController with Store {
   @computed
   Future<bool> get isCompletedFirstSetup async {
     final user = await appStateController.currentUser;
-    return user?.isCompletedFirstSetup ?? false;
+    return user == null ? false : user.isCompletedFirstSetup ?? false;
   }
 
   @computed

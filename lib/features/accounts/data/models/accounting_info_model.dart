@@ -9,7 +9,6 @@ typedef AccountingInfoMapper = AccountingInfoModelMapper;
         GenerateMethods.decode |
         GenerateMethods.encode)
 class AccountingInfoModel with AccountingInfoModelMappable {
-  final int id;
   final String? uid;
   final DateTime? introDate;
   final String? referralPersonUid;
@@ -24,7 +23,6 @@ class AccountingInfoModel with AccountingInfoModelMappable {
   final DateTime? updatedAt;
 
   AccountingInfoModel({
-    required this.id,
     this.uid,
     this.introDate,
     this.referralPersonUid,
@@ -40,7 +38,6 @@ class AccountingInfoModel with AccountingInfoModelMappable {
   });
   
  factory AccountingInfoModel.init() => AccountingInfoModel(
-        id: 0,
         beggingOfBalance: 0.0,
         balanceType: BalanceType.saleinvoice,
         beggingOfBalanceType: BeggingOfBalanceType.incalculable,
@@ -48,7 +45,6 @@ class AccountingInfoModel with AccountingInfoModelMappable {
 
   factory AccountingInfoModel.fromEntity(AccountingInfoEntity entity) =>
       AccountingInfoModel(
-        id: entity.id,
         uid: entity.uid,
         introDate: entity.introDate,
         referralPersonUid: entity.referralPersonUid,
@@ -64,7 +60,6 @@ class AccountingInfoModel with AccountingInfoModelMappable {
       );
 
  AccountingInfoEntity toEntity() => AccountingInfoEntity(
-      id: id,
       uid: uid,
       introDate: introDate,
       referralPersonUid: referralPersonUid,

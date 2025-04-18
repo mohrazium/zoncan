@@ -36,7 +36,7 @@ class _LanguageChangerState extends State<LanguageChanger> {
             changeLanguageTo(value.languageCode, context);
           },
           itemBuilder: (BuildContext context) {
-            return LocaleSettings.supportedLocales
+            return LocaleSettings.instance.supportedLocales
                 .map<PopupMenuItem<Locale>>((value) {
               return PopupMenuItem(
                   value: value,

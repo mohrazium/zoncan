@@ -68,10 +68,12 @@ class LoginController extends _LoginController
       clearForm();
       super.usernameController?.dispose();
       super.passwordController?.dispose();
-      logger.info("${this.runtimeType} disposed.");
+      ZLogger(
+          logLevel: LogLevel.INFO, message: "${this.runtimeType} disposed.");
     } catch (e) {
       //ignored
     }
+    return;
   }
 }
 
@@ -122,7 +124,7 @@ abstract class _LoginController with Store {
   bool get canLogin => !validator.hasError && validator.isValid;
 
   @action
-  Future<void> validateUsername(_) async {
+  Future<void> validateUsername(u) async {
     if (isNull(username) || username.isEmpty) {
       validator.usernameError =
           TranslationsProvider.translator.validation.pleaseEnterUsernameOrEmail;
@@ -166,7 +168,7 @@ abstract class _LoginController with Store {
   }
 
   @action
-  void validatePassword(_) {
+  void validatePassword(p) {
     if (isNull(password) || password.isEmpty) {
       validator.passwordError =
           TranslationsProvider.translator.validation.pleaseEnterPassword;
@@ -235,8 +237,8 @@ abstract class _LoginController with Store {
         } else if (validator.passwordError != null) {
           appStateController.showMessage(validator.passwordError!);
         } else {
-          appStateController.showMessage(
-              TranslationsProvider.translator.accounts.loginFail);
+          appStateController
+              .showMessage(TranslationsProvider.translator.accounts.loginFail);
         }
       });
     }
@@ -244,8 +246,8 @@ abstract class _LoginController with Store {
 
   void setupValidations() {
     disposers = [
-      reaction((_) => username, validateUsername),
-      reaction((_) => password, validatePassword),
+      reaction((u) => username, validateUsername),
+      reaction((p) => password, validatePassword),
     ];
   }
 

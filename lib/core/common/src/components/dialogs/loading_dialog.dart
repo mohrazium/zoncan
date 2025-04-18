@@ -69,29 +69,29 @@ class LoadingScreen {
         ),
       ),
     );
-    BotToast.showCustomLoading(
-        clickClose: false,
-        allowClick: false,
+    // BotToast.showCustomLoading(
+    //     clickClose: false,
+    //     allowClick: false,
 
-        ignoreContentClick: true,
-        animationDuration: const Duration(milliseconds: 500),
-        animationReverseDuration:
-            const Duration(milliseconds: 500),
-        duration: const Duration(
-          seconds: 2,
-        ),
-        backgroundColor: const Color(0x42000000),
-        align: Alignment.center,
-        toastBuilder: (cancelFunc) {
-          return w;
-        });
+    //     ignoreContentClick: true,
+    //     animationDuration: const Duration(milliseconds: 500),
+    //     animationReverseDuration:
+    //         const Duration(milliseconds: 500),
+    //     duration: const Duration(
+    //       seconds: 2,
+    //     ),
+    //     backgroundColor: const Color(0x42000000),
+    //     align: Alignment.center,
+    //     toastBuilder: (cancelFunc) {
+    //       return w;
+    //     });
    
   }
 
   void hide() {
     // controller?.close();
     // controller = null;
-    BotToast.closeAllLoading();
+    // BotToast.closeAllLoading();
   }
 
   _LoadingScreenController _showOverlay({
