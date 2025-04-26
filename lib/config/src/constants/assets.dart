@@ -1,4 +1,3 @@
-part of 'constants.dart';
 
 class Assets {
   Assets._();

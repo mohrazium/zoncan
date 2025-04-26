@@ -1,4 +1,6 @@
-part of '../presentation.dart';
+
+import 'package:flutter/material.dart';
+import 'package:zoncan/config/config.dart';
 
 class LoginHeader extends StatelessWidget {
   const LoginHeader({super.key});

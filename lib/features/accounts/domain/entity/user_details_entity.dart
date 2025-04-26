@@ -1,6 +1,7 @@
-part of '../domain.dart';
 
- class UserDetailsEntity {
+ import 'person_entity.dart';
+
+class UserDetailsEntity {
  final String? uid;
  final PersonEntity? person;
  final String? nickName;

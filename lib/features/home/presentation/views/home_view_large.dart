@@ -1,4 +1,5 @@
-part of '../presentation.dart';
+
+import 'package:flutter/material.dart';
 
 class HomeViewLarge extends StatelessWidget {
   final Widget child;

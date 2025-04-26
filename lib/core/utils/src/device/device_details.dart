@@ -1,4 +1,5 @@
-part of '../../utils.dart';
+
+import 'dart:io';
 
 class DeviceInfo {
   static bool isDesktop() {

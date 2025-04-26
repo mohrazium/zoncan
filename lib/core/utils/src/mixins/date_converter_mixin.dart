@@ -1,4 +1,6 @@
-part of '../../utils.dart';
+
+import 'package:persian_tools/persian_tools.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 mixin DateConverterMixin {
   String shamsiNow() => DateConverter.toShamsi(DateTime.now());
@@ -52,7 +54,7 @@ mixin DateConverterMixin {
 class DateConverter {
   static String toShamsi(DateTime? dateTime) {
     if (dateTime != null) {
-      Jalali jalali = dateTime.toJalali();
+      Jalali jalali = DateTimeExtensions(dateTime).toJalali();
       String month;
       String day;
 
@@ -95,7 +97,7 @@ class DateConverter {
 
       if (yearsBefore != null) {
         return toDateTime(
-          year: y <= (DateTime.now().toJalali().year - 50) ? y : DateTime.now().toJalali().year - 50,
+          year: y <= (DateTimeExtensions(DateTime.now()).toJalali().year - 50) ? y : DateTimeExtensions(DateTime.now()).toJalali().year - 50,
           month: m <= 12 ? m : 12,
           day: d <= 31 ? d : 30,
         );

@@ -1,4 +1,4 @@
-part of 'settings.dart';
+
 
 enum SettingsKeys {
   allSettings("all-settings"),

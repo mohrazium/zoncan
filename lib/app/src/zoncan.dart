@@ -1,19 +1,35 @@
-part of '../app.dart';
 
-class Zoncan extends Hooks.HookWidget {
+import 'dart:async';
+
+import 'package:bot_toast/bot_toast.dart' show BotToastInit, BotToastNavigatorObserver;
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
+import 'package:qlevar_router/qlevar_router.dart';
+
+import 'package:zoncan/config/config.dart';
+import 'package:zoncan/core/common/common.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
+
+import 'app_state_controller.dart';
+import 'application.dart';
+
+class Zoncan extends HookWidget {
   const Zoncan({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final appInstanse = Hooks.useMemoized(() => Application.instance);
-    final appStateController = Hooks.useMemoized(
+    final appInstanse = useMemoized(() => Application.instance);
+    final appStateController = useMemoized(
       () => Injection.serviceLocator.get<AppStateController>(),
     );
-    final zoncanDatabaseHelper = Hooks.useMemoized(
+    final zoncanDatabaseHelper = useMemoized(
       () => Injection.serviceLocator<ZoncanDatabase>(),
     );
 
-    Hooks.useEffect(() {
+    useEffect(() {
       logger.setup();
 
       // if (kDebugMode) {
@@ -50,7 +66,7 @@ class Zoncan extends Hooks.HookWidget {
       return () {
         appStateController.dispose();
         // Consider if the database should be closed here or at a higher level
-        // Injection.serviceLocator<ZoncanDatabase>().close();
+        zoncanDatabaseHelper.close();
       };
     }, [appStateController]); // Only depend on the controller's lifecycle
 
@@ -122,6 +138,24 @@ class Zoncan extends Hooks.HookWidget {
             builder: (obsContext) {
               // The Observer will automatically rebuild when observable properties
               // within appStateController change.
+              if (appStateController.message != null) {
+                ZLogger(
+                  logLevel: LogLevel.INFO,
+                  message: appStateController.message!,
+                );
+                // Display the message using BotToast
+                DialogHelper.showMessageBox(
+                  context: obsContext,
+                  title: TranslationsProvider.translator.error,
+                  dialogButtons: DialogButtons.OK,
+                  message: appStateController.message!,
+                  dialogType: DialogType.ERROR,
+                ).then((value) {
+                  appStateController.showMessage(null);
+                });
+                // Immediately clear the message after showing it
+                Future.microtask(() => appStateController.showMsg(null));
+              }
               Fonts.instance.fontScale =
                   appStateController.settings.fontScale ?? kDefaultUiScale;
               return child ?? Container();

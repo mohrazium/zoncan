@@ -1,4 +1,7 @@
-part of '../presentation.dart';
+
+import 'package:floy/floy.dart';
+import 'package:flutter/material.dart';
+import 'package:zoncan/features/home/presentation/views/first_setup_view.dart';
 
 class FirstSetupPage extends StatefulWidget {
   const FirstSetupPage({super.key});

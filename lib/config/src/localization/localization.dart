@@ -1,4 +1,4 @@
-library zoncan.core.config.localization;
+library;
 
 import 'package:flutter/widgets.dart';
 

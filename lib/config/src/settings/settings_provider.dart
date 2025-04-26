@@ -1,4 +1,10 @@
-part of 'settings.dart';
+
+import 'package:injectable/injectable.dart';
+import 'package:zoncan/core/common/common.dart';
+
+import 'setting_keys.dart';
+import 'setting_properties.dart';
+
 
 abstract class SettingsProvider {
   Future<SettingProperties> loadSettings();

@@ -1,4 +1,7 @@
-part of 'settings.dart';
+
+
+import 'package:dart_mappable/dart_mappable.dart';
+part 'setting_properties.mapper.dart';
 
 @MappableClass(
     generateMethods: GenerateMethods.copy |

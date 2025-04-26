@@ -1,4 +1,6 @@
-part of '../domain.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+part 'balance_type.mapper.dart';
+
 @MappableEnum()
 enum BalanceType {
   @MappableValue('SALE_INVOICE')

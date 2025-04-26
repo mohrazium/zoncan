@@ -1,4 +1,24 @@
-part of '../presentation.dart';
+
+import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mobx/mobx.dart';
+import 'package:qlevar_router/qlevar_router.dart';
+import 'package:validators2/validators2.dart';
+import 'package:zoncan/app/app.dart';
+import 'package:zoncan/config/config.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
+import 'package:zoncan/core/common/common.dart';
+import 'package:zoncan/core/utils/utils.dart';
+
+import '../../data/models/user_details_model.dart';
+import '../../domain/usecases/email_address_already_exists_usecase.dart';
+import '../../domain/usecases/login_usecase.dart';
+import '../../domain/usecases/remembered_password_usecase.dart';
+import '../../domain/usecases/remembered_username_usecase.dart';
+import '../../domain/usecases/username_already_exists_usecase.dart';
+
+part 'login_controller.g.dart';
 
 class LoginFormValidator = _LoginFormValidator with _$LoginFormValidator;
 
@@ -18,34 +38,37 @@ abstract class _LoginFormValidator with Store, ValidatorMixin {
 @Injectable()
 class LoginController extends _LoginController
     with _$LoginController
-    implements Controller {
+    {
   LoginController(
-      super.appStateController,
-      super.loginUsecase,
-      super.emailAddressAlreadyExistsUsecase,
-      super.usernameAlreadyExistsUsecase,
-      super.rememberedPasswordUsecase,
-      super.rememberedUsernameUsecase);
+    super.appStateController,
+    super.loginUsecase,
+    super.emailAddressAlreadyExistsUsecase,
+    super.usernameAlreadyExistsUsecase,
+    super.rememberedPasswordUsecase,
+    super.rememberedUsernameUsecase,
+  );
 
   @override
   Future<void> initState() async {
     super.setupValidations();
     super.usernameController = TextEditingController();
     super.passwordController = TextEditingController();
-    final String rememberedUsername = await super
-        .rememberedUsernameUsecase
+    final String rememberedUsername = await super.rememberedUsernameUsecase
         .call()
-        .then((resultValue) => resultValue.fold((error) {
-              appStateController.showMessage(error);
-              return "";
-            }, (onResult) => onResult ?? ""));
-    final String rememberedPassword = await super
-        .rememberedPasswordUsecase
+        .then(
+          (resultValue) => resultValue.fold((error) {
+            showMessage(error);
+            return "";
+          }, (onResult) => onResult ?? ""),
+        );
+    final String rememberedPassword = await super.rememberedPasswordUsecase
         .call()
-        .then((resultValue) => resultValue.fold((error) {
-              appStateController.showMessage(error);
-              return "";
-            }, (onResult) => onResult ?? ""));
+        .then(
+          (resultValue) => resultValue.fold((error) {
+            showMessage(error);
+            return "";
+          }, (onResult) => onResult ?? ""),
+        );
     super.usernameController?.text = rememberedUsername;
     super.passwordController?.text = rememberedPassword;
     super.username = rememberedUsername;
@@ -53,12 +76,18 @@ class LoginController extends _LoginController
     super.rememberMe =
         rememberedUsername.isNotEmpty && rememberedPassword.isNotEmpty;
 
-    logger.info("${this.runtimeType} has been initialized.");
+    ZLogger(
+      logLevel: LogLevel.INFO,
+      message: "${this.runtimeType} has been initialized.",
+    );
   }
 
   @override
   void didChangeDependencies() {
-    logger.info("${this.runtimeType} dependencies changed.");
+    ZLogger(
+      logLevel: LogLevel.INFO,
+      message: "${this.runtimeType} dependencies changed.",
+    );
   }
 
   @override
@@ -69,7 +98,9 @@ class LoginController extends _LoginController
       super.usernameController?.dispose();
       super.passwordController?.dispose();
       ZLogger(
-          logLevel: LogLevel.INFO, message: "${this.runtimeType} disposed.");
+        logLevel: LogLevel.INFO,
+        message: "${this.runtimeType} disposed.",
+      );
     } catch (e) {
       //ignored
     }
@@ -77,7 +108,7 @@ class LoginController extends _LoginController
   }
 }
 
-abstract class _LoginController with Store {
+abstract class _LoginController extends Controller with Store {
   @protected
   final LoginUsecase loginUsecase;
   @protected
@@ -108,13 +139,48 @@ abstract class _LoginController with Store {
   @observable
   ObservableFuture<bool> usernameAbility = ObservableFuture.value(false);
 
+  @observable
+  bool isLoading = false;
+  @observable
+  String? loadingText;
+  @observable
+  String? successMessage;
+  @observable
+  FailureException? exception;
+  @computed
+  bool get errorHappened => exception != null && exception!.hasError;
+
+  @action
+  void setIsLoading([String? msg]) {
+    loadingText = msg;
+    isLoading = true;
+  }
+
+  @action
+  void unsetIsLoading() {
+    loadingText = null;
+    isLoading = false;
+  }
+
+  @action
+  void showMessage(dynamic error) {
+    if (error is FailureException) {
+      exception = error;
+    } else if (error is String) {
+      exception = FailureException(userMessage: error);
+    } else {
+      exception = null;
+    }
+  }
+
   _LoginController(
-      this.appStateController,
-      this.loginUsecase,
-      this.emailAddressAlreadyExistsUsecase,
-      this.usernameAlreadyExistsUsecase,
-      this.rememberedPasswordUsecase,
-      this.rememberedUsernameUsecase);
+    this.appStateController,
+    this.loginUsecase,
+    this.emailAddressAlreadyExistsUsecase,
+    this.usernameAlreadyExistsUsecase,
+    this.rememberedPasswordUsecase,
+    this.rememberedUsernameUsecase,
+  );
 
   @computed
   bool get isUsernameAbilityPending =>
@@ -131,12 +197,16 @@ abstract class _LoginController with Store {
     } else {
       if (username.length >= 4) {
         if (isEmail(username)) {
-          usernameAbility = ObservableFuture(emailAddressAlreadyExistsUsecase
-              .call(params: username)
-              .then((resultValue) => resultValue.fold((error) {
-                    appStateController.showMessage(error);
+          usernameAbility = ObservableFuture(
+            emailAddressAlreadyExistsUsecase
+                .call(params: username)
+                .then(
+                  (resultValue) => resultValue.fold((error) {
+                    showMessage(error);
                     return false;
-                  }, (onResult) => onResult)));
+                  }, (onResult) => onResult),
+                ),
+          );
 
           await Future.delayed(kDelayWaiting);
           if (await usernameAbility) {
@@ -147,12 +217,16 @@ abstract class _LoginController with Store {
                 TranslationsProvider.translator.validation.emailNotExists;
           }
         } else {
-          usernameAbility = ObservableFuture(usernameAlreadyExistsUsecase
-              .call(params: username)
-              .then((resultValue) => resultValue.fold((error) {
-                    appStateController.showMessage(error);
+          usernameAbility = ObservableFuture(
+            usernameAlreadyExistsUsecase
+                .call(params: username)
+                .then(
+                  (resultValue) => resultValue.fold((error) {
+                    showMessage(error);
                     return false;
-                  }, (onResult) => onResult)));
+                  }, (onResult) => onResult),
+                ),
+          );
 
           await Future.delayed(kDelayWaiting);
           if (await usernameAbility) {
@@ -195,54 +269,73 @@ abstract class _LoginController with Store {
   @action
   Future<void> login() async {
     validateForm();
-    appStateController
-        .setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
+    setIsLoading(
+      TranslationsProvider.translator.loadingPleaseWait,
+    );
     if (canLogin) {
-      final isLoggedIn = await loginUsecase.call(params: (
-        username: username,
-        password: password,
-        rememberMe: rememberMe
-      )).then((value) => value.fold((error) {
-            appStateController.unsetIsLoading();
-            appStateController.showMessage(error);
-            return false;
-          }, (user) {
-            userDetails = user;
-            return true;
-          }));
+      final isLoggedIn = await loginUsecase
+          .call(
+            params: (
+              username: username,
+              password: password,
+              rememberMe: rememberMe,
+            ),
+          )
+          .then(
+            (value) => value.fold(
+              (error) {
+                unsetIsLoading();
+                showMessage(error);
+                return false;
+              },
+              (user) {
+                userDetails = user;
+                return true;
+              },
+            ),
+          );
       if (isLoggedIn) {
-        await Future.delayed(kDelayWaiting).whenComplete(() {
-          appStateController.unsetIsLoading();
-          clearForm();
-          QR.navigator.replaceAll(Routing.to.dashboard.path);
-          BotToast.showText(
-              text: TranslationsProvider.translator.accounts.loginSuccess,
-              duration: kDelayWaiting);
-        }).then((value) async {
-          await Future.delayed(kDelayWaiting).whenComplete(() async {
-            BotToast.showText(
-                text: TranslationsProvider.translator.welcome(
-                    fullName: await appStateController.currentUser
-                            .then((user) => user?.nickName) ??
-                        ""),
-                duration: kDelayWaiting);
-          });
-        });
+        await Future.delayed(kDelayWaiting)
+            .whenComplete(() {
+              unsetIsLoading();
+              clearForm();
+              QR.navigator.replaceAll(Routing.to.dashboard.path);
+              BotToast.showText(
+                text: TranslationsProvider.translator.accounts.loginSuccess,
+                duration: kDelayWaiting,
+              );
+            })
+            .then((value) async {
+              await Future.delayed(kDelayWaiting).whenComplete(() async {
+                BotToast.showText(
+                  text: TranslationsProvider.translator.welcome(
+                    fullName:
+                        await appStateController.currentUser.then(
+                          (user) => user?.nickName,
+                        ) ??
+                        "",
+                  ),
+                  duration: kDelayWaiting,
+                );
+              });
+            });
       }
     } else {
       await Future.delayed(kDelayWaiting).whenComplete(() {
-        appStateController.unsetIsLoading();
+        unsetIsLoading();
         if (validator.usernameError != null) {
-          appStateController.showMessage(validator.usernameError!);
+          showMessage(validator.usernameError!);
         } else if (validator.passwordError != null) {
-          appStateController.showMessage(validator.passwordError!);
+          showMessage(validator.passwordError!);
         } else {
-          appStateController
-              .showMessage(TranslationsProvider.translator.accounts.loginFail);
+          showMessage(
+            TranslationsProvider.translator.accounts.loginFail,
+          );
         }
       });
     }
   }
+
 
   void setupValidations() {
     disposers = [

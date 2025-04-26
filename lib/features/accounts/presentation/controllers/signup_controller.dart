@@ -1,4 +1,23 @@
-part of '../presentation.dart';
+
+import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mobx/mobx.dart';
+import 'package:qlevar_router/qlevar_router.dart';
+import 'package:validators2/validators2.dart';
+import 'package:zoncan/app/app.dart';
+import 'package:zoncan/config/config.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
+import 'package:zoncan/core/common/common.dart';
+import 'package:zoncan/core/security/security.dart';
+import 'package:zoncan/core/utils/utils.dart';
+
+import '../../data/models/user_details_model.dart';
+import '../../domain/usecases/email_address_already_exists_usecase.dart';
+import '../../domain/usecases/sign_up_usecase.dart';
+import '../../domain/usecases/username_already_exists_usecase.dart';
+
+part 'signup_controller.g.dart';
 
 class SignupFormValidator = _SignupFormValidator with _$SignupFormValidator;
 

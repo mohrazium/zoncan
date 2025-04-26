@@ -1,4 +1,9 @@
-part of '../app.dart';
+
+
+import 'package:flutter/material.dart';
+import 'package:zoncan/config/config.dart';
+
+import 'zoncan.dart';
 
 class Application {
   static Application instance = Application();

@@ -1,4 +1,5 @@
-part of 'zrouter.dart';
+
+import 'package:flutter/foundation.dart';
 
 class AppRoute {
   final ValueKey key;

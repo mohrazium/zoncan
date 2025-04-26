@@ -1,4 +1,14 @@
-part of '../data.dart';
+
+
+import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
+import 'package:zoncan/features/accounts/data/datasource/local/tables/user_details_table.dart';
+
+import '../../domain/repository/user_details_repository.dart';
+import '../datasource/local/daos/user_details_dao.dart';
+import '../models/user_details_model.dart';
 
 @Injectable(as: UserDetailsRepository)
 class UserDetailsRepositoryImpl implements UserDetailsRepository {

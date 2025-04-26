@@ -3,14 +3,14 @@ library;
 import 'package:flutter/widgets.dart';
 import 'package:injectable/injectable.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:zoncan/app/context_page.dart';
 import 'package:zoncan/config/config.dart';
-import 'package:zoncan/core/core.dart';
+import 'package:zoncan/core/common/common.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
+import 'package:zoncan/features/accounts/accounts.dart';
+import 'package:zoncan/features/home/home.dart';
+import 'package:zoncan/features/splash/splash.dart';
 
-import '../../../features/features.dart';
 
-part 'routes.dart';
-part 'navigator_helper.dart';
 
 @Injectable()
 class ZRouter {
@@ -30,7 +30,7 @@ class ZRouter {
         path: '/',
         builder: () {
           QR.navigator.replaceAll(Routing.to.splash.path);
-          return ContextPage(child: Container()); // Or a loading widget
+          return  Container(); // Or a loading widget
         },
       ),
 

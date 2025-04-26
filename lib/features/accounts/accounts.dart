@@ -1,14 +1,12 @@
-library zoncan.features.accounts;
 
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:zoncan/config/config.dart';
-import 'package:zoncan/core/core.dart';
-
-import 'presentation/presentation.dart';
-
-export 'data/data.dart';
-export 'domain/domain.dart';
-export 'presentation/presentation.dart';
+import 'package:zoncan/config/src/constants/app_constants.dart';
+import 'package:zoncan/config/src/router/routes.dart';
+import 'package:zoncan/core/security/application/middewares/redirect_ifauth_middleware.dart';
+import 'package:zoncan/features/accounts/presentation/forms/login_form.dart';
+import 'package:zoncan/features/accounts/presentation/forms/signup_form.dart';
+import 'package:zoncan/features/accounts/presentation/views/accounts_view_large.dart';
+import 'package:zoncan/features/accounts/presentation/widgets/password_reset_form.dart';
 
 class Accounts {
   static Accounts get get => Accounts();

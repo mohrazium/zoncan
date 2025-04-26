@@ -1,4 +1,6 @@
-part of 'zrouter.dart';
+
+import 'package:flutter/widgets.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
 
 class NavigatorHelper extends NavigatorObserver{
   static GlobalKey<NavigatorState> rootNavigatorKey =
@@ -12,12 +14,12 @@ class NavigatorHelper extends NavigatorObserver{
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    logger.info("Route did pushed to ${route.currentResult}");
+    ZLogger(logLevel: LogLevel.INFO,message: "Route did pushed to ${route.currentResult}");
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    logger.info("Route did popped to ${route.currentResult}");
+   ZLogger(logLevel: LogLevel.INFO,message: "Route did popped to ${route.currentResult}");
   }
 
   // static String getFirstRouteHistory() {

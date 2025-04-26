@@ -1,4 +1,5 @@
-part of '../../utils.dart';
+
+import 'package:flutter/material.dart';
 
 extension ToastExt on BuildContext {
   void showToast({required Widget content}) {

@@ -1,4 +1,11 @@
-part of '../../../data.dart';
+
+import 'package:drift/drift.dart';
+import 'package:uuid/uuid.dart';
+import 'package:zoncan/core/core.dart';
+import 'package:zoncan/features/accounts/domain/entity/user_details_entity.dart';
+
+import 'person_table.dart';
+
 
 @DataClassName('UserDetailsData')
 class UserDetailsTable extends Table {

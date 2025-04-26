@@ -1,4 +1,9 @@
-part of '../data.dart';
+
+import 'package:dart_mappable/dart_mappable.dart';
+
+import '../../domain/entity/address_entity.dart';
+
+part 'address_model.mapper.dart';
 
 typedef AddressMapper = AddressModelMapper;
 

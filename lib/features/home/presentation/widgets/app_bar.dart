@@ -1,4 +1,3 @@
-part of '../presentation.dart';
 
 // import 'package:flutter/material.dart';
 // import 'package:zoncan/localization/src/languages/strings.g.dart';

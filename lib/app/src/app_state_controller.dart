@@ -1,4 +1,15 @@
-part of '../app.dart';
+
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mobx/mobx.dart';
+
+import 'package:zoncan/config/config.dart';
+import 'package:zoncan/core/core.dart';
+import 'package:zoncan/features/accounts/data/models/user_details_model.dart';
+
+part 'app_state_controller.g.dart';
 
 @Injectable()
 class AppStateController extends _AppStateControllerStore
@@ -8,8 +19,9 @@ class AppStateController extends _AppStateControllerStore
   @override
   void didChangeDependencies() {
     ZLogger(
-        logLevel: LogLevel.IGNORE,
-        message: "${this.runtimeType} changed dependencies.");
+      logLevel: LogLevel.IGNORE,
+      message: "${this.runtimeType} changed dependencies.",
+    );
   }
 
   @override
@@ -21,7 +33,9 @@ class AppStateController extends _AppStateControllerStore
   void initState() {
     loadAllSettings();
     ZLogger(
-        logLevel: LogLevel.IGNORE, message: "${this.runtimeType} init state.");
+      logLevel: LogLevel.IGNORE,
+      message: "${this.runtimeType} init state.",
+    );
   }
 }
 
@@ -42,18 +56,27 @@ abstract class _AppStateControllerStore extends Controller with Store {
   @observable
   bool shouldRefreshUI = false;
 
-  _AppStateControllerStore(
-      this.settingsProvider, this.authService);
+  @observable
+  String? message;
+
+  _AppStateControllerStore(this.settingsProvider, this.authService);
 
   @computed
   bool get errorHappened => exception != null && exception!.hasError;
 
   @computed
   Future<UserDetailsModel?> get currentUser async =>
-      await authService.currentUserDetails().then((res) => res.fold((failure) {
-            showMessage(failure);
-            return null;
-          }, (user) => user));
+      await authService.currentUserDetails().then(
+        (res) => res.fold((failure) {
+          showMessage(failure);
+          return null;
+        }, (user) => user),
+      );
+
+  @action
+  void showMsg(String? message) {
+    message = message;
+  }
 
   @action
   void setIsLoading([String? msg]) {
@@ -68,12 +91,6 @@ abstract class _AppStateControllerStore extends Controller with Store {
   }
 
   @action
-  void switchTheme([ThemeMode? mode]) {
-    themeMode = mode ??
-        (themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
-  }
-
-  @action
   void showMessage(dynamic error) {
     if (error is FailureException) {
       exception = error;
@@ -82,6 +99,13 @@ abstract class _AppStateControllerStore extends Controller with Store {
     } else {
       exception = null;
     }
+  }
+  
+  @action
+  void switchTheme([ThemeMode? mode]) {
+    themeMode =
+        mode ??
+        (themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light);
   }
 
   @action

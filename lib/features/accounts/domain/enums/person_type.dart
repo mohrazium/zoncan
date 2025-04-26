@@ -1,4 +1,5 @@
-part of '../domain.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+part 'person_type.mapper.dart';
 
 @MappableEnum()
 enum PersonType {

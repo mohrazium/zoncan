@@ -1,4 +1,3 @@
-part of 'serializers.dart';
 
 class DateTimeEpochConverter {
   const DateTimeEpochConverter();

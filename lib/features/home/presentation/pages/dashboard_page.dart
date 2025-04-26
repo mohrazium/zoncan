@@ -1,7 +1,8 @@
-part of '../presentation.dart';
 
-// مثال برای صفحات داخلی Home (اینها هم می‌توانند HookWidget باشند)
-class DashboardPage extends Hooks.HookWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
+class DashboardPage extends HookWidget {
   const DashboardPage({super.key});
   @override
   Widget build(BuildContext context) {

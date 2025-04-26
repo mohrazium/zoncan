@@ -1,4 +1,3 @@
-part of '../domain.dart';
 
 class AddressEntity {
   final String? uid;

@@ -1,6 +1,16 @@
-part of '../presentation.dart';
 
-class HomePage extends Hooks.HookWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:qlevar_router/qlevar_router.dart';
+import 'package:zoncan/config/src/injection/service_locator.dart';
+import 'package:zoncan/config/src/localization/localization.dart';
+import 'package:zoncan/config/src/router/routes.dart';
+import 'package:zoncan/core/common/components/widgets/toolbar_icon_button.dart';
+import 'package:zoncan/features/home/presentation/controllers/home_controller.dart';
+import 'package:zoncan/features/home/presentation/views/home_view_large.dart';
+
+class HomePage extends HookWidget {
   final Widget child; // محتوای داخلی (داشبورد، محصولات و ...)
 
   const HomePage({super.key, required this.child});
@@ -9,10 +19,10 @@ class HomePage extends Hooks.HookWidget {
   Widget build(BuildContext context) {
     // دریافت کنترلر (اگر همچنان از آن استفاده می‌کنید)
     // useMemoized باعث می‌شود فقط یک بار ساخته شود
-    final controller = Hooks.useMemoized(() => Injection.serviceLocator<HomeController>());
+    final controller = useMemoized(() => Injection.serviceLocator<HomeController>());
 
     // معادل initState و didChangeDependencies
-    Hooks.useEffect(() {
+    useEffect(() {
       controller.initState();
       // اگر controller نیاز به context دارد، شاید بهتر باشد
       // controller.didChangeDependencies(context); را اینجا فراخوانی کنید
@@ -46,7 +56,7 @@ class HomePage extends Hooks.HookWidget {
               Expanded(child: Container()), // فضای خالی
                Observer( // اگر از MobX استفاده می‌کنید
                  builder: (_) => Text(
-                   translator.welcome(fullName: controller.currentUserNickName ?? ""),
+                   translator.welcome(fullName: controller.currentUserNickName),
                    style: const TextStyle(color: Colors.blueGrey),
                  ),
                ),

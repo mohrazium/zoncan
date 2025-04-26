@@ -1,4 +1,5 @@
-part of 'constants.dart';
+
+import 'dart:ui';
 
 const kBorderRadius = 10.0;
 const kSpacing = 10.0;

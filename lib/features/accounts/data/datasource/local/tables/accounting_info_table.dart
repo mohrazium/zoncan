@@ -1,4 +1,10 @@
-part of '../../../data.dart';
+
+import 'package:drift/drift.dart';
+import 'package:uuid/uuid.dart';
+import 'package:zoncan/core/core.dart';
+import 'package:zoncan/features/accounts/domain/entity/accounting_info_entity.dart';
+import 'package:zoncan/features/accounts/domain/enums/balance_type.dart';
+import 'package:zoncan/features/accounts/domain/enums/begging_of_balance_type.dart';
 
 @DataClassName('AccountingInfoData')
 class AccountingInfoTable extends Table {

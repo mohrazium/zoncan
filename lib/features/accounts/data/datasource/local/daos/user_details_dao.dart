@@ -1,4 +1,10 @@
-part of '../../../data.dart';
+
+import 'package:drift/drift.dart';
+import 'package:injectable/injectable.dart';
+import 'package:zoncan/core/core.dart';
+import 'package:zoncan/features/accounts/data/datasource/local/tables/user_details_table.dart';
+
+part 'user_details_dao.g.dart';
 
 @Injectable()
 @DriftAccessor(tables: [UserDetailsTable])
@@ -13,7 +19,7 @@ class UserDetailsDao extends DatabaseAccessor<ZoncanDatabase>
       .then(
         (savedId) =>
             (select(userDetailsTable)
-              ..where((table) => table.uid.equals(user.uid!))).getSingleOrNull(),
+              ..where((table) => table.uid.equals(user.uid))).getSingleOrNull(),
       );
   // Get user by uid from db
   Future<UserDetailsData?> getUser(String uuid) =>
@@ -30,14 +36,14 @@ class UserDetailsDao extends DatabaseAccessor<ZoncanDatabase>
   // Delete user from db
   Future<bool> deleteUser(UserDetailsData data) async => await (delete(userDetailsTable)
     ..where(
-      (t) => t.uid.equals(data.uid!),
+      (t) => t.uid.equals(data.uid),
     )).go().then((deletedValue) => deletedValue == 1);
   // Update user in db
   Future<UserDetailsData?> updateUser(UserDetailsData data) async =>
       await update(userDetailsTable).replace(data).then((isUpdated) {
         if (isUpdated) {
           return (select(userDetailsTable)..where(
-            (updated) => updated.uid.equals(data.uid!),
+            (updated) => updated.uid.equals(data.uid),
           )).getSingleOrNull();
         }
         return null;

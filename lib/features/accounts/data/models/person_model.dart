@@ -1,4 +1,12 @@
-part of '../data.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+
+import '../../domain/entity/person_entity.dart';
+import '../../domain/enums/person_type.dart';
+import 'accounting_info_model.dart';
+import 'address_model.dart';
+import 'user_details_model.dart';
+
+part 'person_model.mapper.dart';
 
 typedef PersonMapper = PersonModelMapper;
 

@@ -1,4 +1,6 @@
-part of '../domain.dart';
+
+import '../enums/balance_type.dart';
+import '../enums/begging_of_balance_type.dart';
 
 class AccountingInfoEntity {
   final String? uid;

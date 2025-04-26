@@ -1,4 +1,8 @@
-part of '../domain.dart';
+
+import '../enums/person_type.dart';
+import 'accounting_info_entity.dart';
+import 'address_entity.dart';
+import 'user_details_entity.dart';
 
 class PersonEntity {
   final String? uid;

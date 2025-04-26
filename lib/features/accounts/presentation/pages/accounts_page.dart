@@ -1,4 +1,9 @@
-part of '../presentation.dart';
+
+import 'package:floy/floy.dart';
+import 'package:flutter/material.dart';
+import 'package:zoncan/core/common/common.dart';
+
+import '../views/accounts_view_large.dart';
 
 class AccountsPage extends StatelessWidget {
   final Widget child;

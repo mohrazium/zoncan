@@ -1,4 +1,6 @@
-part of '../domain.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+part 'begging_of_balance_type.mapper.dart';
+
 @MappableEnum()
 enum BeggingOfBalanceType {
   @MappableValue('DEBTOR')
@@ -9,7 +11,11 @@ enum BeggingOfBalanceType {
   creditor(3, "CREDITOR", "طلبکار", "Creditor");
 
   const BeggingOfBalanceType(
-      int code, String type, String titleFa, String titleEn);
+    int code,
+    String type,
+    String titleFa,
+    String titleEn,
+  );
   static BeggingOfBalanceType fromCode(int code) {
     return values.firstWhere((e) => e.index + 1 == code);
   }

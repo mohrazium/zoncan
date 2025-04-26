@@ -1,4 +1,19 @@
-part of '../presentation.dart';
+
+import 'package:floy/floy.dart';
+import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:mobx/mobx.dart';
+import 'package:qlevar_router/qlevar_router.dart';
+import 'package:zoncan/app/src/app_state_controller.dart';
+import 'package:zoncan/config/src/constants/app_constants.dart';
+import 'package:zoncan/config/src/localization/localization.dart';
+import 'package:zoncan/config/src/router/routes.dart';
+import 'package:zoncan/core/common/generics/controller.dart';
+import 'package:zoncan/core/exceptions/failure_exception.dart';
+import 'package:zoncan/core/exceptions/log_level.dart';
+import 'package:zoncan/core/security/domain/repository/authentication_repository.dart';
+
+part 'home_controller.g.dart';
 
 @Injectable()
 class HomeController extends _HomeController
@@ -8,18 +23,21 @@ class HomeController extends _HomeController
 
   @override
   Future<void> initState() async {
-    logger.info("${this.runtimeType} has been initialized.");
+   ZLogger(
+      logLevel: LogLevel.INFO,message: "${this.runtimeType} has been initialized.");
   }
 
   @override
   void didChangeDependencies() {
-    logger.info("${this.runtimeType} dependencies changed.");
+     ZLogger(
+      logLevel: LogLevel.INFO,message:"${this.runtimeType} dependencies changed.");
   }
 
   @override
   void dispose() {
     try {
-      logger.info("${this.runtimeType} disposed.");
+       ZLogger(
+      logLevel: LogLevel.INFO,message:"${this.runtimeType} disposed.");
     } catch (e) {
       //ignored
     }

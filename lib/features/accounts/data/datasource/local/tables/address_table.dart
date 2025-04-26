@@ -1,4 +1,9 @@
-part of '../../../data.dart';
+
+import 'package:drift/drift.dart';
+import 'package:uuid/uuid.dart';
+import 'package:zoncan/core/core.dart';
+import 'package:zoncan/features/accounts/domain/entity/address_entity.dart';
+
 
 @DataClassName('AddressData')
 class AddressTable extends Table {

@@ -1,4 +1,10 @@
-part of '../../../data.dart';
+
+import 'package:drift/drift.dart';
+import 'package:injectable/injectable.dart';
+import 'package:zoncan/core/core.dart';
+import 'package:zoncan/features/accounts/data/datasource/local/tables/person_table.dart';
+
+part 'person_dao.g.dart';
 
 @Injectable()
 @DriftAccessor(tables: [PersonTable])

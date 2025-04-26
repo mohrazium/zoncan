@@ -1,13 +1,21 @@
-part of '../data.dart';
+import 'package:dart_mappable/dart_mappable.dart';
+
+import '../../domain/entity/accounting_info_entity.dart';
+import '../../domain/enums/balance_type.dart';
+import '../../domain/enums/begging_of_balance_type.dart';
+
+part 'accounting_info_model.mapper.dart';
 
 typedef AccountingInfoMapper = AccountingInfoModelMapper;
 
 @MappableClass(
-    generateMethods: GenerateMethods.copy |
-        GenerateMethods.equals |
-        GenerateMethods.stringify |
-        GenerateMethods.decode |
-        GenerateMethods.encode)
+  generateMethods:
+      GenerateMethods.copy |
+      GenerateMethods.equals |
+      GenerateMethods.stringify |
+      GenerateMethods.decode |
+      GenerateMethods.encode,
+)
 class AccountingInfoModel with AccountingInfoModelMappable {
   final String? uid;
   final DateTime? introDate;
@@ -36,12 +44,12 @@ class AccountingInfoModel with AccountingInfoModelMappable {
     this.createdAt,
     this.updatedAt,
   });
-  
- factory AccountingInfoModel.init() => AccountingInfoModel(
-        beggingOfBalance: 0.0,
-        balanceType: BalanceType.saleinvoice,
-        beggingOfBalanceType: BeggingOfBalanceType.incalculable,
-      );
+
+  factory AccountingInfoModel.init() => AccountingInfoModel(
+    beggingOfBalance: 0.0,
+    balanceType: BalanceType.saleinvoice,
+    beggingOfBalanceType: BeggingOfBalanceType.incalculable,
+  );
 
   factory AccountingInfoModel.fromEntity(AccountingInfoEntity entity) =>
       AccountingInfoModel(
@@ -59,18 +67,18 @@ class AccountingInfoModel with AccountingInfoModelMappable {
         updatedAt: entity.updatedAt,
       );
 
- AccountingInfoEntity toEntity() => AccountingInfoEntity(
-      uid: uid,
-      introDate: introDate,
-      referralPersonUid: referralPersonUid,
-      category: category,
-      groupOfOff: groupOfOff,
-      debtCreditLimit: debtCreditLimit,
-      balanceType: balanceType,
-      beggingOfBalance: beggingOfBalance,
-      beggingOfBalanceType: beggingOfBalanceType,
-      description: description,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-    );
+  AccountingInfoEntity toEntity() => AccountingInfoEntity(
+    uid: uid,
+    introDate: introDate,
+    referralPersonUid: referralPersonUid,
+    category: category,
+    groupOfOff: groupOfOff,
+    debtCreditLimit: debtCreditLimit,
+    balanceType: balanceType,
+    beggingOfBalance: beggingOfBalance,
+    beggingOfBalanceType: beggingOfBalanceType,
+    description: description,
+    createdAt: createdAt,
+    updatedAt: updatedAt,
+  );
 }

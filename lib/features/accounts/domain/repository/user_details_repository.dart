@@ -1,4 +1,8 @@
-part of '../domain.dart';
+
+import 'package:fpdart/fpdart.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
+import 'package:zoncan/features/accounts/data/models/user_details_model.dart';
+
 
 abstract class UserDetailsRepository {
   Future<Either<FailureException, UserDetailsModel>> saveUser(
