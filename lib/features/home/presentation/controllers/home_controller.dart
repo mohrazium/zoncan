@@ -62,15 +62,12 @@ abstract class _HomeController with Store {
 
   @action
   Future<bool?> logoutUser() async {
-    appStateController
-        .setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
+ 
     return await authService
         .logout()
         .then((isLoggedOut) => isLoggedOut.fold((failure) {
-              appStateController.showMessage(failure.userMessage ?? "");
               return false;
             }, (loggedOut) {
-              appStateController.unsetIsLoading();
               QR.navigator.replaceAll(Routing.to.login.path);
               return true;
             }));
@@ -79,13 +76,11 @@ abstract class _HomeController with Store {
   @action
   Future<void> loadSetupPage(
       BuildContext context, AsyncSnapshot snapshot) async {
-    appStateController
-        .setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
+ 
     if (snapshot.hasData) {
       if (snapshot.data != null && !snapshot.data!) {
         //!TODO :  Fix setup page call
         await Future.delayed(kDelayWaiting).whenComplete(() {
-          appStateController.unsetIsLoading();
           if (Floy.isDesktop()) {
             print("in home controller is desktop section");
           } else {

@@ -24,7 +24,8 @@ abstract class _LoginFormValidator with Store, ValidatorMixin {
   String? usernameError;
   @observable
   String? passwordError;
-
+  @computed
+  bool get hasError => usernameError != null || passwordError != null;
   @computed
   bool get isValid => usernameError == null && passwordError == null;
 }
@@ -133,6 +134,8 @@ abstract class _LoginController extends Controller with Store {
   @observable
   bool rememberMe = false;
   @observable
+  FailureException? exception;
+  @observable
   ObservableFuture<bool> usernameAbility = ObservableFuture.value(false);
 
   _LoginController(
@@ -147,6 +150,8 @@ abstract class _LoginController extends Controller with Store {
   @computed
   bool get isUsernameAbilityPending =>
       usernameAbility.status == FutureStatus.pending;
+  @computed
+  bool get canLogin => !validator.hasError && validator.isValid;
 
   @action
   Future<void> validateUsername(u) async {
@@ -228,8 +233,8 @@ abstract class _LoginController extends Controller with Store {
     validateForm(); // Ensure form is validated before attempting login
 
     // Check validation state *before* starting the login process
-    if (validator.isValid) {
-      // Use the BaseStore helper to manage the login use case state
+    if (canLogin) {
+      // Use the UsecaseExecutor helper to manage the login use case state
       await loginState.execute(
         () => loginUsecase
             .call(
@@ -263,7 +268,7 @@ abstract class _LoginController extends Controller with Store {
           userMessage: TranslationsProvider.translator.accounts.loginFail,
         );
       } else {
-        throw FailureException(
+        exception = FailureException(
           userMessage:
               TranslationsProvider.translator.validation.notValidFormCanceled,
         );

@@ -46,12 +46,6 @@ abstract class _AppStateControllerStore extends Controller with Store {
   @observable
   ThemeMode themeMode = ThemeMode.light;
   @observable
-  bool isLoading = false;
-  @observable
-  String loadingText = "";
-  @observable
-  FailureException? exception;
-  @observable
   SettingProperties settings = SettingProperties.init();
   @observable
   bool shouldRefreshUI = false;
@@ -61,45 +55,15 @@ abstract class _AppStateControllerStore extends Controller with Store {
 
   _AppStateControllerStore(this.settingsProvider, this.authService);
 
-  @computed
-  bool get errorHappened => exception != null && exception!.hasError;
-
+ //TODO: make the computed to use usecase state managemet
   @computed
   Future<UserDetailsModel?> get currentUser async =>
       await authService.currentUserDetails().then(
         (res) => res.fold((failure) {
-          showMessage(failure);
           return null;
         }, (user) => user),
       );
 
-  @action
-  void showMsg(String? message) {
-    message = message;
-  }
-
-  @action
-  void setIsLoading([String? msg]) {
-    loadingText = msg ?? "";
-    isLoading = true;
-  }
-
-  @action
-  void unsetIsLoading() {
-    loadingText = "";
-    isLoading = false;
-  }
-
-  @action
-  void showMessage(dynamic error) {
-    if (error is FailureException) {
-      exception = error;
-    } else if (error is String) {
-      exception = FailureException(userMessage: error);
-    } else {
-      exception = null;
-    }
-  }
   
   @action
   void switchTheme([ThemeMode? mode]) {

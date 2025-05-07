@@ -16,6 +16,5 @@ class UserFindByEmailUsecase extends Usecase<UserDetailsModel, String> {
   @override
   Future<Either<FailureException, UserDetailsModel>> call(
           {required String params}) async =>
-      await _repository.findUserByEmail(params).then((res) =>
-          res.match((failure) => Left(failure), (result) => Right(result)));
+      await _repository.findUserByEmail(params);
 }

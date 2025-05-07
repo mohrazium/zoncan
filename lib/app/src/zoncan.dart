@@ -31,15 +31,165 @@ class Zoncan extends HookWidget {
       () => Injection.serviceLocator<ZoncanDatabase>(),
     );
 
+final loadingDialogShown = useRef<bool>(false);
+//!!!======================================================= 
+    // // --- lifecycle Effect ---
+    // useEffect(() {
+    //   controller.initState();
+    //   return () {
+    //     controller.dispose();
+    //   };
+    // }, []);
+
+    // // --- Reaction Effect for initial state ---
+    // useEffect(() {
+    //   final disposer = reaction((_) => controller.loginState.isInitial, (
+    //     bool isInitial,
+    //   ) async {
+    //     if (isInitial) {}
+    //   });
+    //   return () {
+    //     disposer();
+    //   };
+    // }, [controller, context]);
+
+    // // --- Reaction Effect for Loading Dialog ---
+    // useEffect(() {
+    //   final disposer = reaction((_) => controller.loginState.isLoading, (
+    //     bool isLoading,
+    //   ) async {
+    //     if (isLoading && !loadingDialogShown.value) {
+    //       // Show Loading Dialog
+    //       loadingDialogShown.value = true;
+    //       DialogHelper.showLoading(
+    //         context: context,
+    //         loadingMessage: translator.loadingPleaseWait,
+    //       );
+    //     } else if (!isLoading && loadingDialogShown.value) {
+    //       // Dismiss loading Dialog Only if it was shown by this reaction
+    //       Navigator.of(context, rootNavigator: true).pop();
+    //       loadingDialogShown.value = false; // Mark as dismissed
+    //     }
+    //     await Future.delayed(kDelayWaiting);
+    //   });
+    //   // Ensure dialog is dismissed if widget is disposed while loading
+    //   return () {
+    //     if (loadingDialogShown.value) {
+    //       Navigator.of(context, rootNavigator: true).pop();
+    //       loadingDialogShown.value = false;
+    //     }
+    //     disposer();
+    //   };
+    // }, [controller, context]);
+
+    // // --- Reaction Effect for SUCCESS Dialog & Navigation ---
+    // useEffect(() {
+    //   final disposer = reaction((_) => controller.loginState.isSuccess, (
+    //     bool isSuccess,
+    //   ) async {
+    //     // Make async for delay/navigation
+    //     if (isSuccess) {
+    //       // Ensure loading dialog is dismissed *before* showing success dialog
+    //       if (loadingDialogShown.value) {
+    //         Navigator.of(context, rootNavigator: true).pop();
+    //         loadingDialogShown.value = false;
+    //       }
+
+    //       controller.clearForm(); // Clear form fields
+    //       QR.navigator.replaceAll(
+    //         Routing.to.dashboard.path,
+    //       ); // Navigate to dashboard
+    //       BotToast.showText(
+    //         text: translator.accounts.loginSuccess,
+    //         duration: kDelayWaiting,
+    //       );
+    //       await Future.delayed(kDelayWaiting);
+    //       BotToast.showText(
+    //         text: translator.welcome(fullName: controller.username),
+    //         duration: Duration(milliseconds: 2000),
+    //       );
+    //       // Reset state (optional, depends if user can return here)
+    //       // Do this *after* navigation is likely initiated
+    //       controller.loginState.reset();
+
+    //       // Maybe show the welcome BotToast *after* navigating to dashboard?
+    //       // This belongs in the Dashboard screen's init logic ideally.
+    //     }
+    //   });
+    //   return () => disposer();
+    // }, [controller, context]); // Add context dependency
+
+    // // --- Reaction Effect for ERROR Dialog ---
+    // useEffect(() {
+    //   final disposer = reaction(
+    //     (_) =>
+    //         controller.loginState.exception, // React to changes in controller
+    //     (FailureException? error) {
+    //       if (error != null) {
+    //         // 1. Show user-friendly dialog (using errorMessage computed property)
+    //         DialogHelper.showMessageBox(
+    //           context: context,
+    //           title: TranslationsProvider.translator.error,
+    //           dialogButtons: DialogButtons.OK,
+    //           message:
+    //               controller.loginState.exception!.userMessage ??
+    //               "An error occurred.", // Use computed property
+    //           dialogType: DialogType.ERROR,
+    //         ).then((_) {
+    //           // Optional: Reset state after dialog dismissed
+    //           controller.loginState.reset();
+    //         });
+
+    //         // 2. Prepare for or send crash report (using rawError and stackTrace)
+    //         // print(">>> Crash Report Prep <<<");
+    //         // print("Error Type: ${errorDetails.originalError.runtimeType}");
+    //         // print("Original Error: ${errorDetails.originalError}"); // The actual Exception/Error
+    //         // print("Stack Trace: ${errorDetails.stackTrace}"); // The stack trace
+
+    //         // --- Example: Integration with a crash reporting service ---
+    //         // if (kReleaseMode) { // Only report in release mode
+    //         //   CrashReportingService.instance.recordError(
+    //         //     errorDetails.originalError, // Pass the original error
+    //         //     errorDetails.stackTrace,    // Pass the stack trace
+    //         //     reason: 'Login failed: ${errorDetails.userMessage}', // Optional context
+    //         //     // You might include additional context like username (if allowed by privacy)
+    //         //     // information: {'username': controller.username}
+    //         //   );
+    //         // }
+    //         // --- End Example ---
+    //       }
+    //     },
+    //   );
+    //   return () => disposer(); // Cleanup reaction
+    // }, [controller, context]); // Depend on controller instance
+    // // --- Reaction Effect for ERROR Dialog ---
+    // useEffect(() {
+    //   final disposer = reaction(
+    //     (_) => controller.exception, // React to changes in controller
+    //     (FailureException? error) {
+    //       if (error != null) {
+    //         // 1. Show user-friendly dialog (using errorMessage computed property)
+    //         DialogHelper.showMessageBox(
+    //           context: context,
+    //           title: TranslationsProvider.translator.error,
+    //           dialogButtons: DialogButtons.OK,
+    //           message:
+    //               controller.exception!.userMessage ??
+    //               "An error occurred.", // Use computed property
+    //           dialogType: DialogType.ERROR,
+    //         ).then((_) {
+    //           // Optional: null exception set after dialog dismissed
+    //           controller.exception = null;
+    //         });
+    //       }
+    //     },
+    //   );
+    //   return () => disposer(); // Cleanup reaction
+    // }, [controller, context]); // Depend on controller instance
+//!!!======================================================= 
+
     useEffect(() {
       logger.setup();
-
-      // if (kDebugMode) {
-      //   mainContext.config = mainContext.config.clone(isSpyEnabled: true);
-      //   mainContext.spy(
-      //     (e) => ZLogger(logLevel: LogLevel.INFO, message: e.toString()),
-      //   );
-      // }
 
       Future.microtask(() async {
         try {
@@ -99,41 +249,6 @@ class Zoncan extends HookWidget {
               }
               Fonts.instance.fontScale =
                   appStateController.settings.fontScale ?? kDefaultUiScale;
-
-              if (appStateController.isLoading) {
-                // LoadingScreen.instance.show(
-                //   context: reactionContext,
-                //   text: appStateController.loadingText,
-                // );
-              } else {
-                // LoadingScreen.instance.hide(); // Ensure hide is called
-              }
-
-              if (appStateController.errorHappened) {
-                appStateController.showMessage(
-                  appStateController.exception!.userMessage!,
-                );
-                DialogHelper.showCrashReport(
-                  reactionContext,
-                  logger,
-                  TranslationsProvider.translator.error,
-                  appStateController.exception.toString(),
-                );
-              } else if (appStateController.exception != null &&
-                  appStateController.exception!.justMessage) {
-                appStateController.showMessage(
-                  appStateController.exception!.userMessage!,
-                );
-                await DialogHelper.showMessageBox(
-                  context: reactionContext,
-                  title: TranslationsProvider.translator.error,
-                  dialogButtons: DialogButtons.OK,
-                  message: appStateController.exception!.userMessage!,
-                  dialogType: DialogType.ERROR,
-                ).then((value) {
-                  appStateController.showMessage(null);
-                });
-              }
             });
           },
           child: Observer(

@@ -1,6 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
 import 'package:zoncan/features/accounts/data/models/person_model.dart';
-import 'package:zoncan/features/accounts/data/models/user_details_model.dart';
 import 'package:zoncan/features/accounts/domain/entity/user_details_entity.dart';
 
 part 'user_details_model.mapper.dart';

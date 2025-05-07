@@ -36,7 +36,11 @@ class LoginForm extends HookWidget {
       };
     }, []);
 
-    //!initial, loading, success, emtpy, error
+    useEffect(() {
+      controller.didChangeDependencies();
+      return null;
+    }, [controller]);
+
     // --- Reaction Effect for initial state ---
     useEffect(() {
       final disposer = reaction((_) => controller.loginState.isInitial, (
@@ -92,14 +96,16 @@ class LoginForm extends HookWidget {
           }
 
           controller.clearForm(); // Clear form fields
-          QR.navigator.replaceAll(Routing.to.dashboard.path); // Navigate to dashboard
+          QR.navigator.replaceAll(
+            Routing.to.dashboard.path,
+          ); // Navigate to dashboard
           BotToast.showText(
             text: translator.accounts.loginSuccess,
             duration: kDelayWaiting,
           );
           await Future.delayed(kDelayWaiting);
           BotToast.showText(
-            text: translator.welcome(fullName: controller.username),
+            text: translator.welcome(fullName: controller.userDetails!.nickName!),
             duration: Duration(milliseconds: 2000),
           );
           // Reset state (optional, depends if user can return here)
@@ -151,6 +157,30 @@ class LoginForm extends HookWidget {
             //   );
             // }
             // --- End Example ---
+          }
+        },
+      );
+      return () => disposer(); // Cleanup reaction
+    }, [controller, context]); // Depend on controller instance
+    // --- Reaction Effect for ERROR Dialog ---
+    useEffect(() {
+      final disposer = reaction(
+        (_) => controller.exception, // React to changes in controller
+        (FailureException? error) {
+          if (error != null) {
+            // 1. Show user-friendly dialog (using errorMessage computed property)
+            DialogHelper.showMessageBox(
+              context: context,
+              title: TranslationsProvider.translator.error,
+              dialogButtons: DialogButtons.OK,
+              message:
+                  controller.exception!.userMessage ??
+                  "An error occurred.", // Use computed property
+              dialogType: DialogType.ERROR,
+            ).then((_) {
+              // Optional: null exception set after dialog dismissed
+              controller.exception = null;
+            });
           }
         },
       );

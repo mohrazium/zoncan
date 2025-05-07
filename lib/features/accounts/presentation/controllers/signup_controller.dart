@@ -1,4 +1,3 @@
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -55,11 +54,12 @@ class SignupController extends _SignupController
     with _$SignupController
     implements Controller {
   SignupController(
-      super.signUpUsecase,
-      super.usernameAlreadyExistsUsecase,
-      super.emailAddressAlreadyExistsUsecase,
-      super.passwordChecker,
-      super.appStateController);
+    super.signUpUsecase,
+    super.usernameAlreadyExistsUsecase,
+    super.emailAddressAlreadyExistsUsecase,
+    super.passwordChecker,
+    super.appStateController,
+  );
 
   @override
   void initState() {
@@ -68,12 +68,18 @@ class SignupController extends _SignupController
     super.emailTextController = TextEditingController();
     super.passwordTextController = TextEditingController();
     super.confirmPasswordTextController = TextEditingController();
-    logger.info("${this.runtimeType} has been initialized.");
+    ZLogger(
+      logLevel: LogLevel.INFO,
+      message: "${this.runtimeType} has been initialized.",
+    );
   }
 
   @override
   void didChangeDependencies() {
-    logger.info("${this.runtimeType} dependencies changed.");
+    ZLogger(
+      logLevel: LogLevel.INFO,
+      message: "${this.runtimeType} dependencies changed.",
+    );
   }
 
   @override
@@ -85,14 +91,17 @@ class SignupController extends _SignupController
       super.passwordTextController?.dispose();
       super.confirmPasswordTextController?.dispose();
       super.disposeValidations();
-      logger.info("${this.runtimeType} disposed.");
+      ZLogger(
+        logLevel: LogLevel.INFO,
+        message: "${this.runtimeType} disposed.",
+      );
     } catch (e) {
       //ignored
     }
   }
 }
 
-abstract class _SignupController with Store {
+abstract class _SignupController extends Controller with Store {
   @protected
   final SignUpUsecase signUpUsecase;
   @protected
@@ -102,10 +111,13 @@ abstract class _SignupController with Store {
   @protected
   final StrengthPasswordChecker passwordChecker;
 
+  @observable
+  UsecaseExecutor<bool> signUpState = UsecaseExecutor<bool>();
+
   @protected
   final AppStateController appStateController;
   final SignupFormValidator validator = SignupFormValidator();
-  
+
   TextEditingController? nickNameTextController;
   TextEditingController? emailTextController;
   TextEditingController? passwordTextController;
@@ -127,15 +139,19 @@ abstract class _SignupController with Store {
   ObservableFuture<bool> usernameCheck = ObservableFuture.value(false);
   @observable
   ObservableFuture<bool> emailCheck = ObservableFuture.value(false);
+  @observable
+  FailureException? exception;
+
   @protected
   List<ReactionDisposer>? disposers;
 
   _SignupController(
-      this.signUpUsecase,
-      this.usernameAlreadyExistsUsecase,
-      this.emailAddressAlreadyExistsUsecase,
-      this.passwordChecker,
-      this.appStateController);
+    this.signUpUsecase,
+    this.usernameAlreadyExistsUsecase,
+    this.emailAddressAlreadyExistsUsecase,
+    this.passwordChecker,
+    this.appStateController,
+  );
 
   @computed
   bool get isUsernameCheckPending =>
@@ -154,8 +170,8 @@ abstract class _SignupController with Store {
       validator.nickNameError =
           TranslationsProvider.translator.validation.notBeEmpty;
     } else if (nickName.length <= 5) {
-      validator.nickNameError =
-          TranslationsProvider.translator.validation.notValidLength(length: 5);
+      validator.nickNameError = TranslationsProvider.translator.validation
+          .notValidLength(length: 5);
     } else if (isAlpha(nickName)) {
       validator.nickNameError =
           TranslationsProvider.translator.validation.notValidNickname;
@@ -171,18 +187,22 @@ abstract class _SignupController with Store {
       validator.usernameError =
           TranslationsProvider.translator.validation.notBeEmpty;
     } else if (username.length <= 6) {
-      validator.usernameError =
-          TranslationsProvider.translator.validation.notValidLength(length: 6);
+      validator.usernameError = TranslationsProvider.translator.validation
+          .notValidLength(length: 6);
     } else if (!validator.isValidUsername(username)) {
       validator.usernameError =
           TranslationsProvider.translator.validation.notValidUsername;
     } else {
-      usernameCheck = ObservableFuture(usernameAlreadyExistsUsecase
-          .call(params: username)
-          .then((resultValue) => resultValue.fold((error) {
-                appStateController.showMessage(error);
+      usernameCheck = ObservableFuture(
+        usernameAlreadyExistsUsecase
+            .call(params: username)
+            .then(
+              (resultValue) => resultValue.fold((error) {
+                exception = error;
                 return false;
-              }, (onResult) => onResult)));
+              }, (onResult) => onResult),
+            ),
+      );
       await Future.delayed(const Duration(seconds: 1));
       if (await usernameCheck) {
         validator.usernameError =
@@ -203,12 +223,16 @@ abstract class _SignupController with Store {
       validator.emailError =
           TranslationsProvider.translator.validation.notValidEmail;
     } else {
-      emailCheck = ObservableFuture(emailAddressAlreadyExistsUsecase
-          .call(params: email)
-          .then((resultValue) => resultValue.fold((error) {
-                appStateController.showMessage(error);
+      emailCheck = ObservableFuture(
+        emailAddressAlreadyExistsUsecase
+            .call(params: email)
+            .then(
+              (resultValue) => resultValue.fold((error) {
+                exception = error;
                 return false;
-              }, (onResult) => onResult)));
+              }, (onResult) => onResult),
+            ),
+      );
       await Future.delayed(kDelayWaiting);
       if (await emailCheck) {
         validator.emailError =
@@ -229,7 +253,21 @@ abstract class _SignupController with Store {
       validator.passwordError =
           TranslationsProvider.translator.validation.passwordNoSpace;
     } else {
-      var passwordErrors = passwordChecker.check(password);
+      var passwordErrors = passwordChecker.check(
+        weakPassMsg:
+            TranslationsProvider.translator.validation.passwordIsVeryWeak,
+        passwordDigitMsg:
+            TranslationsProvider.translator.validation.passwordDigit,
+        passwordLengthMsg:
+            TranslationsProvider.translator.validation.passwordLength,
+        passwordLowerCaseMsg:
+            TranslationsProvider.translator.validation.passwordLowerCase,
+        passwordNoSpaceMsg:
+            TranslationsProvider.translator.validation.passwordNoSpace,
+        passwordUpperCaseMsg:
+            TranslationsProvider.translator.validation.passwordUpperCase,
+        password,
+      );
       if (passwordErrors != null) {
         validator.passwordError = passwordErrors;
       } else {
@@ -271,68 +309,58 @@ abstract class _SignupController with Store {
 
   @action
   Future<void> signup() async {
-    validateForm();
-    appStateController
-        .setIsLoading(TranslationsProvider.translator.loadingPleaseWait);
+    validateForm(); // Ensure form is validated before attemping to signup
+    // Check validation state before starting the signup proccess
     if (canSignup) {
-      userDetails = UserDetailsModel.init();
+      userDetails = UserDetailsModel.init(); // init new user details
+      // coping new value from form to new user details
       userDetails = userDetails.copyWith(
         nickName: nickName,
         email: email,
         userName: username.isNotEmpty ? username : email,
         isActive: true,
       );
-      final isSignedUp = await signUpUsecase.call(params: (
-        user: userDetails,
-        password: confirmPassword,
-      )).then((resultValue) => resultValue.fold((error) {
-            appStateController.unsetIsLoading();
-            appStateController.showMessage(error);
-            return false;
-          }, (onResult) {
-            if (onResult != null) {
-              userDetails = onResult;
-              return true;
-            } else {
-              return false;
-            }
-          }));
-
-      if (isSignedUp) {
-        await Future.delayed(kDelayWaiting).whenComplete(() {
-          appStateController.unsetIsLoading();
-          clearForm();
-          QR.navigator.replaceAll(Routing.to.dashboard.path);
-
-          BotToast.showText(
-              text: TranslationsProvider.translator.accounts.signupSuccess,
-              duration: kDelayWaiting);
-        }).then((value) async {
-          await Future.delayed(kDelayWaiting).whenComplete(() async {
-            BotToast.showText(
-                text: TranslationsProvider.translator.welcome(
-                    fullName: await appStateController.currentUser
-                            .then((user) => user?.nickName) ??
-                        ""),
-                duration: kDelayWaiting);
-          });
-        });
+      await signUpState.execute(
+        () => signUpUsecase
+            .call(params: (user: userDetails, password: confirmPassword))
+            .then(
+              (resultValue) => resultValue.fold(
+                // Error case: Let executeUseCase handle the error state.
+                // We just need to throw the FailureException so executeUseCase catches it.
+                (error) => throw error,
+                //Success case : return the true value
+                (onResult) {
+                  if (onResult != null) {
+                    userDetails = onResult;
+                    return true;
+                  } else {
+                    return false;
+                  }
+                },
+              ),
+            ),
+      );
+      if (signUpState.data != null) {
+        clearForm(); // Clear form values
+        // Navigate to dashboard
+        QR.navigator.replaceAll(Routing.to.dashboard.path);
       }
     } else {
       await Future.delayed(kDelayWaiting).whenComplete(() {
-        appStateController.unsetIsLoading();
         if (validator.nickNameError != null) {
-          appStateController.showMessage(validator.nickNameError!);
+          exception = FailureException(userMessage: validator.nickNameError!);
         } else if (validator.usernameError != null) {
-          appStateController.showMessage(validator.usernameError!);
+          exception = FailureException(userMessage: validator.usernameError!);
         } else if (validator.passwordError != null) {
-          appStateController.showMessage(validator.passwordError!);
+          exception = FailureException(userMessage: validator.passwordError!);
         } else if (validator.confirmPasswordError != null) {
-          appStateController
-              .showMessage(validator.confirmPasswordError!);
+          exception = FailureException(
+            userMessage: validator.confirmPasswordError!,
+          );
         } else {
-          appStateController.showMessage(
-              TranslationsProvider.translator.accounts.signupFail);
+          exception = FailureException(
+            userMessage: TranslationsProvider.translator.accounts.signupFail,
+          );
         }
       });
     }
