@@ -36,7 +36,8 @@
     "forgetPassword": "فراموشی رمز عبور؟",
     "haveAccount": "حساب کاربری دارید؟",
     "loggedIn": "وارد شدید",
-    "passwordReset": "بازیابی رمز عبور"
+    "passwordReset": "بازیابی رمز عبور",
+    "userNotSaved":"کاربر ذخیره نشد , مشکلی در ذخیره سازی کاربر در پایگاه داده پیش آمده است"
   },
   "fullName": "نام و نام خانوادگی",
   "yes": "بله",
@@ -68,7 +69,8 @@
     "pleaseEnterPassword": "لطفا رمز عبور خود را وارد کنید",
     "pleaseEnterUsernameOrEmail": "نام کاربری یا ایمیلتان را وارد کنید",
     "usernameNotExists": "نام کاربری در سیستم وجود ندارد",
-    "emailNotExists": "آدرس ایمیل در سیستم وجود ندارد"
+    "emailNotExists": "آدرس ایمیل در سیستم وجود ندارد",
+    "notValidFormCanceled": "مقادیر نادرست وارد شده اند,عملیات لغو شد!"
   },
   "wrongPassword": "رمز عبور اشتباه است",
   "error": "خطا",

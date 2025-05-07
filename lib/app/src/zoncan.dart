@@ -1,7 +1,7 @@
-
 import 'dart:async';
 
-import 'package:bot_toast/bot_toast.dart' show BotToastInit, BotToastNavigatorObserver;
+import 'package:bot_toast/bot_toast.dart'
+    show BotToastInit, BotToastNavigatorObserver;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,6 +15,8 @@ import 'package:zoncan/core/exceptions/exceptions.dart';
 
 import 'app_state_controller.dart';
 import 'application.dart';
+
+late BuildContext baseContext;
 
 class Zoncan extends HookWidget {
   const Zoncan({super.key});
@@ -99,12 +101,12 @@ class Zoncan extends HookWidget {
                   appStateController.settings.fontScale ?? kDefaultUiScale;
 
               if (appStateController.isLoading) {
-                LoadingScreen.instance.show(
-                  context: reactionContext,
-                  text: appStateController.loadingText,
-                );
+                // LoadingScreen.instance.show(
+                //   context: reactionContext,
+                //   text: appStateController.loadingText,
+                // );
               } else {
-                LoadingScreen.instance.hide(); // Ensure hide is called
+                // LoadingScreen.instance.hide(); // Ensure hide is called
               }
 
               if (appStateController.errorHappened) {
@@ -138,30 +140,13 @@ class Zoncan extends HookWidget {
             builder: (obsContext) {
               // The Observer will automatically rebuild when observable properties
               // within appStateController change.
-              if (appStateController.message != null) {
-                ZLogger(
-                  logLevel: LogLevel.INFO,
-                  message: appStateController.message!,
-                );
-                // Display the message using BotToast
-                DialogHelper.showMessageBox(
-                  context: obsContext,
-                  title: TranslationsProvider.translator.error,
-                  dialogButtons: DialogButtons.OK,
-                  message: appStateController.message!,
-                  dialogType: DialogType.ERROR,
-                ).then((value) {
-                  appStateController.showMessage(null);
-                });
-                // Immediately clear the message after showing it
-                Future.microtask(() => appStateController.showMsg(null));
-              }
               Fonts.instance.fontScale =
                   appStateController.settings.fontScale ?? kDefaultUiScale;
               return child ?? Container();
             },
           ),
         );
+        baseContext = materialBuilderContext;
 
         return botToastBuilder(materialBuilderContext, reactChild);
       },
@@ -180,7 +165,7 @@ class Zoncan extends HookWidget {
       routerDelegate: QRouterDelegate(
         appInstanse.zRouter.routes,
         initPath: "/",
-        navKey: NavigatorHelper.rootNavigatorKey,
+        navKey: mainNavigatorKey,
         observers: [NavigatorHelper(), BotToastNavigatorObserver()],
       ),
     );

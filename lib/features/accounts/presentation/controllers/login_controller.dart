@@ -1,9 +1,6 @@
-
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:qlevar_router/qlevar_router.dart';
 import 'package:validators2/validators2.dart';
 import 'package:zoncan/app/app.dart';
 import 'package:zoncan/config/config.dart';
@@ -29,16 +26,11 @@ abstract class _LoginFormValidator with Store, ValidatorMixin {
   String? passwordError;
 
   @computed
-  bool get hasError => usernameError != null || passwordError != null;
-
-  @computed
   bool get isValid => usernameError == null && passwordError == null;
 }
 
 @Injectable()
-class LoginController extends _LoginController
-    with _$LoginController
-    {
+class LoginController extends _LoginController with _$LoginController {
   LoginController(
     super.appStateController,
     super.loginUsecase,
@@ -57,7 +49,6 @@ class LoginController extends _LoginController
         .call()
         .then(
           (resultValue) => resultValue.fold((error) {
-            showMessage(error);
             return "";
           }, (onResult) => onResult ?? ""),
         );
@@ -65,7 +56,6 @@ class LoginController extends _LoginController
         .call()
         .then(
           (resultValue) => resultValue.fold((error) {
-            showMessage(error);
             return "";
           }, (onResult) => onResult ?? ""),
         );
@@ -126,8 +116,14 @@ abstract class _LoginController extends Controller with Store {
 
   TextEditingController? usernameController;
   TextEditingController? passwordController;
+
   @protected
   List<ReactionDisposer>? disposers;
+
+  @observable
+  UsecaseExecutor<UserDetailsModel> loginState =
+      UsecaseExecutor<UserDetailsModel>();
+
   @observable
   UserDetailsModel? userDetails;
   @observable
@@ -138,40 +134,6 @@ abstract class _LoginController extends Controller with Store {
   bool rememberMe = false;
   @observable
   ObservableFuture<bool> usernameAbility = ObservableFuture.value(false);
-
-  @observable
-  bool isLoading = false;
-  @observable
-  String? loadingText;
-  @observable
-  String? successMessage;
-  @observable
-  FailureException? exception;
-  @computed
-  bool get errorHappened => exception != null && exception!.hasError;
-
-  @action
-  void setIsLoading([String? msg]) {
-    loadingText = msg;
-    isLoading = true;
-  }
-
-  @action
-  void unsetIsLoading() {
-    loadingText = null;
-    isLoading = false;
-  }
-
-  @action
-  void showMessage(dynamic error) {
-    if (error is FailureException) {
-      exception = error;
-    } else if (error is String) {
-      exception = FailureException(userMessage: error);
-    } else {
-      exception = null;
-    }
-  }
 
   _LoginController(
     this.appStateController,
@@ -186,9 +148,6 @@ abstract class _LoginController extends Controller with Store {
   bool get isUsernameAbilityPending =>
       usernameAbility.status == FutureStatus.pending;
 
-  @computed
-  bool get canLogin => !validator.hasError && validator.isValid;
-
   @action
   Future<void> validateUsername(u) async {
     if (isNull(username) || username.isEmpty) {
@@ -202,7 +161,6 @@ abstract class _LoginController extends Controller with Store {
                 .call(params: username)
                 .then(
                   (resultValue) => resultValue.fold((error) {
-                    showMessage(error);
                     return false;
                   }, (onResult) => onResult),
                 ),
@@ -222,7 +180,6 @@ abstract class _LoginController extends Controller with Store {
                 .call(params: username)
                 .then(
                   (resultValue) => resultValue.fold((error) {
-                    showMessage(error);
                     return false;
                   }, (onResult) => onResult),
                 ),
@@ -268,74 +225,51 @@ abstract class _LoginController extends Controller with Store {
 
   @action
   Future<void> login() async {
-    validateForm();
-    setIsLoading(
-      TranslationsProvider.translator.loadingPleaseWait,
-    );
-    if (canLogin) {
-      final isLoggedIn = await loginUsecase
-          .call(
-            params: (
-              username: username,
-              password: password,
-              rememberMe: rememberMe,
+    validateForm(); // Ensure form is validated before attempting login
+
+    // Check validation state *before* starting the login process
+    if (validator.isValid) {
+      // Use the BaseStore helper to manage the login use case state
+      await loginState.execute(
+        () => loginUsecase
+            .call(
+              params: (
+                username: username,
+                password: password,
+                rememberMe: rememberMe,
+              ),
+            )
+            .then(
+              (value) => value.fold(
+                // Error case: Let executeUseCase handle the error state.
+                // We just need to throw the FailureException so executeUseCase catches it.
+                (error) => throw error,
+                // Success case: Return the user data.
+                (user) {
+                  userDetails = user;
+                  return user; // Return the user for executeUseCase's success state
+                },
+              ),
             ),
-          )
-          .then(
-            (value) => value.fold(
-              (error) {
-                unsetIsLoading();
-                showMessage(error);
-                return false;
-              },
-              (user) {
-                userDetails = user;
-                return true;
-              },
-            ),
-          );
-      if (isLoggedIn) {
-        await Future.delayed(kDelayWaiting)
-            .whenComplete(() {
-              unsetIsLoading();
-              clearForm();
-              QR.navigator.replaceAll(Routing.to.dashboard.path);
-              BotToast.showText(
-                text: TranslationsProvider.translator.accounts.loginSuccess,
-                duration: kDelayWaiting,
-              );
-            })
-            .then((value) async {
-              await Future.delayed(kDelayWaiting).whenComplete(() async {
-                BotToast.showText(
-                  text: TranslationsProvider.translator.welcome(
-                    fullName:
-                        await appStateController.currentUser.then(
-                          (user) => user?.nickName,
-                        ) ??
-                        "",
-                  ),
-                  duration: kDelayWaiting,
-                );
-              });
-            });
+      );
+      // Store details if needed
+      if (loginState.data != null) {
+        userDetails = loginState.data;
       }
     } else {
-      await Future.delayed(kDelayWaiting).whenComplete(() {
-        unsetIsLoading();
-        if (validator.usernameError != null) {
-          showMessage(validator.usernameError!);
-        } else if (validator.passwordError != null) {
-          showMessage(validator.passwordError!);
-        } else {
-          showMessage(
-            TranslationsProvider.translator.accounts.loginFail,
-          );
-        }
-      });
+      // Show a generic message or rely on field errors being visible
+      if (validator.usernameError != null || validator.passwordError != null) {
+        throw FailureException(
+          userMessage: TranslationsProvider.translator.accounts.loginFail,
+        );
+      } else {
+        throw FailureException(
+          userMessage:
+              TranslationsProvider.translator.validation.notValidFormCanceled,
+        );
+      }
     }
   }
-
 
   void setupValidations() {
     disposers = [

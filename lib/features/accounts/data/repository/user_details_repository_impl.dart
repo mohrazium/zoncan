@@ -3,6 +3,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
+import 'package:zoncan/config/config.dart' show TranslationsProvider;
 import 'package:zoncan/core/exceptions/exceptions.dart';
 import 'package:zoncan/features/accounts/data/datasource/local/tables/user_details_table.dart';
 
@@ -36,7 +37,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
       if (savedUser != null) {
         return Right(savedUser);
       } else {
-        return Left(FailureException(userMessage: "کاربر ذخیره نشد"));
+        return Left(FailureException(userMessage: TranslationsProvider.translator.accounts.userNotSaved));
       }
     } on Error catch (e) {
       return Left(
@@ -44,7 +45,7 @@ class UserDetailsRepositoryImpl implements UserDetailsRepository {
           level: LogLevel.ERROR,
           type: ExceptionType.CantCREATE,
           message: "Can't save this user :${user.toString()}",
-          userMessage: ".کاربر ذخیره نشد! مشکلی در ذخیره کاربر پیش امده است",
+          userMessage: TranslationsProvider.translator.accounts.userNotSaved,
           error: e,
           stackTrace: e.stackTrace,
         ),

@@ -116,7 +116,7 @@ class LightTheme {
           surfaceTintColor: Colorize.lightColorScheme.surfaceTint,
           elevation: 0.0,
           fixedSize: Size(
-              135 * Fonts.instance.fontScale, 40 * Fonts.instance.fontScale),
+              180 * Fonts.instance.fontScale, 40 * Fonts.instance.fontScale),
           animationDuration: kAnimationDuration,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kBorderRadius),

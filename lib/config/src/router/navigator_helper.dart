@@ -1,25 +1,23 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:zoncan/core/exceptions/exceptions.dart';
 
-class NavigatorHelper extends NavigatorObserver{
-  static GlobalKey<NavigatorState> rootNavigatorKey =
-  GlobalKey<NavigatorState>();
-  static GlobalKey<NavigatorState> splashNavigatorKey =
-      GlobalKey<NavigatorState>();
-  static GlobalKey<NavigatorState> accountsNavigatorKey =
-      GlobalKey<NavigatorState>();
-  static GlobalKey<NavigatorState> homeNavigatorKey =
-  GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> mainNavigatorKey = GlobalKey<NavigatorState>();
 
+class NavigatorHelper extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    ZLogger(logLevel: LogLevel.INFO,message: "Route did pushed to ${route.currentResult}");
+    ZLogger(
+      logLevel: LogLevel.INFO,
+      message: "Route did pushed to ${route.currentResult}",
+    );
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-   ZLogger(logLevel: LogLevel.INFO,message: "Route did popped to ${route.currentResult}");
+    ZLogger(
+      logLevel: LogLevel.INFO,
+      message: "Route did popped to ${route.currentResult}",
+    );
   }
 
   // static String getFirstRouteHistory() {

@@ -101,9 +101,11 @@ abstract class _SignupController with Store {
   final EmailAddressAlreadyExistsUsecase emailAddressAlreadyExistsUsecase;
   @protected
   final StrengthPasswordChecker passwordChecker;
+
   @protected
   final AppStateController appStateController;
   final SignupFormValidator validator = SignupFormValidator();
+  
   TextEditingController? nickNameTextController;
   TextEditingController? emailTextController;
   TextEditingController? passwordTextController;
