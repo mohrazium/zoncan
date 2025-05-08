@@ -31,8 +31,23 @@ class Zoncan extends HookWidget {
       () => Injection.serviceLocator<ZoncanDatabase>(),
     );
 
-final loadingDialogShown = useRef<bool>(false);
-//!!!======================================================= 
+    final loadingDialogShown = useRef<bool>(false);
+    // --- lifecycle Effect ---
+    useEffect(() {
+      appStateController.initState();
+      return () {
+        appStateController.dispose();
+      };
+    }, []);
+
+    useEffect(() {
+      Future.microtask(() async {
+        await appStateController.didChangeDependencies();
+      });
+      return null;
+    }, [appStateController]);
+
+    //!!!=======================================================
     // // --- lifecycle Effect ---
     // useEffect(() {
     //   controller.initState();
@@ -186,7 +201,7 @@ final loadingDialogShown = useRef<bool>(false);
     //   );
     //   return () => disposer(); // Cleanup reaction
     // }, [controller, context]); // Depend on controller instance
-//!!!======================================================= 
+    //!!!=======================================================
 
     useEffect(() {
       logger.setup();
@@ -211,9 +226,8 @@ final loadingDialogShown = useRef<bool>(false);
             message: "Path of Database : ${file.path}",
           );
         });
+        await appStateController.initState();
       });
-
-      appStateController.initState();
 
       return () {
         appStateController.dispose();

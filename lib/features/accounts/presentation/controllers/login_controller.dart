@@ -75,6 +75,9 @@ class LoginController extends _LoginController with _$LoginController {
 
   @override
   void didChangeDependencies() {
+    Future.microtask(() async {
+      await appStateController.didChangeDependencies();
+    });
     ZLogger(
       logLevel: LogLevel.INFO,
       message: "${this.runtimeType} dependencies changed.",
@@ -263,8 +266,19 @@ abstract class _LoginController extends Controller with Store {
       }
     } else {
       // Show a generic message or rely on field errors being visible
-      if (validator.usernameError != null || validator.passwordError != null) {
-        throw FailureException(
+      if (validator.usernameError != null) {
+        exception = FailureException(
+          userMessage:
+              TranslationsProvider.translator.validation.emailNotExists,
+        );
+      } else if (validator.passwordError != null) {
+        exception = FailureException(
+          userMessage:
+              TranslationsProvider.translator.accounts.incorrectPassword,
+        );
+      } else if (validator.usernameError != null ||
+          validator.passwordError != null) {
+        exception = FailureException(
           userMessage: TranslationsProvider.translator.accounts.loginFail,
         );
       } else {

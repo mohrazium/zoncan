@@ -50,9 +50,7 @@ abstract class _SignupFormValidator with Store, ValidatorMixin {
 }
 
 @Injectable()
-class SignupController extends _SignupController
-    with _$SignupController
-    implements Controller {
+class SignupController extends _SignupController with _$SignupController {
   SignupController(
     super.signUpUsecase,
     super.usernameAlreadyExistsUsecase,
@@ -76,6 +74,9 @@ class SignupController extends _SignupController
 
   @override
   void didChangeDependencies() {
+    Future.microtask(() async {
+      await appStateController.didChangeDependencies();
+    });
     ZLogger(
       logLevel: LogLevel.INFO,
       message: "${this.runtimeType} dependencies changed.",

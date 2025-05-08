@@ -1,82 +1,101 @@
-
 import 'package:floy/floy.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:qlevar_router/qlevar_router.dart';
 import 'package:zoncan/app/src/app_state_controller.dart';
-import 'package:zoncan/config/src/constants/app_constants.dart';
-import 'package:zoncan/config/src/localization/localization.dart';
-import 'package:zoncan/config/src/router/routes.dart';
-import 'package:zoncan/core/common/generics/controller.dart';
-import 'package:zoncan/core/exceptions/failure_exception.dart';
-import 'package:zoncan/core/exceptions/log_level.dart';
+import 'package:zoncan/config/config.dart'
+    show TranslationsProvider, kDelayWaiting;
+import 'package:zoncan/core/common/common.dart';
+import 'package:zoncan/core/exceptions/exceptions.dart';
 import 'package:zoncan/core/security/domain/repository/authentication_repository.dart';
 
 part 'home_controller.g.dart';
 
 @Injectable()
-class HomeController extends _HomeController
-    with _$HomeController
-    implements Controller {
+class HomeController extends _HomeController with _$HomeController {
   HomeController(super.authService, super.appStateController);
 
   @override
   Future<void> initState() async {
-   ZLogger(
-      logLevel: LogLevel.INFO,message: "${this.runtimeType} has been initialized.");
+    ZLogger(
+      logLevel: LogLevel.INFO,
+      message: "${this.runtimeType} has been initialized.",
+    );
   }
 
   @override
   void didChangeDependencies() {
-     ZLogger(
-      logLevel: LogLevel.INFO,message:"${this.runtimeType} dependencies changed.");
+    Future.microtask(() async {
+      await appStateController.didChangeDependencies();
+    });
+    ZLogger(
+      logLevel: LogLevel.INFO,
+      message: "${this.runtimeType} dependencies changed.",
+    );
   }
 
   @override
   void dispose() {
     try {
-       ZLogger(
-      logLevel: LogLevel.INFO,message:"${this.runtimeType} disposed.");
+      ZLogger(
+        logLevel: LogLevel.INFO,
+        message: "${this.runtimeType} disposed.",
+      );
     } catch (e) {
       //ignored
     }
   }
 }
 
-abstract class _HomeController with Store {
+abstract class _HomeController extends Controller with Store {
   @protected
   final AuthenticationRepository authService;
-  @protected
+
   final AppStateController appStateController;
 
-  @computed
-  Future<bool> get isCompletedFirstSetup async {
-    final user = await appStateController.currentUser;
-    return user == null ? false : user.isCompletedFirstSetup ?? false;
-  }
+  @observable
+  UsecaseExecutor<bool?> logoutState = UsecaseExecutor<bool?>();
+
+  @observable
+  FailureException? exception;
 
   @computed
-  Future<String?> get currentUserNickName async =>
-      await appStateController.currentUser.then((user) => user!.nickName);
+  bool get isCompletedFirstSetup {
+    final user = appStateController.currentUser;
+    return user != null ? user.isCompletedFirstSetup ?? false : false;
+  }
+
+  _HomeController(this.authService, this.appStateController);
 
   @action
   Future<bool?> logoutUser() async {
- 
-    return await authService
-        .logout()
-        .then((isLoggedOut) => isLoggedOut.fold((failure) {
-              return false;
-            }, (loggedOut) {
-              QR.navigator.replaceAll(Routing.to.login.path);
-              return true;
-            }));
+    await logoutState.execute(
+      () => authService.logout().then(
+        (isLoggedOut) => isLoggedOut.fold(
+          (failure) {
+            return false;
+          },
+          (loggedOut) {
+            return true;
+          },
+        ),
+      ),
+    );
+    if (logoutState.data != null) {
+      return logoutState.data;
+    } else {
+      exception = FailureException(
+        userMessage: TranslationsProvider.translator.accounts.logoutFailed,
+      );
+      return false;
+    }
   }
 
   @action
   Future<void> loadSetupPage(
-      BuildContext context, AsyncSnapshot snapshot) async {
- 
+    BuildContext context,
+    AsyncSnapshot snapshot,
+  ) async {
     if (snapshot.hasData) {
       if (snapshot.data != null && !snapshot.data!) {
         //!TODO :  Fix setup page call
@@ -92,6 +111,4 @@ abstract class _HomeController with Store {
       print("in home controller snapshot with error");
     }
   }
-
-  _HomeController(this.authService, this.appStateController);
 }

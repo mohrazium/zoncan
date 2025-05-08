@@ -135,7 +135,7 @@ extension GetItInjectableX on _i174.GetIt {
         _i950.CurrentUserDetailsUsecase(gh<_i353.AuthenticationRepository>()));
     gh.factory<_i875.RememberedUsernameUsecase>(() =>
         _i875.RememberedUsernameUsecase(gh<_i353.AuthenticationRepository>()));
-    gh.factory<_i897.AppStateController>(() => _i897.AppStateController(
+    gh.lazySingleton<_i897.AppStateController>(() => _i897.AppStateController(
           gh<_i379.SettingsProvider>(),
           gh<_i353.AuthenticationRepository>(),
         ));

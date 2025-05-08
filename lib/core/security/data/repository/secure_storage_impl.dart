@@ -62,7 +62,6 @@ class SecureStorageRepositoryImpl extends SecureStorageRepository {
     if (isData) {
       if (value is String) {
         encodedData = await _dataEncryption.encryptB64(value.toBytes());
-        print("encodedData $encodedData");
       } else if (value is File) {
         encodedData =
             "file:${await _dataEncryption.encryptB64(await value.readAsBytes())}";

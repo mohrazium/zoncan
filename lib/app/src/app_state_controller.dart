@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -11,13 +10,14 @@ import 'package:zoncan/features/accounts/data/models/user_details_model.dart';
 
 part 'app_state_controller.g.dart';
 
-@Injectable()
+@LazySingleton()
 class AppStateController extends _AppStateControllerStore
     with _$AppStateController {
   AppStateController(super.settingsProvider, super.authService);
 
   @override
-  void didChangeDependencies() {
+  Future<void> didChangeDependencies() async {
+    await getCurrentUser();
     ZLogger(
       logLevel: LogLevel.IGNORE,
       message: "${this.runtimeType} changed dependencies.",
@@ -26,12 +26,15 @@ class AppStateController extends _AppStateControllerStore
 
   @override
   void dispose() {
-    FailureException(message: "${this.runtimeType} disposed.");
+    ZLogger(
+      logLevel: LogLevel.IGNORE,
+      message: "${this.runtimeType} disposed.",
+    );
   }
 
   @override
-  void initState() {
-    loadAllSettings();
+  Future<void> initState() async {
+   await loadAllSettings();
     ZLogger(
       logLevel: LogLevel.IGNORE,
       message: "${this.runtimeType} init state.",
@@ -48,23 +51,28 @@ abstract class _AppStateControllerStore extends Controller with Store {
   @observable
   SettingProperties settings = SettingProperties.init();
   @observable
-  bool shouldRefreshUI = false;
-
+  FailureException? exception;
   @observable
-  String? message;
+  UsecaseExecutor<UserDetailsModel?> currentUserState =
+      UsecaseExecutor<UserDetailsModel?>();
 
   _AppStateControllerStore(this.settingsProvider, this.authService);
 
- //TODO: make the computed to use usecase state managemet
   @computed
-  Future<UserDetailsModel?> get currentUser async =>
-      await authService.currentUserDetails().then(
+  UserDetailsModel? get currentUser => currentUserState.data;
+
+  @action
+  Future<void> getCurrentUser() async {
+    await currentUserState.execute(() async {
+      return await authService.currentUserDetails().then(
         (res) => res.fold((failure) {
+          exception = failure;
           return null;
         }, (user) => user),
       );
+    });
+  }
 
-  
   @action
   void switchTheme([ThemeMode? mode]) {
     themeMode =
@@ -74,13 +82,11 @@ abstract class _AppStateControllerStore extends Controller with Store {
 
   @action
   Future<void> loadAllSettings() async {
-    shouldRefreshUI = false;
     settings = await settingsProvider.loadSettings();
   }
 
   @action
   Future<void> saveFontScale(double scale) async {
     settings = await settingsProvider.saveFontScaleFactor(scale);
-    shouldRefreshUI = true;
   }
 }

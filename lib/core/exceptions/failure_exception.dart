@@ -84,7 +84,7 @@ class FailureException implements Exception {
       final directory = await getApplicationDocumentsDirectory();
       final logFileName =
           'zoncan_logs_${DateTime.now().toString().substring(0, 10)}.txt';
-      final logFile = File('${directory.path}/$logFileName');
+      final logFile = File('${directory.path}/zoncan/$logFileName');
 
       await _manageLogFiles(directory);
       await logFile.writeAsString("$logMessage\n", mode: FileMode.append);
@@ -99,7 +99,7 @@ class FailureException implements Exception {
     final logFiles = directory
         .listSync()
         .where((file) =>
-            file.path.contains('zoncan_logs_') && file.path.endsWith('.txt'))
+            file.path.contains('zoncan/zoncan_logs_') && file.path.endsWith('.txt'))
         .map((file) => File(file.path))
         .toList();
 
