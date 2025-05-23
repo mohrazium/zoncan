@@ -10,7 +10,6 @@ import 'package:zoncan/config/config.dart';
 import 'package:zoncan/core/common/common.dart';
 import 'package:zoncan/core/exceptions/exceptions.dart';
 
-import '../controllers/login_controller.dart';
 import '../controllers/signup_controller.dart';
 import '../widgets/login_header.dart';
 

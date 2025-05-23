@@ -16,8 +16,8 @@ class _LanguageChangerState extends State<LanguageChanger> {
   Image _loadSelectedLanguageFlag(String languageCode) => Image.asset(
         "assets/icons/flag_$languageCode.png",
         fit: BoxFit.fill,
-        width: 26 * Fonts.instance.fontScale,
-        height: 26 * Fonts.instance.fontScale,
+        width: 13 * Fonts.instance.fontScale,
+        height: 13 * Fonts.instance.fontScale,
       );
 
   Future<void> changeLanguageTo(String languageCode, BuildContext ctx) async {
@@ -45,12 +45,12 @@ class _LanguageChangerState extends State<LanguageChanger> {
                 .map<PopupMenuItem<String>>((applocale) {
               return PopupMenuItem(
                   value: applocale.languageCode,
-                  height: 60 * Fonts.instance.fontScale,
+                  height: 25 * Fonts.instance.fontScale,
                   child: Row(
                     children: [
                       _loadSelectedLanguageFlag(applocale.languageCode),
                       SizedBox(
-                        width: 10 * Fonts.instance.fontScale,
+                        width: 5 * Fonts.instance.fontScale,
                       ),
                       Text(applocale.languageCode == "fa" ? "فارسی" : "English"),
                     ],
@@ -67,15 +67,15 @@ class _LanguageChangerState extends State<LanguageChanger> {
                 children: [
                   _loadSelectedLanguageFlag(translator.languageCode),
                   SizedBox(
-                    width: 10 * Fonts.instance.fontScale,
+                    width: 5 * Fonts.instance.fontScale,
                   ),
                   Text(translator.languageName),
                   SizedBox(
-                    width: 10 * Fonts.instance.fontScale,
+                    width: 5 * Fonts.instance.fontScale,
                   ),
                   Icon(
                     Icons.arrow_drop_down,
-                    size: 16 * Fonts.instance.fontScale,
+                    size: 5 * Fonts.instance.fontScale,
                   ),
                 ],
               ),

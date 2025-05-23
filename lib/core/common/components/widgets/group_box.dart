@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:zoncan/config/config.dart';
 
@@ -32,58 +31,71 @@ class GroupBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var content = inMaterial || onTap != null
-        ? Padding(
-            padding: padding ?? const EdgeInsets.all(0),
-            child: ClipRRect(
-                borderRadius: borderRadius ??
+    var content =
+        inMaterial || onTap != null
+            ? Padding(
+              padding: padding ?? const EdgeInsets.all(0),
+              child: ClipRRect(
+                borderRadius:
+                    borderRadius ??
                     const BorderRadius.all(Radius.circular(kBorderRadius)),
                 child: InkWell(
-                    borderRadius: borderRadius ??
-                        const BorderRadius.all(Radius.circular(kBorderRadius)),
-                    onTap: onTap,
-                    child: Ink(
-                        decoration: _getDecoration(context),
-                        width: width,
-                        height: height,
-                        child: Padding(
-                          padding: margin ?? const EdgeInsets.all(0),
-                          child: child,
-                        )))))
-        : Padding(
-            padding: haveShadow && padding == null
-                ? const EdgeInsets.all(kPadding)
-                : padding ?? const EdgeInsets.all(0),
-            child: Container(
-              width: width,
-              height: height,
-              decoration: _getDecoration(context),
-              child: ClipRRect(
-                borderRadius: borderRadius ??
-                    const BorderRadius.all(Radius.circular(kBorderRadius)),
-                child: Padding(
-                    padding: margin ?? const EdgeInsets.all(0), child: child),
+                  borderRadius:
+                      borderRadius ??
+                      const BorderRadius.all(Radius.circular(kBorderRadius)),
+                  onTap: onTap,
+                  child: Ink(
+                    decoration: _getDecoration(context),
+                    width: width,
+                    height: height,
+                    child: Padding(
+                      padding: margin ?? const EdgeInsets.all(0),
+                      child: child,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          );
+            )
+            : Padding(
+              padding:
+                  haveShadow && padding == null
+                      ? const EdgeInsets.all(kPadding)
+                      : padding ?? const EdgeInsets.all(0),
+              child: Container(
+                width: width,
+                height: height,
+                decoration: _getDecoration(context),
+                child: ClipRRect(
+                  borderRadius:
+                      borderRadius ??
+                      const BorderRadius.all(Radius.circular(kBorderRadius)),
+                  child: Padding(
+                    padding: margin ?? const EdgeInsets.all(0),
+                    child: child,
+                  ),
+                ),
+              ),
+            );
 
     return isExpandable ? Expanded(child: content) : content;
   }
 
   _getDecoration(BuildContext context) {
     return BoxDecoration(
-      boxShadow: haveShadow
-          ? [
-              BoxShadow(
-                blurRadius: kPadding,
-                blurStyle: BlurStyle.normal,
-                color: Theme.of(context).colorScheme.shadow,
-              ),
-            ]
-          : null,
-      borderRadius: borderRadius ??
+      boxShadow:
+          haveShadow
+              ? [
+                BoxShadow(
+                  blurRadius: kPadding,
+                  blurStyle: BlurStyle.normal,
+                  color: Theme.of(context).colorScheme.shadow,
+                ),
+              ]
+              : null,
+      borderRadius:
+          borderRadius ??
           const BorderRadius.all(Radius.circular(kBorderRadius)),
-      color: color ?? Theme.of(context).colorScheme.surface,
+      color: color,
     );
   }
 }

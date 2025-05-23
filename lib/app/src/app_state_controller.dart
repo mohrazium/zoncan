@@ -34,7 +34,7 @@ class AppStateController extends _AppStateControllerStore
 
   @override
   Future<void> initState() async {
-   await loadAllSettings();
+    await loadAllSettings();
     ZLogger(
       logLevel: LogLevel.IGNORE,
       message: "${this.runtimeType} init state.",
@@ -60,6 +60,31 @@ abstract class _AppStateControllerStore extends Controller with Store {
 
   @computed
   UserDetailsModel? get currentUser => currentUserState.data;
+
+  // ---- Scale factor controller ----
+  @observable
+  double _scaleFactor = 1.0;
+
+  @computed
+  double get scaleFactor => _scaleFactor;
+
+  @action
+  void increaseScale() {
+    _scaleFactor += 0.1;
+  }
+
+  @action
+  void decreaseScale() {
+    _scaleFactor -= 0.1;
+    if (_scaleFactor < 0.5) {
+      _scaleFactor = 0.5;
+    }
+  }
+
+  @action
+  void resetScale() {
+    _scaleFactor = 1.0;
+  }
 
   @action
   Future<void> getCurrentUser() async {

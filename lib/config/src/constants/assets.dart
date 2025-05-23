@@ -1,23 +1,19 @@
-
 class Assets {
   Assets._();
 
   static final fonts = _AssetsFonts._();
   static final icons = _AssetsIcons._();
   static final images = _AssetsImages._();
-
 }
 
 class _AssetsFonts {
   _AssetsFonts._();
 
   final sahel = _AssetsFontsSahel._();
-
 }
 
 class _AssetsFontsSahel {
   _AssetsFontsSahel._();
-
 
   final sahelTTF = 'assets/fonts/sahel/sahel.ttf';
   final sahelBlackTTF = 'assets/fonts/sahel/sahel_black.ttf';
@@ -28,7 +24,6 @@ class _AssetsFontsSahel {
 
 class _AssetsIcons {
   _AssetsIcons._();
-
 
   final errorPNG = 'assets/icons/error.png';
   final failurePNG = 'assets/icons/failure.png';
@@ -46,10 +41,10 @@ class _AssetsIcons {
 class _AssetsImages {
   _AssetsImages._();
 
-
   final bg102PNG = 'assets/images/bg102.png';
   final bg151PNG = 'assets/images/bg151.png';
   final bg41PNG = 'assets/images/bg41.png';
   final loginBackgroundJPG = 'assets/images/login_background.jpg';
   final notFoundPNG = 'assets/images/not_found.png';
+  final profilePictureTemp = 'assets/images/user_profile.png';
 }

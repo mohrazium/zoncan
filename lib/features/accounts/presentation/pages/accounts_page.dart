@@ -1,9 +1,8 @@
-
 import 'package:floy/floy.dart';
 import 'package:flutter/material.dart';
 import 'package:zoncan/core/common/common.dart';
 
-import '../views/accounts_view_large.dart';
+import '../views/accounts_view.dart';
 
 class AccountsPage extends StatelessWidget {
   final Widget child;
@@ -13,17 +12,10 @@ class AccountsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: FloyResponsive(
-      largePage: AccountsViewLarge(
-        child: child,
+      child: FloyResponsive(
+        largePage: AccountsView(child: child),
+        unsupportedSizePage: const UnsupportedSizeScreen(),
       ),
-      xLargePage: AccountsViewLarge(
-        child: child,
-      ),
-      xxLargePage: AccountsViewLarge(
-        child: child,
-      ),
-      unsupportedSizePage: const UnsupportedSizeScreen(),
-    ));
+    );
   }
 }

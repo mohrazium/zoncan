@@ -5,20 +5,18 @@ import 'package:zoncan/core/common/common.dart';
 
 import '../widgets/slider.dart';
 
-class AccountsViewLarge extends StatefulWidget {
+class AccountsView extends StatefulWidget {
   final Widget child;
 
-  const AccountsViewLarge({super.key, required this.child});
+  const AccountsView({super.key, required this.child});
 
   @override
-  State<AccountsViewLarge> createState() => _AccountsViewLargeState();
+  State<AccountsView> createState() => _AccountsViewState();
 }
 
-class _AccountsViewLargeState extends State<AccountsViewLarge> {
+class _AccountsViewState extends State<AccountsView> {
   @override
   void initState() {
-    // GoRoute..to.navigate(Routing.to.login.path);
-
     super.initState();
   }
 

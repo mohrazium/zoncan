@@ -11,20 +11,17 @@ import 'package:zoncan/features/home/presentation/pages/home_page.dart';
 class Home {
   static Home get get => Home();
 
-  QRoute get routes => // --- گروه Home با پوسته HomePage ---
+  QRoute get routes =>
       QRoute.withChild(
-        path: Routing.to.home.path, // مسیر پدر
-        name: Routing.to.home.named, // نام پدر
-        builderChild: (router) => HomePage(child: router), // پوسته
-        // برای دسترسی به این بخش نیاز به احراز هویت است
+        path: Routing.to.home.path, 
+        name: Routing.to.home.named, 
+        builderChild: (router) => HomePage(child: router), 
         middleware: [RequireAuthMiddleware()],
-        // مسیر پیش‌فرض داخل این پوسته
-        initRoute: Routing.to.dashboard.path, // با مسیر کامل فرزند مشخص کنید
+        initRoute: Routing.to.dashboard.path, 
         children: [
-          // فرزندان داخل پوسته Home
           QRoute(
-            path: Routing.to.dashboard.named, // فقط نام فرزند
-            name: Routing.to.dashboard.named, // نام منحصر به فرد
+            path: Routing.to.dashboard.named, 
+            name: Routing.to.dashboard.named, 
             builder: () => const DashboardPage(),
             pageType: const QSlidePage(transitionDuration: kAnimationDuration),
           ),
@@ -34,7 +31,6 @@ class Home {
             builder: () => const FirstSetupPage(),
             pageType: const QSlidePage(transitionDuration: kAnimationDuration),
           ),
-          // مسیرهای دیگر Home را اینجا اضافه کنید
           // QRoute(path: Routing.to.products.named, name: Routing.to.products.named, builder: () => const ProductsPage()),
         ],
       );
