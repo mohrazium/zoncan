@@ -145,3 +145,193 @@ class ProfilePopup extends StatelessWidget {
     );
   }
 }
+
+class AccountSwitcherWidget extends StatelessWidget {
+  const AccountSwitcherWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Define colors based on the screenshot (approximate)
+
+    return CustomPopup(
+      child: Observer(
+        builder: (_) {
+          return Transform.scale(
+            scale: 1,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.blueGrey.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: const EdgeInsets.all(2),
+                margin: const EdgeInsets.all(2),
+                child: CircleAvatar(
+                  backgroundColor: Colors.blueGrey,
+                  backgroundImage: null,
+                  child: Image(
+                    image: AssetImage(Assets.images.profilePictureTemp),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+      content: Container(
+        width: 360, // Set a typical width for such a widget/dialog
+        
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              // Top section: Email and Close button
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center, // Centering the email text
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 28.0), // Space for close button on the right
+                      child: Text(
+                        'mohrazeum@gmail.com',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 13),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 28, // Width for the IconButton
+                    height: 28, // Height for the IconButton
+                    child: IconButton(
+                      icon: const Icon(Icons.close,),
+                      onPressed: () {
+                        // Handle close action
+                        print('Close button pressed');
+                      },
+                      iconSize: 20,
+                      padding: EdgeInsets.zero,
+                      tooltip: 'Close',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+      
+              // Profile Picture with Camera Icon
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  const CircleAvatar(
+                    radius: 40,
+                    // Replace with your actual image provider
+                    backgroundImage: NetworkImage(
+                        'https://lh3.googleusercontent.com/a/ACg8ocK_0B9qpk9tXsGpAvxQBkPlQY7nlqD9coL2Q_x7WBIvLQ=s96-c-rg-br100'),
+                  ),
+                  Positioned(
+                    right: (MediaQuery.of(context).size.width / 2) - 180 + 40 - 12, // Approximate centering for stack
+                    bottom: 0,
+                    child: Container(
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6),
+                        shape: BoxShape.circle,
+                        border: Border.all( width: 2),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.camera_alt, color: Colors.white),
+                        iconSize: 14,
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          // Handle camera icon press
+                          print('Camera icon pressed');
+                        },
+                        tooltip: 'Change profile picture',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+      
+              // Greeting
+              const Text(
+                'Hi, Mohammad Hadi!',
+                style: TextStyle( fontSize: 22, fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16),
+      
+              // Manage your Google Account Button
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  elevation: 0,
+                  minimumSize: const Size(200, 40), // Ensure a good tap target size
+                ),
+                onPressed: () {
+                  // Handle manage account action
+                  print('Manage your Google Account pressed');
+                },
+                child: const Text(
+                  'Manage your Google Account',
+                  style: TextStyle( fontSize: 13.5, fontWeight: FontWeight.w500),
+                ),
+              ),
+              const SizedBox(height: 24),
+      
+              // Divider (Subtle)
+              Divider(color: Colors.grey[800], height: 1),
+              const SizedBox(height: 8),
+      
+      
+              // Show more accounts
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    print('Show more accounts tapped');
+                  },
+                  borderRadius: BorderRadius.circular(4.0),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 16,
+                          
+                          child: Text(
+                            'Mr',
+                            style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        const Expanded(
+                          child: Text(
+                            'Show more accounts',
+                            style: TextStyle( fontSize: 14, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        Icon(Icons.arrow_drop_down,size: 24),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

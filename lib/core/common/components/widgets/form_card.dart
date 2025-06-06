@@ -1,4 +1,3 @@
-
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:zoncan/config/config.dart';
@@ -6,7 +5,6 @@ import 'package:zoncan/core/utils/utils.dart';
 
 import '../themes/themizer.dart';
 import 'group_box.dart';
-
 
 class FormCard extends StatelessWidget with DateConverterMixin {
   final Key? globalFormKey;
@@ -19,6 +17,11 @@ class FormCard extends StatelessWidget with DateConverterMixin {
   final Color? headerColor;
   final Widget headerContent;
   final Widget child;
+  final String saveButtonLable;
+  final String cancelButtonLable;
+  final String editButtonLable;
+  final String createdAtLable;
+  final String updatedAtLable;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final bool haveShadow;
@@ -40,11 +43,15 @@ class FormCard extends StatelessWidget with DateConverterMixin {
     this.footerChild,
     this.createdAt,
     this.updatedAt,
+    this.saveButtonLable = "Save",
+    this.cancelButtonLable = "Cancel",
+    this.createdAtLable = "Created At:",
+    this.updatedAtLable = "Updated At:",
+    this.editButtonLable = "Edit",
   });
 
   @override
   Widget build(BuildContext context) {
-    var translator = TranslationsProvider.translator;
     return Form(
       key: globalFormKey,
       child: Column(
@@ -54,7 +61,9 @@ class FormCard extends StatelessWidget with DateConverterMixin {
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(
-                minWidth: minWidth ?? 200, maxWidth: maxWidth ?? 520),
+              minWidth: minWidth ?? 200,
+              maxWidth: maxWidth ?? 520,
+            ),
             child: GroupBox(
               haveShadow: haveShadow,
               color: color ?? Theme.of(context).cardTheme.color,
@@ -67,18 +76,21 @@ class FormCard extends StatelessWidget with DateConverterMixin {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Container(
-                            color: headerColor ??
+                            color:
+                                headerColor ??
                                 Theme.of(context).primaryColor.withAlpha(100),
                             child: Padding(
-                                padding: const EdgeInsets.all(kPadding),
-                                child: headerContent),
+                              padding: const EdgeInsets.all(kPadding),
+                              child: headerContent,
+                            ),
                           ),
                           Padding(
-                              padding: const EdgeInsets.all(kPadding),
-                              child: child),
+                            padding: const EdgeInsets.all(kPadding),
+                            child: child,
+                          ),
                         ],
                       ),
-                      _buildFooter(context, footerChild, translator),
+                      _buildFooter(context, footerChild),
                     ],
                   ),
                 ],
@@ -90,16 +102,12 @@ class FormCard extends StatelessWidget with DateConverterMixin {
     );
   }
 
-  Widget _buildFooter(
-      BuildContext context, Widget? footerChild, var translator) {
+  Widget _buildFooter(BuildContext context, Widget? footerChild) {
     Widget buildConfirmButton() {
       return ElevatedButton.icon(
-        icon: Icon(
-          readyOnly ? EvaIcons.edit : EvaIcons.checkmark,
-          size: 24,
-        ),
+        icon: Icon(readyOnly ? EvaIcons.edit : EvaIcons.checkmark, size: 24),
         onPressed: () => onConfirmButtonPressed(),
-        label: Text(readyOnly ? translator.edit : translator.CantCREATE),
+        label: Text(readyOnly ? editButtonLable : saveButtonLable),
       );
     }
 
@@ -110,7 +118,7 @@ class FormCard extends StatelessWidget with DateConverterMixin {
           foregroundColor: Theme.of(context).colorScheme.onSecondary,
           backgroundColor: Theme.of(context).colorScheme.secondary,
         ),
-        child: Text(translator.cancel),
+        child: Text(cancelButtonLable),
       );
     }
 
@@ -127,13 +135,13 @@ class FormCard extends StatelessWidget with DateConverterMixin {
             children: [
               Text(
                 createdAt != null
-                    ? "${translator.createdAt}: ${toShamsi(createdAt)}"
+                    ? "$createdAtLable: ${toShamsi(createdAt)}"
                     : "",
                 style: Themizer.light.textTheme.bodySmall,
               ),
               Text(
                 updatedAt != null
-                    ? "${translator.updatedAt}: ${toShamsi(updatedAt)}"
+                    ? "$updatedAtLable: ${toShamsi(updatedAt)}"
                     : "",
                 style: Themizer.light.textTheme.bodySmall,
               ),
@@ -142,14 +150,10 @@ class FormCard extends StatelessWidget with DateConverterMixin {
           Row(
             children: [
               footerChild ?? Container(),
-              const SizedBox(
-                width: kSpacing / 2,
-              ),
+              const SizedBox(width: kSpacing / 2),
               buildConfirmButton(),
-              const SizedBox(
-                width: kSpacing / 2,
-              ),
-              buildCancelButton(context)
+              const SizedBox(width: kSpacing / 2),
+              buildCancelButton(context),
             ],
           ),
         ],

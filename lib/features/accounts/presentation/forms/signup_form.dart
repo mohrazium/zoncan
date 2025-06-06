@@ -288,9 +288,9 @@ class SignupForm extends HookWidget {
                         ).textTheme.bodyMedium?.copyWith(color: Colors.blue),
                         recognizer:
                             TapGestureRecognizer()
-                              ..onTap = () {
-                                QR.navigator.replaceAll(Routing.to.login.path);
-                              },
+                              ..onTap = () =>QR
+                                  .navigatorOf(Routing.to.accounts.named)
+                                  .switchTo(Routing.to.login.named),
                       ),
                     ],
                   ),

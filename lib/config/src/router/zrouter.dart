@@ -6,11 +6,10 @@ import 'package:qlevar_router/qlevar_router.dart';
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/core/common/common.dart';
 import 'package:zoncan/core/exceptions/exceptions.dart';
-import 'package:zoncan/features/accounts/accounts.dart';
-import 'package:zoncan/features/home/home.dart';
+import 'package:zoncan/features/accounts/accounts_router.dart';
+import 'package:zoncan/features/home/home_router.dart';
 import 'package:zoncan/features/splash/splash.dart';
-
-
+import 'package:zoncan/features/wizard/wizard_router.dart';
 
 @Injectable()
 class ZRouter {
@@ -30,7 +29,7 @@ class ZRouter {
         path: '/',
         builder: () {
           QR.navigator.replaceAll(Routing.to.splash.path);
-          return  Container(); // Or a loading widget
+          return Container(); // Or a loading widget
         },
       ),
 
@@ -40,8 +39,9 @@ class ZRouter {
       // ...Splash.get.routes,
       // If it's just a single QRoute:
       Splash.get.routes,
-      Accounts.get.routes,
-      Home.get.routes,
+      AccountsRouter.get.routes,
+      HomeRouetr.get.routes,
+      WizardRouetr.get.routes,
 
       // Not Found route defined in the list as well
       // (Having it both in the list and QR.settings.notFoundPage is good practice)
@@ -76,7 +76,7 @@ class ZRouter {
     // this route (path and view) will be used when the user navigates to a
     // route that does not exist.
     QR.settings.notFoundPage = QRoute(
-      path: 'path',
+      path: 'not-found',
       builder: () => const NotFoundPage(),
     );
 
@@ -102,8 +102,25 @@ class ZRouter {
     //QR.settings.iniPage = InitPage();
 
     // Change the page transition for all routes in your app.
-    QR.settings.pagesType = const QFadePage(
-      transitionDuration: kAnimationDuration,
+    QR.settings.pagesType = QCustomPage(
+      opaque: true,
+      withType: QSlidePage(transitionDuration: Duration(microseconds: 500)),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        // Slide in from the right
+        const begin = Offset(
+          1.0,
+          0.0,
+        ); // 1.0 on X means one full width to the right
+        const end = Offset.zero; // Offset.zero is (0.0, 0.0), no translation
+        final tween = Tween(begin: begin, end: end);
+        final offsetAnimation = animation.drive(
+          tween,
+        ); // Apply the tween to the animation
+
+        //return SlideTransition(position: offsetAnimation, child: child);
+        return FadeTransition(opacity: animation, child: child);
+      },
+      transitionDuration: const Duration(milliseconds: 500),
     );
     // 1. Define the Not Found Page in QR settings
     //    Ensure Routing.to.notFound and NotFoundPage are accessible

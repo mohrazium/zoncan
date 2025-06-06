@@ -1,24 +1,22 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:floy/floy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_popup/flutter_popup.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qlevar_router/qlevar_router.dart';
-import 'package:zoncan/config/config.dart' show Assets, kDelayWaiting, kPadding;
+import 'package:zoncan/config/config.dart' show kDelayWaiting;
 import 'package:zoncan/config/src/injection/service_locator.dart';
 import 'package:zoncan/config/src/localization/localization.dart';
 import 'package:zoncan/config/src/router/routes.dart';
 import 'package:zoncan/core/common/common.dart'
-    show DialogButtons, DialogHelper, DialogType, DialogResult;
-import 'package:zoncan/core/common/components/widgets/toolbar_icon_button.dart';
+    show DialogButtons, DialogHelper, DialogResult, DialogType;
 import 'package:zoncan/core/exceptions/exceptions.dart';
 import 'package:zoncan/features/home/presentation/controllers/home_controller.dart';
-import 'package:zoncan/features/home/presentation/pages/dashboard_page.dart';
-import 'package:zoncan/features/home/presentation/pages/home_page.dart';
 import 'package:zoncan/features/home/presentation/widgets/profile_popup.dart';
 import 'package:zoncan/features/home/presentation/widgets/side_panel.dart';
+import 'package:zoncan/features/wizard/wizard.dart';
 
 class HomeView extends HookWidget {
   final Widget child;
@@ -43,7 +41,20 @@ class HomeView extends HookWidget {
 
     useEffect(() {
       controller.didChangeDependencies();
-      Future.microtask(() async {});
+      Future.microtask(() async {
+        // if (!controller.isCompletedFirstSetup) {
+        //   var res = await DialogHelper.showMessageBox(
+        //     context: context,
+        //     title: "title",
+        //     message: "message",
+        //     dialogType: DialogType.INFO,
+        //     dialogButtons: DialogButtons.OK,
+        //   );
+        //   if (res == DialogResult.OK) {
+        //     DialogHelper.show(context: context, title: "title",child: SetupWizard());
+        //   }
+        // }
+      });
       return null;
     }, [controller]);
 
@@ -202,7 +213,9 @@ class HomeView extends HookWidget {
               // Action Icons
               IconButton(
                 icon: Icon(Icons.settings_outlined),
-                onPressed: () {},
+                onPressed: () {
+                  QR.navigator.replaceAll(Routing.to.firstSetup.path);
+                },
                 color: Colors.grey,
               ),
               IconButton(
@@ -264,11 +277,17 @@ class HomeView extends HookWidget {
                 color: Colors.grey,
               ),
               ProfilePopup(controller: controller),
-
+              AccountSwitcherWidget(),
               Icon(Icons.keyboard_arrow_down, color: Colors.grey),
             ],
           ),
         ),
+      ),
+      body: child,
+    );
+  }
+}
+
         // title: Row(
         //   mainAxisSize: MainAxisSize.max,
         //   children: <Widget>[
@@ -340,8 +359,3 @@ class HomeView extends HookWidget {
         //     ),
         //   ],
         // ),
-      ),
-      body: DashboardScreen(),
-    );
-  }
-}

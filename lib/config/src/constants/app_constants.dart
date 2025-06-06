@@ -1,7 +1,6 @@
-
 import 'dart:ui';
 
-const kBorderRadius = 10.0;
+const kBorderRadius = 15.0;
 const kSpacing = 10.0;
 const kPadding = 15.0;
 const kMargin = 10.0;
@@ -37,3 +36,4 @@ Locale get kDefaultLocale => const Locale('fa', 'IR');
 const kAnimationDuration = Duration(milliseconds: 250);
 
 const kDelayWaiting = Duration(seconds: 1);
+

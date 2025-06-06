@@ -1,0 +1,1 @@
+export 'presentation/views/setup_wizard_view.dart';

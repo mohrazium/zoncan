@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:zoncan/core/common/common.dart';
 
-import '../views/accounts_view.dart';
+import '../views/setup_wizard_view.dart';
 
-class AccountsPage extends HookWidget {
+class WizardPage extends HookWidget {
   final Widget child;
 
-  const AccountsPage({super.key, required this.child});
+  const WizardPage({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return  SafeArea(
       child: FloyResponsive(
-        largePage: AccountsView(child: child),
+        largePage: SetupWizardView(child: child),
         unsupportedSizePage: const UnsupportedSizeScreen(),
       ),
     );

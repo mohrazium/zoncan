@@ -1,10 +1,9 @@
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:qlevar_router/qlevar_router.dart';
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/core/common/common.dart';
-import 'login_header.dart';
+import '../widgets/login_header.dart';
 
 class PasswordRestForm extends StatefulWidget {
   const PasswordRestForm({super.key});
@@ -77,9 +76,10 @@ class _PasswordRestFormState extends State<PasswordRestForm> {
                 ).textTheme.bodyMedium?.copyWith(color: Colors.blue),
                 recognizer:
                     TapGestureRecognizer()
-                      ..onTap = () {
-                        QR.navigator.replaceAll(Routing.to.login.path);
-                      },
+                      ..onTap =
+                          () => QR
+                              .navigatorOf(Routing.to.accounts.named)
+                              .switchTo(Routing.to.login.named),
               ),
             ],
           ),

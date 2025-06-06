@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 
 class AppRoute {
@@ -15,6 +14,7 @@ class AppRoute {
     this.args,
   });
 }
+
 // کلاس اصلی برای دسترسی به مسیرها
 // نکته: نام‌ها (named) باید منحصر به فرد باشند در کل برنامه اگر از QR.toName استفاده می‌کنید.
 // اگر فقط از QR.to(path) استفاده می‌کنید، تداخل نام مشکلی ندارد.
@@ -83,13 +83,28 @@ class Routing {
     "${home.path}/first-setup",
     key: const ValueKey("first-setup-key"),
     title: "First setup",
-    named: "first_setup",
+    named: "first-setup",
   );
 
-  // می‌توانید مسیرهای دیگر Home را اینجا اضافه کنید
-  // late final AppRoute products = AppRoute(...);
-  // late final AppRoute settings = AppRoute(...);
-
+  // --- مسیرهای مربوط به خانه (Home) ---
+  final AppRoute wizard = const AppRoute(
+    "/wizard",
+    key: ValueKey("wizard-key"),
+    title: "Wizard",
+    named: "wizard",
+  );
+  late final AppRoute wizardStepVerifyPhonenumber = AppRoute(
+    "${wizard.path}/step-verfiy-phonenumber",
+    key: const ValueKey("step-verfiy-phonenumber"),
+    title: "Verfiy Phonenumber",
+    named: "step-verfiy-phonenumber",
+  );
+  late final AppRoute wizardStepPersonalInformation = AppRoute(
+    "${wizard.path}/step-personal-information",
+    key: const ValueKey("step-personal-information"),
+    title: "Personal Information",
+    named: "step-personal-information",
+  );
   // مسیر Not Found
   final AppRoute notFound = const AppRoute(
     "/not-found",

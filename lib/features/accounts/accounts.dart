@@ -1,40 +1,41 @@
-import 'package:qlevar_router/qlevar_router.dart';
-import 'package:zoncan/config/src/constants/app_constants.dart';
-import 'package:zoncan/config/src/router/routes.dart';
-import 'package:zoncan/core/security/application/middewares/redirect_ifauth_middleware.dart';
-import 'package:zoncan/features/accounts/presentation/forms/login_form.dart';
-import 'package:zoncan/features/accounts/presentation/forms/signup_form.dart';
-import 'package:zoncan/features/accounts/presentation/views/accounts_view.dart';
-import 'package:zoncan/features/accounts/presentation/widgets/password_reset_form.dart';
-
-class Accounts {
-  static Accounts get get => Accounts();
-
-  QRoute get routes => QRoute.withChild(
-    path: Routing.to.accounts.path,
-    name: Routing.to.accounts.named,
-    builderChild: (router) => AccountsView(child: router),
-    middleware: [RedirectIfAuthenticatedMiddleware()],
-    initRoute: Routing.to.login.path,
-    children: [
-      QRoute(
-        path: Routing.to.login.named,
-        name: Routing.to.login.named,
-        builder: () => const LoginForm(),
-        pageType: const QSlidePage(transitionDuration: kAnimationDuration),
-      ),
-      QRoute(
-        path: Routing.to.signup.named,
-        name: Routing.to.signup.named,
-        builder: () => const SignupForm(),
-        pageType: const QSlidePage(transitionDuration: kAnimationDuration),
-      ),
-      QRoute(
-        path: Routing.to.passwordReset.named,
-        name: Routing.to.passwordReset.named,
-        builder: () => const PasswordRestForm(),
-        pageType: const QSlidePage(transitionDuration: kAnimationDuration),
-      ),
-    ],
-  );
-}
+export 'accounts_router.dart';
+export 'data/datasource/local/daos/person_dao.dart';
+export 'data/datasource/local/daos/user_details_dao.dart';
+export 'data/datasource/local/tables/accounting_info_table.dart';
+export 'data/datasource/local/tables/address_table.dart';
+export 'data/datasource/local/tables/person_table.dart';
+export 'data/datasource/local/tables/user_details_table.dart';
+export 'data/models/accounting_info_model.dart';
+export 'data/models/address_model.dart';
+export 'data/models/person_model.dart';
+export 'data/models/user_details_model.dart';
+export 'data/repository/user_details_repository_impl.dart';
+export 'domain/entity/accounting_info_entity.dart';
+export 'domain/entity/address_entity.dart';
+export 'domain/entity/person_entity.dart';
+export 'domain/entity/user_details_entity.dart';
+export 'domain/repository/user_details_repository.dart';
+export 'domain/usecases/current_user_details_usecase.dart';
+export 'domain/usecases/email_address_already_exists_usecase.dart';
+export 'domain/usecases/is_user_logged_in_usecase.dart';
+export 'domain/usecases/login_usecase.dart';
+export 'domain/usecases/logout_usecase.dart';
+export 'domain/usecases/remembered_password_usecase.dart';
+export 'domain/usecases/remembered_username_usecase.dart';
+export 'domain/usecases/sign_up_usecase.dart';
+export 'domain/usecases/user_exist_usecase.dart';
+export 'domain/usecases/user_findby_email_usecase.dart';
+export 'domain/usecases/user_findby_username_usecase.dart';
+export 'domain/usecases/user_findby_uuid_usecase.dart';
+export 'domain/usecases/username_already_exists_usecase.dart';
+export 'presentation/controllers/login_controller.dart';
+export 'presentation/controllers/profile_controller.dart';
+export 'presentation/controllers/signup_controller.dart';
+export 'presentation/forms/login_form.dart';
+export 'presentation/forms/password_reset_form.dart';
+export 'presentation/forms/profile_form.dart';
+export 'presentation/forms/signup_form.dart';
+export 'presentation/pages/accounts_page.dart';
+export 'presentation/views/accounts_view.dart';
+export 'presentation/widgets/login_header.dart';
+export 'presentation/widgets/slider.dart';

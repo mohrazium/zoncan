@@ -1,24 +1,15 @@
 import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:zoncan/config/config.dart';
 import 'package:zoncan/core/common/common.dart';
 
 import '../widgets/slider.dart';
 
-class AccountsView extends StatefulWidget {
+class AccountsView extends HookWidget {
   final Widget child;
 
   const AccountsView({super.key, required this.child});
-
-  @override
-  State<AccountsView> createState() => _AccountsViewState();
-}
-
-class _AccountsViewState extends State<AccountsView> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +47,7 @@ class _AccountsViewState extends State<AccountsView> {
                               color: Theme.of(context).cardColor,
                               padding: const EdgeInsets.all(kPadding * 2),
                               margin: const EdgeInsets.all(kMargin),
-                              child: widget.child,
+                              child: child,
                             ),
                           ),
                           Expanded(

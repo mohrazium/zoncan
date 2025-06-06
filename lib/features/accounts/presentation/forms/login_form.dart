@@ -105,7 +105,9 @@ class LoginForm extends HookWidget {
           );
           await Future.delayed(kDelayWaiting);
           BotToast.showText(
-            text: translator.welcome(fullName: controller.userDetails!.nickName!),
+            text: translator.welcome(
+              fullName: controller.userDetails!.nickName!,
+            ),
             duration: Duration(milliseconds: 2000),
           );
           // Reset state (optional, depends if user can return here)
@@ -271,11 +273,10 @@ class LoginForm extends HookWidget {
                     ).textTheme.bodyMedium?.copyWith(color: Colors.blue),
                     recognizer:
                         TapGestureRecognizer()
-                          ..onTap = () {
-                            QR.navigator.replaceAll(
-                              Routing.to.passwordReset.path,
-                            );
-                          },
+                          ..onTap =
+                              () => QR
+                                  .navigatorOf(Routing.to.accounts.named)
+                                  .switchTo(Routing.to.passwordReset.named),
                   ),
                 ],
               ),
@@ -312,75 +313,15 @@ class LoginForm extends HookWidget {
                 ).textTheme.bodyMedium?.copyWith(color: Colors.blue),
                 recognizer:
                     TapGestureRecognizer()
-                      ..onTap = () {
-                        QR.navigator.replaceAll(Routing.to.signup.path);
-                      },
+                      ..onTap = ()=>QR
+                                  .navigatorOf(Routing.to.accounts.named)
+                                  .switchTo(Routing.to.signup.named)
+                      ,
               ),
             ],
           ),
         ),
       ],
-    );
-  }
-}
-
-showLoadingddd(String loadingText) {
-  final stText = StreamController<String>();
-  stText.add(loadingText);
-  if (mainNavigatorKey.currentState != null &&
-      mainNavigatorKey.currentState!.context.mounted) {
-    showDialog(
-      barrierColor: Colors.transparent,
-      barrierDismissible: false,
-      context: mainNavigatorKey.currentState!.context,
-      builder: (BuildContext context) {
-        return Material(
-          color: Theme.of(context).colorScheme.shadow.withAlpha(150),
-          child: Center(
-            child: GroupBox(
-              width: 250,
-              height: 250,
-              padding: const EdgeInsets.all(kPadding),
-              margin: const EdgeInsets.all(kMargin),
-              color: Theme.of(context).cardColor,
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: kSpacing),
-                      LoadingAnimationWidget.discreteCircle(
-                        color: Theme.of(context).colorScheme.primary,
-                        secondRingColor:
-                            Theme.of(context).colorScheme.secondary,
-                        thirdRingColor: Theme.of(context).colorScheme.tertiary,
-                        size: 50 * Fonts.instance.fontScale,
-                      ),
-                      const SizedBox(height: kSpacing),
-                      StreamBuilder(
-                        stream: stText.stream,
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(
-                              snapshot.data as String,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      },
     );
   }
 }
