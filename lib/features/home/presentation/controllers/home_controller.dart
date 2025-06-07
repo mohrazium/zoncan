@@ -91,24 +91,4 @@ abstract class _HomeController extends Controller with Store {
     }
   }
 
-  @action
-  Future<void> loadSetupPage(
-    BuildContext context,
-    AsyncSnapshot snapshot,
-  ) async {
-    if (snapshot.hasData) {
-      if (snapshot.data != null && !snapshot.data!) {
-        //!TODO :  Fix setup page call
-        await Future.delayed(kDelayWaiting).whenComplete(() {
-          if (Floy.isDesktop()) {
-            print("in home controller is desktop section");
-          } else {
-            print("in home controller is not desktop section");
-          }
-        });
-      }
-    } else if (snapshot.hasError) {
-      print("in home controller snapshot with error");
-    }
-  }
 }

@@ -69,6 +69,8 @@ import '../../../features/accounts/presentation/controllers/signup_controller.da
     as _i146;
 import '../../../features/home/presentation/controllers/home_controller.dart'
     as _i909;
+import '../../../features/wizard/presentation/controllers/wizard_controller.dart'
+    as _i738;
 import '../../config.dart' as _i379;
 import '../router/zrouter.dart' as _i356;
 import '../settings/settings_provider.dart' as _i141;
@@ -89,6 +91,7 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i580.StrengthPasswordChecker());
     gh.factory<_i77.AuthenticationGuard>(() => _i77.AuthenticationGuard());
     gh.factory<_i193.LoggerService>(() => _i193.LoggerService());
+    gh.factory<_i738.WizardController>(() => _i738.WizardController());
     gh.lazySingleton<_i808.ZoncanDatabase>(() => _i808.ZoncanDatabase());
     gh.factory<_i353.SecureStorageRepository>(
         () => _i183.SecureStorageRepositoryImpl());

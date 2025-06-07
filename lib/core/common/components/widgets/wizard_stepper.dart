@@ -1,7 +1,7 @@
 // // import 'package:zoncan/zoncan.dart';
 
 import 'package:flutter/material.dart';
-import 'package:zoncan/config/src/constants/app_constants.dart';
+import 'package:zoncan/config/config.dart';
 
 /// A dynamic progress indicator that shows steps as circles with titles and descriptions.
 /// It now receives its current state from its parent and reports taps via a callback.
@@ -129,10 +129,7 @@ class _WizardStepperState extends State<WizardStepper>
         isPassed = true;
       }
 
-      return widget.stepsData[index].copyWith(
-        status: status,
-        isPassed: isPassed,
-      );
+      return widget.stepsData[index].copyWith(status: status);
     });
   }
 
@@ -175,12 +172,10 @@ class _WizardStepperState extends State<WizardStepper>
                     completedColor: widget.completedColor,
                     defaultColor: widget.defaultColor,
                     textStyle: widget.textStyle,
-                    onTap: () {
-                      _handleStepCircleTap(step.number);
-                      if (step.onTapped != null) {
-                        step.onTapped!();
-                      }
-                    }, // Make circles clickable
+                    onTap:
+                        () => _handleStepCircleTap(
+                          step.number,
+                        ), // Make circles clickable
                   ),
                   const SizedBox(
                     width: kSpacing,
@@ -236,56 +231,27 @@ class StepItemData {
   final int number;
   final String title;
   final String description;
-  final bool? isPassed;
-  final VoidCallback? onTapped;
-  final Widget content;
+  final AppRoute route;
   StepStatus status; // This status will be dynamically updated internally
 
   StepItemData({
     required this.number,
     required this.title,
     required this.description,
-    this.isPassed = false,
-    this.onTapped,
-    required this.content,
+    required this.route,
     this.status = StepStatus.notStarted,
   });
 
   // Create a copy with a new status
-  StepItemData copyWith({StepStatus? status, isPassed}) {
+  StepItemData copyWith({StepStatus? status}) {
     return StepItemData(
       number: number,
       title: title,
       description: description,
-      isPassed: isPassed,
-      content: content,
-      onTapped: onTapped,
+      route: route,
       status: status ?? this.status,
     );
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is StepItemData &&
-          runtimeType == other.runtimeType &&
-          number == other.number &&
-          title == other.title &&
-          description == other.description &&
-          onTapped == other.onTapped &&
-          isPassed == other.isPassed &&
-          content == other.content &&
-          status == other.status; // Include status in equality check
-
-  @override
-  int get hashCode =>
-      number.hashCode ^
-      title.hashCode ^
-      description.hashCode ^
-      status.hashCode ^
-      isPassed.hashCode ^
-      content.hashCode ^
-      onTapped.hashCode;
 }
 
 // ---
@@ -343,9 +309,6 @@ class ProgressStepCircle extends StatelessWidget {
           style: textStyle?.copyWith(fontSize: 20),
           key: ValueKey('number_${step.number}'), // Unique key
         );
-        if (step.onTapped != null) {
-          step.onTapped!.call();
-        }
         break;
       case StepStatus.notStarted:
         circleColor = defaultColor;

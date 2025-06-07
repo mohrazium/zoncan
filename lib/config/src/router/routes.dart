@@ -105,6 +105,71 @@ class Routing {
     title: "Personal Information",
     named: "step-personal-information",
   );
+
+late final AppRoute wizardStepPayment = AppRoute(
+  "${wizard.path}/step-payment",
+  key: const ValueKey("step-payment"),
+  title: "Payment",
+  named: "step-payment",
+);
+
+late final AppRoute wizardStepPacking = AppRoute(
+  "${wizard.path}/step-packing",
+  key: const ValueKey("step-packing"),
+  title: "Packing",
+  named: "step-packing",
+);
+
+late final AppRoute wizardStepShipped = AppRoute(
+  "${wizard.path}/step-shipped",
+  key: const ValueKey("step-shipped"),
+  title: "Shipped",
+  named: "step-shipped",
+);
+
+late final AppRoute wizardStepOutForDelivery = AppRoute(
+  "${wizard.path}/step-out-for-delivery",
+  key: const ValueKey("step-out-for-delivery"),
+  title: "Out for Delivery",
+  named: "step-out-for-delivery",
+);
+
+late final AppRoute wizardStepDelivered = AppRoute(
+  "${wizard.path}/step-delivered",
+  key: const ValueKey("step-delivered"),
+  title: "Delivered",
+  named: "step-delivered",
+);
+
+late final AppRoute wizardStepReview = AppRoute(
+  "${wizard.path}/step-review",
+  key: const ValueKey("step-review"),
+  title: "Review",
+  named: "step-review",
+);
+
+late final AppRoute wizardStepReturnInitiated = AppRoute(
+  "${wizard.path}/step-return-initiated",
+  key: const ValueKey("step-return-initiated"),
+  title: "Return Initiated",
+  named: "step-return-initiated",
+);
+
+late final AppRoute wizardStepReturnReceived = AppRoute(
+  "${wizard.path}/step-return-received",
+  key: const ValueKey("step-return-received"),
+  title: "Return Received",
+  named: "step-return-received",
+);
+
+late final AppRoute wizardStepRefundIssued = AppRoute(
+  "${wizard.path}/step-refund-issued",
+  key: const ValueKey("step-refund-issued"),
+  title: "Refund Issued",
+  named: "step-refund-issued",
+);
+
+
   // مسیر Not Found
   final AppRoute notFound = const AppRoute(
     "/not-found",
